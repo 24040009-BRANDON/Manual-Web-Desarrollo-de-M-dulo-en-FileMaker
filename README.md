@@ -17,7 +17,7 @@ Forma correcta:
 ## Estructura
 
 ```text
-MANUALES_WEB_DT_v2_CORREGIDO/
+MANUALES_WEB_DT/
 ├── index.html
 ├── README.md
 └── assets/
