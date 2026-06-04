@@ -1,0 +1,981 @@
+.lm {
+  --lm-bg: #eef2f7;
+  --lm-panel: #ffffff;
+  --lm-soft: #f8fafc;
+  --lm-soft2: #eef4fb;
+  --lm-line: #d9e3ef;
+  --lm-text: #1e293b;
+  --lm-muted: #5e7188;
+  --lm-purple: #475569;
+  --lm-blue: #2563eb;
+  --lm-green: #15803d;
+  --lm-amber: #b45309;
+  --lm-red: #dc2626;
+  --lm-pink: #be185d;
+  --lm-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+  --lm-shadow-lg: 0 16px 42px rgba(15, 23, 42, 0.12);
+
+  color: var(--lm-text);
+  font-family: var(--font-main);
+  font-size: 13px;
+  background:
+    radial-gradient(circle at top left, rgba(96, 165, 250, 0.08), transparent 30rem),
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.06), transparent 26rem),
+    linear-gradient(180deg, #f8fafc, #eef2f7 50%, #edf2f8);
+  border: 1px solid var(--lm-line);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: var(--lm-shadow-lg);
+}
+
+.lm * {
+  box-sizing: border-box;
+}
+
+.lm-header {
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--lm-line);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+
+.lm-header h1 {
+  margin: 0;
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lm-text);
+  letter-spacing: -0.02em;
+}
+
+.lm-header p {
+  margin: 4px 0 0;
+  color: var(--lm-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ── LAYOUT PRINCIPAL: mockup izq + inspector der ── */
+.lm-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: start;
+  gap: 0;
+}
+
+/* ── MOCKUP WRAPPER ── */
+.lm-mock-wrap {
+  border-right: 1px solid var(--lm-line);
+  background: #ffffff;
+  min-width: 0;
+  overflow: visible;
+}
+
+.lm-mock-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 16px;
+  border-bottom: 1px solid var(--lm-line);
+  background: var(--lm-soft);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--lm-muted);
+}
+
+/* El mock crece a su altura natural — sin scroll interno */
+.lm-mock {
+  min-height: 580px;
+  background: #f0f2f5;
+  display: grid;
+  grid-template-columns: 200px minmax(560px, 1fr);
+  overflow: visible;
+}
+
+.lm-mock::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.lm-mock::-webkit-scrollbar-track {
+  background: #e8edf5;
+}
+
+.lm-mock::-webkit-scrollbar-thumb {
+  background: #b8c5d6;
+  border-radius: 4px;
+}
+
+/* ── SIDEBAR DEL MOCKUP, sí se conserva porque es parte del layout simulado ── */
+.lm-sidebar {
+  background: #334155;
+  color: #e0e0f0;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.lm-logo {
+  padding: 16px;
+  border-bottom: 1px solid #2d2d4e;
+}
+
+.lm-brand {
+  font-weight: 700;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.lm-sub {
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.lm-nav-sec {
+  padding: 10px 14px 4px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lm-nav {
+  padding: 7px 14px;
+  font-size: 11px;
+  color: #94a3b8;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  transition: 0.12s;
+}
+
+.lm-nav:hover {
+  background: #1e1e3a;
+  color: #c0c0e0;
+}
+
+.lm-nav.active {
+  background: #22224a;
+  color: #ffffff;
+  border-left-color: #2563eb;
+}
+
+/* ── TOPBAR DEL MOCKUP ── */
+.lm-main {
+  min-width: 560px;
+}
+
+.lm-topbar {
+  height: 46px;
+  background: #ffffff;
+  border-bottom: 1px solid #e8e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  color: #334155;
+}
+
+.lm-topbar strong {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.lm-topbar-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* ── BOTONES DENTRO DEL MOCKUP ── */
+.lm-btn {
+  border: 0;
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-weight: 600;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.lm-btn.secondary {
+  background: #f0f0fa;
+  color: #4040a0;
+  border: 1px solid #d0d0f0;
+}
+
+.lm-btn.secondary:hover {
+  background: #e4e4f8;
+  border-color: #bfc0ec;
+}
+
+.lm-btn.primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.lm-btn.primary:hover {
+  background: #5a52e0;
+}
+
+.lm-btn.green {
+  background: #1a7a40;
+  color: #ffffff;
+}
+
+.lm-btn.green:hover {
+  background: #146733;
+}
+
+.lm-btn.warn {
+  background: #fffbf0;
+  color: #a05000;
+  border: 1px solid #f0d080;
+}
+
+.lm-btn.warn:hover {
+  background: #fff3d8;
+}
+
+.lm-btn.danger {
+  background: #fff0f0;
+  color: #c0392b;
+  border: 1px solid #f5c0c0;
+}
+
+.lm-btn.danger:hover {
+  background: #ffe3e3;
+}
+
+/* ── CONTENIDO DEL MOCKUP ── */
+.lm-content {
+  padding: 12px 16px;
+  color: #334155;
+}
+
+.lm-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.lm-stat {
+  background: #ffffff;
+  border: 1px solid #e8e8f0;
+  border-radius: 9px;
+  padding: 10px 12px;
+}
+
+.lm-stat small {
+  color: #64748b;
+  display: block;
+  margin-bottom: 3px;
+  font-size: 10px;
+}
+
+.lm-stat b {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.lm-twocol {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 10px;
+  align-items: start;
+}
+
+.lm-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lm-card {
+  background: #ffffff;
+  border: 1px solid #e8e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.lm-card-h {
+  min-height: 38px;
+  border-bottom: 1px solid #f0f0f8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.lm-card-b {
+  padding: 12px 14px;
+}
+
+.lm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.lm-full {
+  grid-column: 1 / -1;
+}
+
+.lm-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 3px;
+}
+
+.lm-input,
+.lm-textarea {
+  background: #f8fafc;
+  border: 1px solid #d9e3ef;
+  border-radius: 6px;
+  padding: 6px 9px;
+  min-height: 28px;
+  color: #334155;
+  font-size: 11px;
+}
+
+.lm-textarea {
+  height: 76px;
+  line-height: 1.4;
+}
+
+.lm-char {
+  font-size: 9px;
+  color: #94a3b8;
+  text-align: right;
+  margin-top: 2px;
+}
+
+.lm-tags {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.lm-tag-fm {
+  font-size: 9px;
+  background: #f0f0fc;
+  color: #64748b;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.lm-plat {
+  display: flex;
+  gap: 5px;
+}
+
+.lm-pbtn {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1.5px solid #d0d0f0;
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 700;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.lm-pbtn.fb {
+  background: #e8f0fe;
+  color: #1a4a9a;
+  border-color: #90b0e8;
+}
+
+.lm-pbtn.ig {
+  background: #fdf2f8;
+  color: #be185d;
+  border-color: #f5b8d8;
+}
+
+.lm-pbtn.both {
+  background: #eef4fb;
+  color: #334155;
+  border-color: #c5d6ea;
+}
+
+.lm-sep {
+  font-size: 9px;
+  font-weight: 800;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 11px 0 6px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.lm-sep::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid #e8e8f0;
+}
+
+.lm-imgbox {
+  height: 78px;
+  border: 2px dashed #b0c8f0;
+  border-radius: 7px;
+  background: #f5f8ff;
+  display: grid;
+  place-items: center;
+  color: #2563eb;
+  text-align: center;
+  font-size: 10px;
+}
+
+.lm-ok {
+  font-size: 9px;
+  color: #1a7a40;
+  margin-top: 3px;
+}
+
+.lm-status {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.lm-sbtn {
+  padding: 4px 9px;
+  border-radius: 6px;
+  border: 1.5px solid #d0d0f0;
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 700;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.lm-sbtn.s-borrador {
+  background: #e0eeff;
+  color: #1a4090;
+  border-color: #a0b8e8;
+}
+
+.lm-sbtn.s-programado {
+  background: #fff8e6;
+  color: #a06000;
+  border-color: #e0c060;
+  font-weight: 800;
+}
+
+.lm-sbtn.s-publicado {
+  background: #edfaf2;
+  color: #1a7a40;
+  border-color: #80c8a0;
+}
+
+.lm-sbtn.s-error {
+  background: #fff0f0;
+  color: #c0392b;
+  border-color: #e09090;
+}
+
+.lm-sbtn.s-cancelado {
+  background: #f5f5f5;
+  color: #707070;
+  border-color: #c0c0c0;
+}
+
+.lm-api-pend {
+  background: #f5f5fc;
+  color: #64748b;
+  border: 1px solid #d0d0f0;
+  border-radius: 7px;
+  padding: 7px 9px;
+  font-size: 10px;
+}
+
+.lm-portal-head,
+.lm-portal-row {
+  display: grid;
+  grid-template-columns: 130px 100px 90px 60px minmax(140px, 1fr) 140px;
+  gap: 6px;
+  padding: 7px 12px;
+  font-size: 11px;
+  align-items: center;
+}
+
+.lm-portal-full {
+  margin-top: 10px;
+}
+
+.lm-portal-head {
+  background: #f5f5fc;
+  border-top: 1px solid #e8e8f0;
+  border-bottom: 1px solid #e8e8f0;
+  color: #64748b;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 9px;
+}
+
+.lm-portal-row {
+  border-bottom: 1px solid #f5f5fc;
+}
+
+.lm-badge-fm {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.lm-badge-fm.fb {
+  background: #e8f0fe;
+  color: #1a4a9a;
+}
+
+.lm-badge-fm.ig {
+  background: #fdf2f8;
+  color: #be185d;
+}
+
+.lm-http {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: #edfaf2;
+  color: #1a7a40;
+  font-weight: 800;
+}
+
+.lm-side-card {
+  padding: 12px 14px;
+}
+
+.lm-mini-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.lm-mini-val {
+  font-size: 11px;
+  color: #334155;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+.lm-code-fm {
+  font-family: Consolas, monospace;
+  background: #f0f0fc;
+  color: #4040a0;
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-size: 10px;
+}
+
+/* ── CLICKABLE HIGHLIGHT ── */
+.lm-clickable {
+  outline: 2px solid transparent;
+  transition: 0.15s;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.lm-clickable:hover {
+  outline: 2px solid rgba(37, 99, 235, 0.5);
+  outline-offset: 2px;
+}
+
+.lm-clickable.selected {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.12);
+}
+
+/* ── INSPECTOR ── */
+.lm-inspector {
+  position: sticky;
+  top: 16px;
+  height: calc(100vh - 40px);
+  background: var(--lm-panel);
+  border-left: 1px solid var(--lm-line);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: -4px 0 18px rgba(15, 23, 42, 0.06);
+}
+
+.lm-ins-h {
+  flex-shrink: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--lm-line);
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.06), rgba(37, 99, 235, 0.04));
+}
+
+.lm-ins-h h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--lm-text);
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  line-height: 1.3;
+}
+
+.lm-ins-h p {
+  margin: 4px 0 0;
+  color: var(--lm-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.lm-ins-hint {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 3px;
+}
+
+.lm-ins-b {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 14px;
+}
+
+.lm-ins-b::-webkit-scrollbar {
+  width: 4px;
+}
+
+.lm-ins-b::-webkit-scrollbar-track {
+  background: var(--lm-soft);
+}
+
+.lm-ins-b::-webkit-scrollbar-thumb {
+  background: #c8d5e4;
+  border-radius: 4px;
+}
+
+.lm-kv {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 5px;
+  border-bottom: 1px solid var(--lm-line);
+  padding: 5px 0;
+}
+
+.lm-kv span {
+  color: var(--lm-muted);
+  font-size: 11px;
+}
+
+.lm-kv b {
+  color: var(--lm-text);
+  font-size: 11px;
+  word-break: break-word;
+  font-weight: 700;
+}
+
+.lm-ins-section-title {
+  margin: 12px 0 4px;
+  font-size: 9px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  border-bottom: 1px solid var(--lm-line);
+  padding-bottom: 3px;
+  font-weight: 900;
+}
+
+.lm-ins-section-title:first-child {
+  margin-top: 0;
+}
+
+.lm-ins-b ul {
+  margin: 3px 0 0 14px;
+  padding: 0;
+}
+
+.lm-ins-b li {
+  margin: 2px 0;
+  color: var(--lm-text);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.lm-ins-script {
+  background: var(--lm-soft2);
+  border: 1px solid #dbe7f3;
+  border-radius: 10px;
+  color: #0f172a;
+  padding: 9px 11px;
+  margin-top: 6px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 10.5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.65;
+}
+
+.lm-ins-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-right: 3px;
+  vertical-align: middle;
+  letter-spacing: 0.03em;
+}
+
+.lm-ins-badge.field {
+  background: rgba(21, 128, 61, 0.1);
+  color: #166534;
+  border: 1px solid rgba(21, 128, 61, 0.2);
+}
+
+.lm-ins-badge.button {
+  background: rgba(180, 83, 9, 0.1);
+  color: #92400e;
+  border: 1px solid rgba(180, 83, 9, 0.2);
+}
+
+.lm-ins-badge.portal {
+  background: rgba(37, 99, 235, 0.1);
+  color: #1d4ed8;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.lm-ins-badge.calc {
+  background: rgba(96, 165, 250, 0.1);
+  color: #1d4ed8;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.lm-ins-badge.layout {
+  background: rgba(190, 24, 93, 0.1);
+  color: #9d174d;
+  border: 1px solid rgba(190, 24, 93, 0.2);
+}
+
+.lm-ins-empty {
+  padding: 36px 12px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.lm-ins-empty strong {
+  display: block;
+  font-size: 26px;
+  margin-bottom: 8px;
+  opacity: 0.2;
+}
+
+.lm-exists-field-box {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #14532d;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 10px 0;
+  line-height: 1.55;
+  font-size: 12px;
+}
+
+.lm-missing-field-box {
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  color: #7c2d12;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 10px 0;
+  line-height: 1.55;
+  font-size: 12px;
+}
+
+.lm-field-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.lm-field-status-pill.ok {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.lm-field-status-pill.missing {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.lm-create-steps {
+  background: var(--lm-soft2);
+  border: 1px solid #dbe7f3;
+  border-radius: 10px;
+  color: #1e3a8a;
+  padding: 11px 13px;
+  margin: 8px 0;
+  font-size: 12px;
+}
+
+.lm-create-steps ol {
+  margin: 5px 0 0 18px;
+  padding: 0;
+}
+
+.lm-create-steps li {
+  color: #1e3a8a;
+  margin: 4px 0;
+}
+
+.lm-formula {
+  display: block;
+  background: var(--lm-soft2);
+  border: 1px solid #dbe7f3;
+  border-radius: 8px;
+  color: #0f172a;
+  padding: 9px 11px;
+  margin-top: 6px;
+  font-family: Consolas, monospace;
+  white-space: pre-wrap;
+  font-size: 11px;
+}
+
+/* Selección individual de botones dentro de grupos sin romper grupo padre */
+.lm-topbar .lm-btn.lm-clickable,
+.lm-actions .lm-btn.lm-clickable {
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 1100px) {
+  .lm-layout {
+    grid-template-columns: 1fr 280px;
+  }
+}
+
+@media (max-width: 900px) {
+  .lm-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .lm-inspector {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 300px;
+    border-left: none;
+    border-top: 2px solid var(--lm-blue);
+  }
+
+  .lm-mock {
+    height: auto;
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 720px) {
+  .lm-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lm-twocol {
+    grid-template-columns: 1fr;
+  }
+
+  .lm-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   PATCH — Portal Publicaciones_Log con botón Abrir publicación
+   Objetivo:
+   - Agregar sexta columna funcional al portal.
+   - Mostrar botón btn_abrir_publicacion dentro de cada fila exitosa.
+   - Conservar el diseño ya logrado del mockup e inspector.
+========================================================= */
+
+.lm-link-btn,
+.portal-open-btn {
+  border: 1px solid #93c5fd;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-radius: 7px;
+  padding: 4px 8px;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: normal;
+  text-align: center;
+}
+
+.lm-link-btn:hover,
+.portal-open-btn:hover {
+  background: #dbeafe;
+  border-color: #60a5fa;
+  color: #1e40af;
+}
+
+.lm-no-link {
+  font-size: 9px;
+  color: #94a3b8;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* Evita que la sexta columna rompa el portal en pantallas pequeñas */
+@media (max-width: 900px) {
+  .lm-portal-head,
+  .lm-portal-row,
+  .portal-head,
+  .portal-row {
+    grid-template-columns: 100px 80px 72px 50px minmax(110px, 1fr) 116px !important;
+  }
+
+  .lm-link-btn,
+  .portal-open-btn {
+    font-size: 8.5px;
+    padding: 4px 6px;
+  }
+}
+
+/* ── PORTAL MULTIMEDIA (carrusel) — extensión ── */
+.lm-mm-head,
+.lm-mm-row {
+  grid-template-columns: 60px minmax(140px, 1fr) 100px 90px 90px;
+}
+
+.lm-mm-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-top: 1px solid #e8e8f0;
+  flex-wrap: wrap;
+}
+
+.lm-mm-foot small {
+  font-size: 10px;
+  color: var(--lm-muted);
+}

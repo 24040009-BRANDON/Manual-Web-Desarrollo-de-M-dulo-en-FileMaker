@@ -1,0 +1,47 @@
+{
+  "projectName": "Desarrollo e integración de un módulo de gestión y publicación de contenido en redes sociales mediante FileMaker y Meta Graph API",
+  "manualTitle": "Manual técnico del módulo de gestión y publicación de contenido en redes sociales",
+  "company": "DT Informática",
+  "displayCompany": "D&T Informática",
+  "student": "Brandon Arreola Cortés",
+  "career": "Tecnologías de la Información — Área Desarrollo de Software Multiplataforma",
+  "period": "Mayo – Agosto 2026",
+  "businessTutor": "Jaime Alberto Sánchez Morales",
+  "platform": "FileMaker 18 / FileMaker Pro 19",
+  "description": "Este manual técnico documenta el desarrollo e integración de un módulo de gestión y publicación de contenido en redes sociales mediante FileMaker y Meta Graph API. El proyecto forma parte de la estadía profesional de la carrera de Tecnologías de la Información, Área Desarrollo de Software Multiplataforma, y fue desarrollado en DT Informática bajo supervisión empresarial.",
+  "companyDescription": "DT Informática nace en julio de 2008 como un centro de capacitación en software especializado y, con el tiempo, amplía sus unidades de negocio para ofrecer servicios en el área de informática. La empresa se enfoca en proporcionar herramientas tecnológicas que apoyen la toma de decisiones, la operación interna y la competitividad de sus clientes.",
+  "moduleDescription": "El módulo fue diseñado para integrarse al sistema existente en FileMaker, respetando su estructura operativa y ampliando sus capacidades mediante nuevos campos, tablas, scripts, layouts, validaciones y registros técnicos de publicación. La solución documenta el flujo completo del módulo de Publicaciones: captura de contenido, selección de plataforma destino, control de estados, programación, historial técnico y preparación para integración con Meta Graph API.",
+  "scope": [
+    "Gestión de publicaciones para Facebook e Instagram.",
+    "Captura de título, contenido, hashtags, imagen y URL pública.",
+    "Control de plataforma destino: Sin definir, Facebook, Instagram o Ambas.",
+    "Control de estados: Borrador, Programado, Publicado, Error y Cancelado.",
+    "Programación de contenido mediante fecha y hora.",
+    "Registro técnico de intentos de publicación en la tabla Publicaciones_Log.",
+    "Documentación de campos, validaciones, Auto-Enter, Storage y relaciones.",
+    "Documentación de scripts de interfaz, navegación, API y log.",
+    "Documentación del layout operativo e inspector de objetos FileMaker.",
+    "Preparación para integración con Meta Graph API."
+  ],
+  "technology": [
+    "FileMaker 18",
+    "FileMaker Pro 19",
+    "Meta Graph API",
+    "Facebook",
+    "Instagram",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "JSON",
+    "Visual Studio Code",
+    "Live Server",
+    "Postman"
+  ],
+  "companyActivities": [
+    "Desarrollo de bases de datos y sistemas.",
+    "Capacitación en software comercial.",
+    "Instalación y configuración de software y hardware.",
+    "Venta de software y hardware.",
+    "Soporte y soluciones informáticas para clientes."
+  ]
+}

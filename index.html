@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>D&T Informática | Manual técnico FileMaker</title>
+
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/header.css" />
+  <link rel="stylesheet" href="assets/css/tabs.css" />
+  <link rel="stylesheet" href="assets/css/cards.css" />
+  <link rel="stylesheet" href="assets/css/tables.css" />
+</head>
+
+<body>
+  <header class="main-header">
+    <div class="brand-area">
+      <div class="brand-logo-placeholder" aria-label="Logo D&T Informática">
+        D&T
+      </div>
+
+      <div class="brand-text">
+        <p class="eyebrow">Manual técnico institucional</p>
+
+        <h1>D&T Informática</h1>
+
+        <p class="subtitle">
+          Manual técnico del módulo de gestión y publicación de contenido en redes sociales
+        </p>
+
+        <p class="project-name">
+          Desarrollo e integración de un módulo de gestión y publicación de contenido en redes sociales mediante FileMaker y Meta Graph API
+        </p>
+      </div>
+    </div>
+
+    <nav class="header-tabs" aria-label="Navegación principal del manual">
+      <button class="nav-tab active" data-section="database" type="button">
+        Base de datos
+      </button>
+
+      <button class="nav-tab" data-section="scripts" type="button">
+        Lista de scripts
+      </button>
+
+      <button class="nav-tab" data-section="layout" type="button">
+        Diseño y arquitectura del Layout
+      </button>
+
+      <button class="nav-tab" data-section="about" type="button">
+        Acerca de
+      </button>
+    </nav>
+  </header>
+
+  <main class="app-shell">
+    <section id="database" class="manual-section active">
+      <div class="section-placeholder">
+        <h2>Base de datos</h2>
+        <p>Aquí se renderizará el contenido del manual de base de datos.</p>
+      </div>
+    </section>
+
+    <section id="scripts" class="manual-section">
+      <div class="section-placeholder">
+        <h2>Lista de scripts</h2>
+        <p>Aquí se renderizará el catálogo de scripts de FileMaker.</p>
+      </div>
+    </section>
+
+    <section id="layout" class="manual-section">
+      <div class="section-placeholder">
+        <h2>Diseño y arquitectura del Layout</h2>
+        <p>Aquí se renderizará el mockup interactivo y el inspector del layout.</p>
+      </div>
+    </section>
+
+    <section id="about" class="manual-section">
+      <div class="section-placeholder">
+        <h2>Acerca de</h2>
+        <p>Aquí se renderizará la información del proyecto, empresa, estadía y tecnología utilizada.</p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

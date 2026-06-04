@@ -1,0 +1,72 @@
+:root {
+  /* Fondos */
+  --bg: #eef2f7;
+  --bg-soft: #f8fafc;
+  --panel: #ffffff;
+  --soft: #f8fafc;
+  --soft-blue: #eef4fb;
+
+  /* Bordes y líneas */
+  --line: #d9e3ef;
+  --line-strong: #cbd5e1;
+
+  /* Texto */
+  --text: #1e293b;
+  --text-strong: #0f172a;
+  --muted: #5e7188;
+  --muted-light: #94a3b8;
+
+  /* Colores principales */
+  --primary: #2563eb;
+  --primary-soft: rgba(37, 99, 235, 0.08);
+  --primary-border: rgba(37, 99, 235, 0.35);
+
+  --accent: #475569;
+  --accent-soft: rgba(71, 85, 105, 0.08);
+
+  /* Estados */
+  --green: #15803d;
+  --green-soft: rgba(21, 128, 61, 0.1);
+
+  --amber: #b45309;
+  --amber-soft: rgba(180, 83, 9, 0.1);
+
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.1);
+
+  --pink: #be185d;
+  --pink-soft: rgba(190, 24, 93, 0.1);
+
+  /* Sombras */
+  --shadow-sm: 0 4px 18px rgba(15, 23, 42, 0.08);
+  --shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 22px 58px rgba(15, 23, 42, 0.12);
+
+  /* Radios */
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* Tipografía */
+  --font-main: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Roboto", Arial, sans-serif;
+  --font-code: Consolas, "Courier New", monospace;
+
+  /* Escala tipográfica unificada (una sola fuente de verdad) */
+  --fs-h1: 1.7rem;     /* título principal de página */
+  --fs-h2: 1.35rem;    /* título de sección */
+  --fs-h3: 1.1rem;     /* subtítulo / encabezado de tarjeta */
+  --fs-body: 0.95rem;  /* texto normal */
+  --fs-small: 0.82rem; /* etiquetas, notas */
+  --fs-micro: 0.74rem; /* badges, pies */
+  --lh-tight: 1.2;
+  --lh-normal: 1.55;
+
+  /* Tamaños */
+  --header-max-width: 1280px;
+  --content-max-width: 1280px;
+
+  /* Animación */
+  --transition: 0.18s ease;
+}

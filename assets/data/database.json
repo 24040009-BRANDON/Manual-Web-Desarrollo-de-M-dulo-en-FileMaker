@@ -1,0 +1,2342 @@
+{
+  "tables": [
+    {
+      "id": "publicaciones",
+      "name": "Publicaciones",
+      "color": "purple",
+      "description": "Tabla principal del módulo. Guarda el contenido base del post, plataforma destino, estado, programación, respuesta API y campos de tablero.",
+      "fields": [
+        {
+          "id": "publicaciones-id_publicacion",
+          "table": "Publicaciones",
+          "name": "ID_Publicacion",
+          "rawName": "PK ID_Publicacion",
+          "type": "Number",
+          "role": [
+            "PK",
+            "VALIDACIÓN"
+          ],
+          "description": "Llave primaria · serial automático",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation <span style=\"color:var(--color-text-tertiary);font-size:11px;margin-left:4px\">Date ▾</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification <span style=\"color:var(--color-text-tertiary);font-size:11px;margin-left:4px\">Date ▾</span></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Serial number</b></div>\n<div class=\"fm-row indent\"><div class=\"rb checked\"></div> <b>On creation</b>  <div class=\"rb\"></div> On commit</div>\n<div class=\"fm-row indent\">next value <span class=\"fm-input\">1</span>   increment by <span class=\"fm-input\">1</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Value from last visited record</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification during data entry</b></div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override during data entry</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Require:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Strict data type: Numeric Only ▾</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb checked\"></div> <b>Unique value</b>  <div class=\"cb\"></div> Existing value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range:  <span class=\"fm-input\"> </span> to <span class=\"fm-input\"> </span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb\"></div> Minimal  <div class=\"rb checked\"></div> <b>All</b></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Automatically create indexes as needed</div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n<div class=\"note\">All = búsqueda y unicidad máxima. Correcto para PK.</div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value · Existing value · Member of value list · Validated by calculation · Strict data type · In range · Maximum number of characters",
+          "relatedScripts": [
+            {
+              "name": "Confirmar eliminar publicación",
+              "id": "ui-eliminar",
+              "category": "UI",
+              "does": "Pide confirmación antes de eliminar el registro actual."
+            }
+          ],
+          "notes": [
+            "All = búsqueda y unicidad máxima. Correcto para PK."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones-titulo",
+          "table": "Publicaciones",
+          "name": "Titulo",
+          "rawName": "Titulo",
+          "type": "Text",
+          "role": [
+            "VALIDACIÓN"
+          ],
+          "description": "Nombre interno del post",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Value from last visited record</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification during data entry</div>\n<div class=\"note\">Sin auto-enter. El usuario escribe el título manualmente.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override during data entry</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Strict data type</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value  <div class=\"cb\"></div> Existing value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n<div class=\"note\"><b>Flujo controlado:</b> no marcar <b>Not empty</b> a nivel de campo. Un borrador puede quedar incompleto mientras se captura. El título se vuelve obligatorio en el script <b>20. Validar publicación antes de enviar</b>, justo antes de publicar o programar.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b>  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n<div class=\"note\">Minimal para soportar búsquedas por título sin indexar innecesariamente.</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional para Borrador · obligatorio por script 20 antes de publicar",
+          "relatedScripts": [
+            {
+              "name": "Buscar publicaciones",
+              "id": "ui-buscar",
+              "category": "UI",
+              "does": "Busca una palabra clave en título, contenido o hashtags usando Find Mode con múltiples requests."
+            },
+            {
+              "name": "Validar publicación antes de enviar",
+              "id": "api-validar",
+              "category": "API",
+              "does": "Valida datos mínimos antes de publicar."
+            }
+          ],
+          "notes": [
+            "Sin auto-enter. El usuario escribe el título manualmente.",
+            "Para evitar alertas técnicas de FileMaker al crear un borrador, no se debe validar Not empty en Manage Database.",
+            "El script 20. Validar publicación antes de enviar es el responsable de exigir título cuando el usuario intenta publicar."
+          ],
+          "warnings": [
+            "Si marcas Not empty aquí, FileMaker mostrará alertas al crear registros nuevos vacíos con el botón Nueva."
+          ],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-contenido_texto",
+          "table": "Publicaciones",
+          "name": "Contenido_Texto",
+          "rawName": "Contenido_Texto",
+          "type": "Text",
+          "role": [
+            "VALIDACIÓN"
+          ],
+          "description": "Cuerpo del post",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Value from last visited record</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div><div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div><div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Sin auto-enter. El usuario escribe el contenido del post.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Unique value  <div class=\"cb\"></div> Existing value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Validated by calculation</b> — <span style=\"font-size:11px\">Length(Contenido_Texto) ≤ 63206</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n\n<div class=\"note\"><b>Flujo controlado:</b> el contenido no debe tener Not empty en Manage Database. Debe validarse en el script 20 antes de publicar. Se conserva la validación de longitud máxima para evitar exceder límites operativos.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b>  <div class=\"rb\"></div> Minimal  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n<div class=\"note\">None: texto largo no necesita indexado. Ahorra espacio.</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional para Borrador · longitud validada · obligatorio por script 20 antes de publicar",
+          "relatedScripts": [
+            {
+              "name": "Buscar publicaciones",
+              "id": "ui-buscar",
+              "category": "UI",
+              "does": "Busca una palabra clave en título, contenido o hashtags usando Find Mode con múltiples requests."
+            },
+            {
+              "name": "Validar publicación antes de enviar",
+              "id": "api-validar",
+              "category": "API",
+              "does": "Valida datos mínimos antes de publicar."
+            },
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Publicará en Facebook con Insert from URL y Meta Graph API."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Publicará en Instagram creando primero contenedor media y luego media_publish."
+            }
+          ],
+          "notes": [
+            "Sin auto-enter. El usuario escribe el contenido del post.",
+            "No marcar Not empty a nivel de campo para permitir borradores incompletos.",
+            "La obligatoriedad del contenido se valida en el script 20 antes de publicar."
+          ],
+          "warnings": [
+            "Si Not empty queda activo, el botón Nueva puede provocar alertas antes de que el usuario capture el contenido."
+          ],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-url_imagen",
+          "table": "Publicaciones",
+          "name": "URL_Imagen",
+          "rawName": "URL_Imagen",
+          "type": "Text",
+          "role": [
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "URL pública para Meta Graph API",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Validated by calculation</b></div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">IsEmpty ( URL_Imagen ) or Left ( URL_Imagen ; 4 ) = \"http\"</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n<div class=\"note\">La validación permite vacío para borrador. Si hay URL, debe iniciar con http. La obligatoriedad depende del flujo de publicación y se valida en el script 20.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional para Borrador · si tiene valor debe iniciar con http · requerida por script 20 para Instagram/Ambas",
+          "relatedScripts": [
+            {
+              "name": "Validar publicación antes de enviar",
+              "id": "api-validar",
+              "category": "API",
+              "does": "Valida datos mínimos antes de publicar."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Publicará en Instagram creando primero contenedor media y luego media_publish."
+            }
+          ],
+          "notes": [
+            "URL pública requerida por Meta Graph API cuando se publica en Instagram o en ambas plataformas.",
+            "El campo puede quedar vacío en Borrador.",
+            "Si el usuario sube imagen a Container, el flujo futuro debe generar una URL pública antes de publicar."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-imagen_container",
+          "table": "Publicaciones",
+          "name": "Imagen_Container",
+          "rawName": "Imagen_Container",
+          "type": "Container",
+          "role": [
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Previsualización local, no va a la API",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">El usuario arrastra la imagen al campo manualmente.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"note\">Container no necesita validaciones especiales en este campo.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\" style=\"font-weight:500;font-size:12px\">Almacenamiento del container:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> Embedded in the file (default)</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>Stored externally</b> (recomendado)</div>\n<div class=\"note\">External storage evita que el archivo .fmp12 crezca demasiado con imágenes.</div>\n",
+          "valueList": "",
+          "validationKey": "Campo opcional · sin Not empty · sin Unique",
+          "relatedScripts": [],
+          "notes": [
+            "El usuario arrastra la imagen al campo manualmente.",
+            "Container local para previsualización; no se envía directamente a Meta Graph API.",
+            "Puede quedar vacío en Borrador. La URL pública se valida al publicar si la plataforma lo requiere."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-plataforma_destino",
+          "table": "Publicaciones",
+          "name": "Plataforma_Destino",
+          "rawName": "Plataforma_Destino",
+          "type": "Text",
+          "role": [
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Sin definir / Facebook / Instagram / Ambas",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Data:</b> <span class=\"fm-input\" style=\"margin-left:6px\">Sin definir</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Data \"Sin definir\" obliga al usuario a elegir explícitamente la plataforma antes de publicar. El script 20 · Validar antes de enviar bloquea la publicación si el valor sigue en \"Sin definir\".</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Member of value list:</b> Plataformas_Destino ▾</div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Sin definir · Facebook · Instagram · Ambas</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b>  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
+          "valueList": "Plataformas_Destino",
+          "validationKey": "Not empty · Member of value list · Validated by calculation",
+          "relatedScripts": [
+            {
+              "name": "Nueva publicación",
+              "id": "ui-nueva",
+              "category": "UI",
+              "does": "Crea un nuevo registro, lo deja como Borrador y mantiene Plataforma_Destino en Sin definir para que el usuario elija Facebook, Instagram o Ambas."
+            },
+            {
+              "name": "Seleccionar plataforma destino",
+              "id": "ui-plataforma",
+              "category": "UI",
+              "does": "Escribe en Plataforma_Destino el valor enviado por el botón."
+            },
+            {
+              "name": "Validar publicación antes de enviar",
+              "id": "api-validar",
+              "category": "API",
+              "does": "Valida datos mínimos antes de publicar."
+            },
+            {
+              "name": "Publicar ahora Meta",
+              "id": "api-publicar-meta",
+              "category": "API",
+              "does": "Valida y decide si publica Facebook, Instagram o ambos."
+            }
+          ],
+          "notes": [
+            "Data \"Sin definir\" obliga al usuario a elegir explícitamente la plataforma antes de publicar. El script 20 · Validar antes de enviar bloquea la publicación si el valor sigue en \"Sin definir\".",
+            "Lista correcta Plataformas_Destino: Sin definir · Facebook · Instagram · Ambas. Debe coincidir con los scripts 01, 8, 13 y 14."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones-estado",
+          "table": "Publicaciones",
+          "name": "Estado",
+          "rawName": "Estado",
+          "type": "Text",
+          "role": [
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Semáforo del ciclo de vida del post",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Data:</b> <span class=\"fm-input\" style=\"margin-left:6px\">Borrador</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Todo post nuevo nace como \"Borrador\" automáticamente.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Member of value list:</b> Estados_Post ▾</div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Borrador · Programado · Publicado · Error · Cancelado</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b>  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
+          "valueList": "Estados_Post",
+          "validationKey": "Not empty · Member of value list",
+          "relatedScripts": [
+            {
+              "name": "Nueva publicación",
+              "id": "ui-nueva",
+              "category": "UI",
+              "does": "Crea un nuevo registro, lo deja como Borrador y mantiene Plataforma_Destino en Sin definir para que el usuario elija Facebook, Instagram o Ambas."
+            },
+            {
+              "name": "Filtrar publicaciones",
+              "id": "ui-filtrar",
+              "category": "UI",
+              "does": "Abre opciones rápidas para ver Programadas, Publicadas o Con error."
+            },
+            {
+              "name": "Filtrar por estado",
+              "id": "ui-filtrar-estado",
+              "category": "UI",
+              "does": "Filtra la tabla Publicaciones por el estado recibido como parámetro."
+            },
+            {
+              "name": "Cambiar estado publicación",
+              "id": "ui-estado",
+              "category": "UI",
+              "does": "Cambia el Estado del registro actual según parámetro."
+            },
+            {
+              "name": "Guardar borrador",
+              "id": "ui-borrador",
+              "category": "UI",
+              "does": "Guarda el registro como Borrador sin ejecutar API."
+            },
+            {
+              "name": "Publicar ahora Meta",
+              "id": "api-publicar-meta",
+              "category": "API",
+              "does": "Valida y decide si publica Facebook, Instagram o ambos."
+            }
+          ],
+          "notes": [
+            "Todo post nuevo nace como \"Borrador\" automáticamente."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones-fecha_programada",
+          "table": "Publicaciones",
+          "name": "Fecha_Programada",
+          "rawName": "Fecha_Programada",
+          "type": "Date",
+          "role": [
+            "VALIDACIÓN"
+          ],
+          "description": "Día de publicación programada",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">El usuario elige la fecha. No se auto-llena.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Strict data type:</b> 4-digit year ▾</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Validated by calculation</b></div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">IsEmpty ( Fecha_Programada ) or Fecha_Programada ≥ Get ( CurrentDate )</div>\n<div class=\"note\">Puede quedar vacía en Borrador. Si se captura una fecha, no debe estar en el pasado. Si el estado es Programado, el script 20 debe exigir Fecha_Programada.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional para Borrador · si tiene valor no debe estar en el pasado · requerida por script 20 al programar",
+          "relatedScripts": [],
+          "notes": [
+            "El usuario elige la fecha. No se auto-llena.",
+            "No marcar Not empty en Manage Database para evitar alertas al crear borradores.",
+            "El script 20 exige Fecha_Programada cuando el flujo sea Programado."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-hora_programada",
+          "table": "Publicaciones",
+          "name": "Hora_Programada",
+          "rawName": "Hora_Programada",
+          "type": "Time",
+          "role": [
+            "VALIDACIÓN"
+          ],
+          "description": "Hora exacta de publicación",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"note\">Sin validación especial. El tipo Time ya restringe el formato.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional para Borrador · requerida por script 20 al programar",
+          "relatedScripts": [],
+          "notes": [
+            "Sin validación especial. El tipo Time ya restringe el formato.",
+            "No marcar Not empty en Manage Database; se exige por script cuando el estado sea Programado."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-fecha_publicacion_real",
+          "table": "Publicaciones",
+          "name": "Fecha_Publicacion_Real",
+          "rawName": "Fecha_Publicacion_Real",
+          "type": "Timestamp",
+          "role": [
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Momento de confirmación de la API",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Lo llena exclusivamente el script de publicación tras recibir éxito de la API.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"warn\">No marques Prohibit modification aquí — el script necesita escribirlo después de que el registro ya existe.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional · no usar Not empty en Manage Database",
+          "relatedScripts": [],
+          "notes": [
+            "La llena el script después de publicación exitosa. Puede estar vacía antes de publicar.",
+            "Lo llena exclusivamente el script de publicación tras recibir éxito de la API."
+          ],
+          "warnings": [
+            "No marques Prohibit modification aquí — el script necesita escribirlo después de que el registro ya existe."
+          ],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-post_id_api",
+          "table": "Publicaciones",
+          "name": "Post_ID_API",
+          "rawName": "Post_ID_API",
+          "type": "Text",
+          "role": [
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "ID del post retornado por Meta Graph API",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Script lo llena. Ejemplo del valor: 123456789_987654321</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"note\">Sin validación forzada — puede estar vacío si el post falló.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"note\">Minimal para buscar por Post_ID en futuras consultas de estadísticas.</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional · no usar Not empty en Manage Database",
+          "relatedScripts": [],
+          "notes": [
+            "ID devuelto por Meta. Puede estar vacío si no se ha publicado o si falló.",
+            "Script lo llena. Ejemplo del valor: 123456789_987654321",
+            "Sin validación forzada — puede estar vacío si el post falló.",
+            "Minimal para buscar por Post_ID en futuras consultas de estadísticas."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-respuesta_api_json",
+          "table": "Publicaciones",
+          "name": "Respuesta_API_JSON",
+          "rawName": "Respuesta_API_JSON",
+          "type": "Text",
+          "role": [
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "JSON completo de respuesta Meta",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Exclusivamente script. Nunca editar a mano.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"note\">Sin validación. Puede estar vacío si no hubo respuesta aún.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"note\">None. JSON largo nunca necesita indexado.</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional · no usar Not empty en Manage Database",
+          "relatedScripts": [
+            {
+              "name": "Publicar ahora Meta",
+              "id": "api-publicar-meta",
+              "category": "API",
+              "does": "Valida y decide si publica Facebook, Instagram o ambos."
+            }
+          ],
+          "notes": [
+            "JSON de respuesta. Puede estar vacío mientras no exista intento de publicación.",
+            "Exclusivamente script. Nunca editar a mano.",
+            "Sin validación. Puede estar vacío si no hubo respuesta aún.",
+            "None. JSON largo nunca necesita indexado."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-codigo_error",
+          "table": "Publicaciones",
+          "name": "Codigo_Error",
+          "rawName": "Codigo_Error",
+          "type": "Text",
+          "role": [
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Código de error de Meta (ej: 190)",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"note\">Text (no Number) para aceptar códigos como \"190\", \"OAuthException\" etc.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"note\">Minimal para poder buscar \"todos los registros con error 190\".</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional · no usar Not empty en Manage Database",
+          "relatedScripts": [],
+          "notes": [
+            "Código de error. Puede estar vacío si no hay error.",
+            "Text (no Number) para aceptar códigos como \"190\", \"OAuthException\" etc.",
+            "Minimal para poder buscar \"todos los registros con error 190\"."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-detalle_error",
+          "table": "Publicaciones",
+          "name": "Detalle_Error",
+          "rawName": "Detalle_Error",
+          "type": "Text",
+          "role": [
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Mensaje legible del error para el usuario",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"note\">Puede estar vacío si no hubo error.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Opcional · no usar Not empty en Manage Database",
+          "relatedScripts": [],
+          "notes": [
+            "Detalle de error. Puede estar vacío si no hay error.",
+            "Puede estar vacío si no hubo error."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-hashtags",
+          "table": "Publicaciones",
+          "name": "Hashtags",
+          "rawName": "Hashtags",
+          "type": "Text",
+          "role": [
+            "VALIDACIÓN"
+          ],
+          "description": "Separado del contenido para gestión independiente",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"note\">Opcional. No todos los posts tienen hashtags.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Opcional · no usar Not empty en Manage Database",
+          "relatedScripts": [
+            {
+              "name": "Buscar publicaciones",
+              "id": "ui-buscar",
+              "category": "UI",
+              "does": "Busca una palabra clave en título, contenido o hashtags usando Find Mode con múltiples requests."
+            },
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Publicará en Facebook con Insert from URL y Meta Graph API."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Publicará en Instagram creando primero contenedor media y luego media_publish."
+            }
+          ],
+          "notes": [
+            "Opcional. No todos los posts requieren hashtags.",
+            "Opcional. No todos los posts tienen hashtags."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-creado_por",
+          "table": "Publicaciones",
+          "name": "Creado_Por",
+          "rawName": "Creado_Por",
+          "type": "Text",
+          "role": [
+            "VALIDACIÓN"
+          ],
+          "description": "Cuenta FM que creó el registro — auto",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Creation</b> <span style=\"margin-left:6px;font-size:11px\">Account Name ▾</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification during data entry</b></div>\n<div class=\"note\">Creation → Account Name. Prohibit modification = nadie puede cambiarlo.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Auto-enter de auditoría · no requiere validación manual",
+          "relatedScripts": [],
+          "notes": [
+            "Creation → Account Name. Prohibit modification = nadie puede cambiarlo."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-fecha_creacion",
+          "table": "Publicaciones",
+          "name": "Fecha_Creacion",
+          "rawName": "Fecha_Creacion",
+          "type": "Timestamp",
+          "role": [
+            "VALIDACIÓN"
+          ],
+          "description": "Momento de creación del registro — auto",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Creation</b> <span style=\"margin-left:6px;font-size:11px\">Timestamp ▾</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification during data entry</b></div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Auto-enter de auditoría · no requiere validación manual",
+          "relatedScripts": [],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-modificado_por",
+          "table": "Publicaciones",
+          "name": "Modificado_Por",
+          "rawName": "Modificado_Por",
+          "type": "Text",
+          "role": [
+            "VALIDACIÓN"
+          ],
+          "description": "Última cuenta que editó el registro — auto",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Modification</b> <span style=\"margin-left:6px;font-size:11px\">Account Name ▾</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Modification → Account Name. Se actualiza automáticamente en cada edición.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Auto-enter de auditoría · no requiere validación manual",
+          "relatedScripts": [],
+          "notes": [
+            "Modification → Account Name. Se actualiza automáticamente en cada edición."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-modificado_en",
+          "table": "Publicaciones",
+          "name": "Modificado_En",
+          "rawName": "Modificado_En",
+          "type": "Timestamp",
+          "role": [
+            "VALIDACIÓN"
+          ],
+          "description": "Última fecha/hora de modificación — auto",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Modification</b> <span style=\"margin-left:6px;font-size:11px\">Timestamp ▾</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Auto-enter de auditoría · no requiere validación manual",
+          "relatedScripts": [],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
+          "id": "publicaciones-c_total_publicaciones",
+          "table": "Publicaciones",
+          "name": "c_Total_Publicaciones",
+          "rawName": "CALC c_Total_Publicaciones",
+          "type": "Calculation",
+          "role": [
+            "CALC",
+            "VALIDACIÓN"
+          ],
+          "description": "Total de registros en la tabla — tarjeta del dashboard",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Campo de tipo Calculation. FileMaker no muestra la pestaña Auto-Enter para este tipo — esta pestaña no aplica. Se incluye por consistencia con el resto del documento.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value  <div class=\"cb\"></div> Existing value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n<div class=\"note\">Sin validación. Este campo nunca lo edita el usuario — FileMaker lo calcula automáticamente.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Calculation result is:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>Number</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Storage Options:</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Do not store calculation results — recalculate when needed</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Fórmula completa:</div>\n<div style=\"background:#1a1a2e;border-radius:7px;padding:10px 12px;font-family:monospace;font-size:12px;color:#a0ffc0;line-height:1.7;margin-top:6px;white-space:pre-wrap\">ExecuteSQL (\n  \"SELECT COUNT(*) FROM Publicaciones\" ;\n  \"\" ;\n  \"\"\n)</div>\n<div class=\"note\"><b>Por qué Do not store:</b> Si marcas \"store\", FileMaker guarda el número en disco y solo lo recalcula cuando algo cambia. Con \"Do not store\" se recalcula en tiempo real cada vez que el layout se abre o refresca. Para un dashboard en vivo es lo correcto.</div>\n<div class=\"note\" style=\"margin-top:6px\"><b>Por qué los dos \"\" vacíos:</b> ExecuteSQL requiere siempre 3 argumentos. El 2º es el separador de columnas y el 3º es el separador de filas. Como COUNT(*) regresa una sola celda, no hay nada que separar — los \"\" son la forma de decirle a FileMaker \"sé que existen, no los necesito\".</div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value · Existing value · Member of value list · Validated by calculation · In range · Maximum number of characters",
+          "relatedScripts": [
+            {
+              "name": "Mostrar todas las publicaciones",
+              "id": "ui-mostrar-todas",
+              "category": "UI",
+              "does": "Limpia filtros y muestra todos los registros."
+            },
+            {
+              "name": "Refrescar dashboard",
+              "id": "ui-refrescar",
+              "category": "UI",
+              "does": "Refresca la ventana para actualizar tarjetas calculadas."
+            }
+          ],
+          "notes": [
+            "Campo de tipo Calculation. FileMaker no muestra la pestaña Auto-Enter para este tipo — esta pestaña no aplica. Se incluye por consistencia con el resto del documento.",
+            "Sin validación. Este campo nunca lo edita el usuario — FileMaker lo calcula automáticamente.",
+            "Por qué Do not store: Si marcas \"store\", FileMaker guarda el número en disco y solo lo recalcula cuando algo cambia. Con \"Do not store\" se recalcula en tiempo real cada vez que el layout se abre o refresca. Para un dashboard en vivo es lo correcto.",
+            "Por qué los dos \"\" vacíos: ExecuteSQL requiere siempre 3 argumentos. El 2º es el separador de columnas y el 3º es el separador de filas. Como COUNT(*) regresa una sola celda, no hay nada que separar — los \"\" son la forma de decirle a FileMaker \"sé que existen, no los necesito\"."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones-c_total_programadas",
+          "table": "Publicaciones",
+          "name": "c_Total_Programadas",
+          "rawName": "CALC c_Total_Programadas",
+          "type": "Calculation",
+          "role": [
+            "CALC",
+            "VALIDACIÓN"
+          ],
+          "description": "Registros con Estado = Programado — tarjeta ámbar del dashboard",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Campo Calculation — pestaña Auto-Enter no aplica para este tipo de campo.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"note\">Sin validación. El usuario nunca interactúa con este campo.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Calculation result is:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>Number</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Storage Options:</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Do not store calculation results — recalculate when needed</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Fórmula completa:</div>\n<div style=\"background:#1a1a2e;border-radius:7px;padding:10px 12px;font-family:monospace;font-size:12px;color:#a0ffc0;line-height:1.7;margin-top:6px;white-space:pre-wrap\">ExecuteSQL (\n  \"SELECT COUNT(*) FROM Publicaciones\n   WHERE Estado = ?\" ;\n  \"\" ;\n  \"\" ;\n  \"Programado\"\n)</div>\n<div class=\"note\"><b>El cuarto argumento \"Programado\"</b> es el valor del parámetro <b>?</b> en la consulta SQL. Usar <b>?</b> en lugar de escribir el valor directo en el string es la práctica correcta — evita errores de comillas y protege contra inyección de datos.</div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value · Member of value list · Validated by calculation",
+          "relatedScripts": [
+            {
+              "name": "Refrescar dashboard",
+              "id": "ui-refrescar",
+              "category": "UI",
+              "does": "Refresca la ventana para actualizar tarjetas calculadas."
+            }
+          ],
+          "notes": [
+            "Campo Calculation — pestaña Auto-Enter no aplica para este tipo de campo.",
+            "Sin validación. El usuario nunca interactúa con este campo.",
+            "El cuarto argumento \"Programado\" es el valor del parámetro ? en la consulta SQL. Usar ? en lugar de escribir el valor directo en el string es la práctica correcta — evita errores de comillas y protege contra inyección de datos."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones-c_total_publicadas",
+          "table": "Publicaciones",
+          "name": "c_Total_Publicadas",
+          "rawName": "CALC c_Total_Publicadas",
+          "type": "Calculation",
+          "role": [
+            "CALC",
+            "VALIDACIÓN"
+          ],
+          "description": "Registros con Estado = Publicado — tarjeta verde del dashboard",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Campo Calculation — pestaña Auto-Enter no aplica para este tipo de campo.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"note\">Sin validación. Campo de solo lectura calculado automáticamente.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Calculation result is:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>Number</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Storage Options:</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Do not store calculation results — recalculate when needed</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Fórmula completa:</div>\n<div style=\"background:#1a1a2e;border-radius:7px;padding:10px 12px;font-family:monospace;font-size:12px;color:#a0ffc0;line-height:1.7;margin-top:6px;white-space:pre-wrap\">ExecuteSQL (\n  \"SELECT COUNT(*) FROM Publicaciones\n   WHERE Estado = ?\" ;\n  \"\" ;\n  \"\" ;\n  \"Publicado\"\n)</div>\n<div class=\"note\">Mismo patrón que c_Total_Programadas. Solo cambia el valor del parámetro <b>?</b> de \"Programado\" a \"Publicado\". Cada campo de cálculo del dashboard usa la misma estructura SQL.</div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value · Member of value list · Validated by calculation",
+          "relatedScripts": [
+            {
+              "name": "Refrescar dashboard",
+              "id": "ui-refrescar",
+              "category": "UI",
+              "does": "Refresca la ventana para actualizar tarjetas calculadas."
+            }
+          ],
+          "notes": [
+            "Campo Calculation — pestaña Auto-Enter no aplica para este tipo de campo.",
+            "Sin validación. Campo de solo lectura calculado automáticamente.",
+            "Mismo patrón que c_Total_Programadas. Solo cambia el valor del parámetro ? de \"Programado\" a \"Publicado\". Cada campo de cálculo del dashboard usa la misma estructura SQL."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones-c_total_error",
+          "table": "Publicaciones",
+          "name": "c_Total_Error",
+          "rawName": "CALC c_Total_Error",
+          "type": "Calculation",
+          "role": [
+            "CALC",
+            "VALIDACIÓN"
+          ],
+          "description": "Registros con Estado = Error — tarjeta roja del dashboard",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Campo Calculation — pestaña Auto-Enter no aplica para este tipo de campo.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"note\">Sin validación. Este campo es especialmente importante — si muestra un número mayor a 0, significa que hay publicaciones fallidas que requieren atención.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Calculation result is:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>Number</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Storage Options:</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Do not store calculation results — recalculate when needed</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Fórmula completa:</div>\n<div style=\"background:#1a1a2e;border-radius:7px;padding:10px 12px;font-family:monospace;font-size:12px;color:#a0ffc0;line-height:1.7;margin-top:6px;white-space:pre-wrap\">ExecuteSQL (\n  \"SELECT COUNT(*) FROM Publicaciones\n   WHERE Estado = ?\" ;\n  \"\" ;\n  \"\" ;\n  \"Error\"\n)</div>\n<div class=\"note\">En el layout puedes aplicar <b>Formato Condicional</b> a este campo: si el valor es mayor que 0, mostrar el número en rojo. Eso da una alerta visual inmediata en el dashboard.</div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value · Member of value list · Validated by calculation",
+          "relatedScripts": [
+            {
+              "name": "Refrescar dashboard",
+              "id": "ui-refrescar",
+              "category": "UI",
+              "does": "Refresca la ventana para actualizar tarjetas calculadas."
+            }
+          ],
+          "notes": [
+            "Campo Calculation — pestaña Auto-Enter no aplica para este tipo de campo.",
+            "Sin validación. Este campo es especialmente importante — si muestra un número mayor a 0, significa que hay publicaciones fallidas que requieren atención.",
+            "En el layout puedes aplicar Formato Condicional a este campo: si el valor es mayor que 0, mostrar el número en rojo. Eso da una alerta visual inmediata en el dashboard."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones-c_total_borradores",
+          "table": "Publicaciones",
+          "name": "c_Total_Borradores",
+          "rawName": "CALC c_Total_Borradores",
+          "type": "Calculation",
+          "role": [
+            "CALC",
+            "VALIDACIÓN"
+          ],
+          "description": "Registros con Estado = Borrador — tarjeta azul del dashboard",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Campo Calculation — pestaña Auto-Enter no aplica para este tipo de campo.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"note\">Sin validación. Los borradores son publicaciones en proceso — un número alto aquí puede indicar trabajo pendiente de programar.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Calculation result is:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>Number</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Storage Options:</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Do not store calculation results — recalculate when needed</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Fórmula completa:</div>\n<div style=\"background:#1a1a2e;border-radius:7px;padding:10px 12px;font-family:monospace;font-size:12px;color:#a0ffc0;line-height:1.7;margin-top:6px;white-space:pre-wrap\">ExecuteSQL (\n  \"SELECT COUNT(*) FROM Publicaciones\n   WHERE Estado = ?\" ;\n  \"\" ;\n  \"\" ;\n  \"Borrador\"\n)</div>\n<div class=\"note\"><b>Resumen del patrón de los 5 campos:</b> todos usan la misma consulta SQL base, solo cambia el valor del parámetro <b>?</b> — Programado, Publicado, Error, Borrador. El campo c_Total_Publicaciones no lleva WHERE porque cuenta todos sin filtro.</div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value · Member of value list · Validated by calculation",
+          "relatedScripts": [
+            {
+              "name": "Refrescar dashboard",
+              "id": "ui-refrescar",
+              "category": "UI",
+              "does": "Refresca la ventana para actualizar tarjetas calculadas."
+            }
+          ],
+          "notes": [
+            "Campo Calculation — pestaña Auto-Enter no aplica para este tipo de campo.",
+            "Sin validación. Los borradores son publicaciones en proceso — un número alto aquí puede indicar trabajo pendiente de programar.",
+            "Resumen del patrón de los 5 campos: todos usan la misma consulta SQL base, solo cambia el valor del parámetro ? — Programado, Publicado, Error, Borrador. El campo c_Total_Publicaciones no lleva WHERE porque cuenta todos sin filtro."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones-fecha-eliminacion",
+          "table": "Publicaciones",
+          "name": "Fecha_Eliminacion",
+          "rawName": "Fecha_Eliminacion",
+          "type": "Timestamp",
+          "role": [
+            "EXTENSIÓN",
+            "LOG"
+          ],
+          "description": "EXTENSIÓN PROPIA: fecha y hora en que la publicación se marcó como eliminada (borrado lógico / soft delete). El registro NUNCA se borra físicamente. No incluido en los manuales base originales.",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"note\">Sin Auto-Enter. Lo llena el Script 07 al marcar como eliminado.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"note\">Campo opcional. Solo se llena cuando el registro pasa a Estado Eliminado.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n",
+          "valueList": "",
+          "validationKey": "Opcional",
+          "relatedScripts": [
+            {
+              "name": "Confirmar eliminar publicación",
+              "id": "ui-eliminar",
+              "category": "UI",
+              "does": "Marca la publicación como Eliminado y registra fecha y usuario."
+            }
+          ],
+          "notes": [
+            "EXTENSIÓN PROPIA: soporta borrado lógico. El registro se conserva para auditoría."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Extensión propia"
+        },
+        {
+          "id": "publicaciones-eliminado-por",
+          "table": "Publicaciones",
+          "name": "Eliminado_Por",
+          "rawName": "Eliminado_Por",
+          "type": "Text",
+          "role": [
+            "EXTENSIÓN",
+            "LOG"
+          ],
+          "description": "EXTENSIÓN PROPIA: nombre de la cuenta FileMaker que marcó la publicación como eliminada. Lo llena el Script 07 con Get(AccountName). Permite trazabilidad de quién eliminó. No incluido en los manuales base originales.",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"note\">Sin Auto-Enter. Lo llena el Script 07 al marcar como eliminado.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"note\">Campo opcional. Solo se llena cuando el registro pasa a Estado Eliminado.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n",
+          "valueList": "",
+          "validationKey": "Opcional",
+          "relatedScripts": [
+            {
+              "name": "Confirmar eliminar publicación",
+              "id": "ui-eliminar",
+              "category": "UI",
+              "does": "Marca la publicación como Eliminado y registra fecha y usuario."
+            }
+          ],
+          "notes": [
+            "EXTENSIÓN PROPIA: trazabilidad de borrado lógico."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Extensión propia"
+        }
+      ]
+    },
+    {
+      "id": "publicaciones_log",
+      "name": "Publicaciones_Log",
+      "color": "green",
+      "description": "Historial técnico de cada intento de publicación. Permite auditar plataforma, resultado, código HTTP y respuesta de API.",
+      "fields": [
+        {
+          "id": "publicaciones_log-id_log",
+          "table": "Publicaciones_Log",
+          "name": "ID_Log",
+          "rawName": "PK ID_Log",
+          "type": "Number",
+          "role": [
+            "PK",
+            "LOG",
+            "VALIDACIÓN"
+          ],
+          "description": "Llave primaria del log",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Serial number</b></div>\n<div class=\"fm-row indent\"><div class=\"rb checked\"></div> <b>On creation</b>  <div class=\"rb\"></div> On commit</div>\n<div class=\"fm-row indent\">next value <span class=\"fm-input\">1</span>   increment by <span class=\"fm-input\">1</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div><div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification during data entry</b></div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb checked\"></div> <b>Unique value</b></div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb\"></div> Minimal  <div class=\"rb checked\"></div> <b>All</b></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Automatically create indexes as needed</div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value",
+          "relatedScripts": [],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones_log-id_publicacion-2",
+          "table": "Publicaciones_Log",
+          "name": "ID_Publicacion",
+          "rawName": "FK ID_Publicacion",
+          "type": "Number",
+          "role": [
+            "FK",
+            "LOG",
+            "VALIDACIÓN"
+          ],
+          "description": "Referencia a tabla Publicaciones",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification during data entry</b></div>\n<div class=\"note\">El script lo llena al crear el registro de log. No editar manualmente.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b>  <div class=\"cb checked\"></div> <b>Existing value</b></div>\n<div class=\"note\">Existing value verifica que el ID exista en la tabla Publicaciones.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb\"></div> Minimal  <div class=\"rb checked\"></div> <b>All</b></div>\n<div class=\"note\">All para que la relación entre tablas sea eficiente.</div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Existing value",
+          "relatedScripts": [
+            {
+              "name": "Registrar intento en Log",
+              "id": "log-registrar",
+              "category": "LOG",
+              "does": "Crea registro histórico por cada intento de publicación."
+            }
+          ],
+          "notes": [
+            "El script lo llena al crear el registro de log. No editar manualmente.",
+            "Existing value verifica que el ID exista en la tabla Publicaciones.",
+            "All para que la relación entre tablas sea eficiente."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones_log-plataforma",
+          "table": "Publicaciones_Log",
+          "name": "Plataforma",
+          "rawName": "Plataforma",
+          "type": "Text",
+          "role": [
+            "LOG",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Facebook o Instagram (no \"Ambas\")",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification</b></div>\n<div class=\"note\">Script lo llena. Registro inmutable una vez creado.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Member of value list:</b> Plataformas_Log ▾</div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Facebook · Instagram</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "Plataformas_Log",
+          "validationKey": "Not empty · Member of value list",
+          "relatedScripts": [
+            {
+              "name": "Ir a historial completo",
+              "id": "nav-historial",
+              "category": "NAV",
+              "does": "Abre todos los registros de log."
+            },
+            {
+              "name": "Registrar intento en Log",
+              "id": "log-registrar",
+              "category": "LOG",
+              "does": "Crea registro histórico por cada intento de publicación."
+            }
+          ],
+          "notes": [
+            "Script lo llena. Registro inmutable una vez creado."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones_log-fecha_intento",
+          "table": "Publicaciones_Log",
+          "name": "Fecha_Intento",
+          "rawName": "Fecha_Intento",
+          "type": "Timestamp",
+          "role": [
+            "LOG",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Momento exacto de la llamada a la API",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Creation</b> <span style=\"margin-left:6px;font-size:11px\">Timestamp ▾</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification</b></div>\n<div class=\"note\">Creation Timestamp = se registra al instante exacto del intento.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value",
+          "relatedScripts": [
+            {
+              "name": "Ir a historial completo",
+              "id": "nav-historial",
+              "category": "NAV",
+              "does": "Abre todos los registros de log."
+            }
+          ],
+          "notes": [
+            "Creation Timestamp = se registra al instante exacto del intento."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones_log-resultado",
+          "table": "Publicaciones_Log",
+          "name": "Resultado",
+          "rawName": "Resultado",
+          "type": "Text",
+          "role": [
+            "LOG",
+            "VALIDACIÓN"
+          ],
+          "description": "Resultado real del intento: Exitoso / Fallido",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification</b></div>\n<div class=\"note\">Script lo llena. Inmutable: el resultado de un intento no cambia.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Member of value list:</b> Resultados_Log ▾</div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Exitoso · Fallido</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "Resultados_Log",
+          "validationKey": "Not empty · Member of value list",
+          "relatedScripts": [
+            {
+              "name": "Ir a historial completo",
+              "id": "nav-historial",
+              "category": "NAV",
+              "does": "Abre todos los registros de log."
+            },
+            {
+              "name": "Registrar intento en Log",
+              "id": "log-registrar",
+              "category": "LOG",
+              "does": "Crea registro histórico por cada intento de publicación."
+            }
+          ],
+          "notes": [
+            "Script lo llena. Inmutable: el resultado de un intento no cambia.",
+            "IMPORTANTE: La VL Resultados_Log acepta SOLO \"Exitoso\" o \"Fallido\". \"Pendiente\" NO es un valor válido y causará error de validación en FileMaker. Los scripts 22 y 16 (placeholder API) registran \"Fallido\" con HTTP=0 hasta que la API real esté implementada."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones_log-post_id_retornado",
+          "table": "Publicaciones_Log",
+          "name": "Post_ID_Retornado",
+          "rawName": "Post_ID_Retornado",
+          "type": "Text",
+          "role": [
+            "LOG",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "ID devuelto por Meta en este intento específico",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification during data entry</b></div>\n<div class=\"note\">Lo llena exclusivamente el script <b>API | Registrar intento en Publicaciones_Log</b> con el ID devuelto por Meta. No lo edita el usuario.<br/><br/>\n<b>Diferencia con Post_ID_API en Publicaciones:</b><br/>\n  • <code>Publicaciones::Post_ID_API</code> → último ID principal de la publicación.<br/>\n  • <code>Publicaciones_Log::Post_ID_Retornado</code> → ID devuelto en este intento específico.<br/>\n  Una publicación puede tener varios intentos: el Log registra cada uno por separado.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override during data entry</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Strict data type</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value  <div class=\"cb\"></div> Existing value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n<div class=\"note\">Sin validación forzada. El campo puede estar vacío en intentos fallidos donde Meta no devuelve ningún ID. Vacío = intento fallido, valor presente = intento exitoso.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage (one value for all records)</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b>  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n<div class=\"note\">Minimal para poder buscar registros de Log por Post_ID_Retornado — útil para auditorías técnicas o para cruzar intentos con resultados específicos de Meta.</div>\n",
+          "valueList": "",
+          "validationKey": "Campo opcional · puede quedar vacío en intentos fallidos · no Unique · sin Not empty",
+          "relatedScripts": [
+            {
+              "name": "Registrar intento en Log",
+              "id": "log-registrar",
+              "category": "LOG",
+              "does": "Crea registro histórico por cada intento de publicación y guarda el ID devuelto por Meta cuando existe."
+            }
+          ],
+          "notes": [
+            "Lo llena exclusivamente el script API | Registrar intento en Publicaciones_Log con el ID devuelto por Meta. No lo edita el usuario. Diferencia con Post_ID_API en Publicaciones: • Publicaciones::Post_ID_API → último ID principal de la publicación. • Publicaciones_Log::Post_ID_Retornado → ID devuelto en este intento específico. Una publicación puede tener varios intentos: el Log registra cada uno por separado.",
+            "Sin validación forzada. El campo puede estar vacío en intentos fallidos donde Meta no devuelve ningún ID. Vacío = intento fallido, valor presente = intento exitoso.",
+            "Minimal para poder buscar registros de Log por Post_ID_Retornado — útil para auditorías técnicas o para cruzar intentos con resultados específicos de Meta."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones-log-permalink-url",
+          "table": "Publicaciones_Log",
+          "name": "Permalink_URL",
+          "rawName": "Permalink_URL",
+          "type": "Text",
+          "role": [
+            "EXTENSIÓN",
+            "LOG",
+            "API"
+          ],
+          "description": "URL pública directa del post publicado en Facebook o Instagram. Se obtiene mediante una segunda petición GET a Meta Graph API después de recibir el Post ID.",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification during data entry</b></div>\n<div class=\"note\">Lo llena exclusivamente el script 22 · Publicar Facebook o 16 · Publicar Instagram mediante una petición GET a Meta Graph API. El usuario no lo edita.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override during data entry</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Require:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Strict data type</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value  <div class=\"cb\"></div> Existing value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n<div class=\"note\">Sin validación forzada. El campo puede estar vacío en intentos fallidos donde Meta no devuelve permalink. Vacío = intento fallido o API placeholder. Valor presente = publicación exitosa con URL verificable.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b>  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n<div class=\"note\">Minimal. No requiere indexado fuerte. Se muestra en el portal de historial y se usa para el botón Abrir publicación.</div>\n",
+          "valueList": "",
+          "validationKey": "",
+          "relatedScripts": [
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Ejecuta POST para publicar y luego GET para obtener permalink_url. Guarda el resultado en este campo."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Flujo en dos pasos: crear container media, publicar, luego GET para permalink_url."
+            }
+          ],
+          "notes": [
+            "EXTENSIÓN PROPIA: este campo NO forma parte de los tres manuales base originales (BD, Scripts, Layout). Fue añadido como mejora para almacenar la URL pública del post y permitir abrirlo desde el historial (ver Script 51). Documentar como aporte propio del desarrollador.",
+            "Este campo requiere un segundo Insert from URL (método GET) después del POST inicial de publicación.",
+            "Endpoint GET: https://graph.facebook.com/v21.0/{POST_ID}?fields=id,message,created_time,permalink_url&access_token={TOKEN}",
+            "Si el campo está vacío en un registro del Log, significa que la publicación fue fallida o que la API placeholder aún no implementa el GET.",
+            "No confundir con Post_ID_Retornado: ese guarda el ID técnico, este guarda la URL pública visible."
+          ],
+          "warnings": [
+            "Requiere implementación completa del flujo GET en script 22 y 16 antes de poblarse.",
+            "No mostrar en layouts operativos del usuario final — solo en portal de historial técnico."
+          ],
+          "consistencyStatus": "Nuevo campo — requiere scripts 22/16 actualizados"
+        },
+        {
+          "id": "publicaciones_log-http_status_code",
+          "table": "Publicaciones_Log",
+          "name": "HTTP_Status_Code",
+          "rawName": "HTTP_Status_Code",
+          "type": "Number",
+          "role": [
+            "LOG",
+            "API"
+          ],
+          "description": "200=éxito · 401=token · 403=permiso",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification</b></div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Strict data type:</b> Numeric Only ▾</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>In range:</b> <span class=\"fm-input\">100</span> to <span class=\"fm-input\">599</span></div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Strict data type · In range",
+          "relatedScripts": [
+            {
+              "name": "Ir a historial completo",
+              "id": "nav-historial",
+              "category": "NAV",
+              "does": "Abre todos los registros de log."
+            },
+            {
+              "name": "Registrar intento en Log",
+              "id": "log-registrar",
+              "category": "LOG",
+              "does": "Crea registro histórico por cada intento de publicación."
+            }
+          ],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones_log-json_completo",
+          "table": "Publicaciones_Log",
+          "name": "JSON_Completo",
+          "rawName": "JSON_Completo",
+          "type": "Text",
+          "role": [
+            "LOG",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Respuesta íntegra de este intento",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification</b></div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"note\">Sin validación — puede estar vacío si la API no respondió.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value",
+          "relatedScripts": [
+            {
+              "name": "Registrar intento en Log",
+              "id": "log-registrar",
+              "category": "LOG",
+              "does": "Crea registro histórico por cada intento de publicación."
+            }
+          ],
+          "notes": [
+            "Sin validación — puede estar vacío si la API no respondió."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones_log-token_usado",
+          "table": "Publicaciones_Log",
+          "name": "Token_Usado",
+          "rawName": "Token_Usado",
+          "type": "Text",
+          "role": [
+            "LOG",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Token enmascarado: primeros6...últimos6",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification</b></div>\n<div class=\"note\">Script genera: Left(token;6) &amp; \"...\" &amp; Right(token;6). Nunca el token completo.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value",
+          "relatedScripts": [
+            {
+              "name": "Registrar intento en Log",
+              "id": "log-registrar",
+              "category": "LOG",
+              "does": "Crea registro histórico por cada intento de publicación."
+            }
+          ],
+          "notes": [
+            "Script genera: Left(token;6) & \"...\" & Right(token;6). Nunca el token completo.",
+            "Nunca registrar el token completo. El script debe guardar únicamente una versión enmascarada."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicaciones_log-notas_internas",
+          "table": "Publicaciones_Log",
+          "name": "Notas_Internas",
+          "rawName": "Notas_Internas",
+          "type": "Text",
+          "role": [
+            "LOG",
+            "VALIDACIÓN"
+          ],
+          "description": "Observaciones del script o del admin",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Único campo del log editable por el administrador manualmente.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value",
+          "relatedScripts": [
+            {
+              "name": "Registrar intento en Log",
+              "id": "log-registrar",
+              "category": "LOG",
+              "does": "Crea registro histórico por cada intento de publicación."
+            }
+          ],
+          "notes": [
+            "Único campo del log editable por el administrador manualmente."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        }
+      ]
+    },
+    {
+      "id": "config_plataformas",
+      "name": "Config_Plataformas",
+      "color": "amber",
+      "description": "Configuración técnica por plataforma. Centraliza ID_Cuenta_Meta, token, versión API y estado activo para Facebook/Instagram.",
+      "fields": [
+        {
+          "id": "config_plataformas-id_config",
+          "table": "Config_Plataformas",
+          "name": "ID_Config",
+          "rawName": "PK ID_Config",
+          "type": "Number",
+          "role": [
+            "PK",
+            "CONFIG"
+          ],
+          "description": "Llave primaria de configuración",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Serial number</b></div>\n<div class=\"fm-row indent\"><div class=\"rb checked\"></div> <b>On creation</b>  <div class=\"rb\"></div> On commit</div>\n<div class=\"fm-row indent\">next value <span class=\"fm-input\">1</span>   increment by <span class=\"fm-input\">1</span></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification</b></div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Unique value</b></div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb\"></div> Minimal  <div class=\"rb checked\"></div> <b>All</b></div>\n",
+          "valueList": "",
+          "validationKey": "Unique value",
+          "relatedScripts": [],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "config_plataformas-nombre_plataforma",
+          "table": "Config_Plataformas",
+          "name": "Nombre_Plataforma",
+          "rawName": "Nombre_Plataforma",
+          "type": "Text",
+          "role": [
+            "CONFIG",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Facebook o Instagram — único por registro",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b>  <div class=\"cb checked\"></div> <b>Unique value</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Member of value list:</b> Plataformas_Config ▾</div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Facebook · Instagram</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb\"></div> Minimal  <div class=\"rb checked\"></div> <b>All</b></div>\n",
+          "valueList": "Plataformas_Config",
+          "validationKey": "Not empty · Unique value · Member of value list",
+          "relatedScripts": [
+            {
+              "name": "Ir a configuración de plataformas",
+              "id": "nav-config",
+              "category": "NAV",
+              "does": "Abre el layout de configuración de Facebook/Instagram."
+            }
+          ],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "config_plataformas-id_cuenta_meta",
+          "table": "Config_Plataformas",
+          "name": "ID_Cuenta_Meta",
+          "rawName": "ID_Cuenta_Meta",
+          "type": "Text",
+          "role": [
+            "CONFIG",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Identificador de cuenta/plataforma Meta",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Strict data type:</b> Numeric Only ▾</div>\n<div class=\"note\">Text (no Number) para evitar redondeo o pérdida de precisión en identificadores largos de Meta. En Facebook almacena el ID de la página; en Instagram almacena el IG User ID / identificador de cuenta profesional.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Strict data type",
+          "relatedScripts": [
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Publicará en Facebook con Insert from URL y Meta Graph API."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Publicará en Instagram creando primero contenedor media y luego media_publish."
+            },
+            {
+              "name": "Ir a configuración de plataformas",
+              "id": "nav-config",
+              "category": "NAV",
+              "does": "Abre el layout de configuración de Facebook/Instagram."
+            }
+          ],
+          "notes": [
+            "Text (no Number) para evitar redondeo o pérdida de precisión en identificadores largos de Meta.",
+            "Antes se llamaba Page_ID. Se renombró a ID_Cuenta_Meta porque en Facebook guarda el ID de la página, mientras que en Instagram guarda el IG User ID o identificador de cuenta profesional utilizado por la API.",
+            "El flujo de scripts debe leer Config_Plataformas::ID_Cuenta_Meta junto con Access_Token y API_Version."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "config_plataformas-access_token",
+          "table": "Config_Plataformas",
+          "name": "Access_Token",
+          "rawName": "Access_Token",
+          "type": "Text",
+          "role": [
+            "CONFIG",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Token de Meta — guardar cifrado",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"warn\">No usar global storage. El token debe ser por registro, no global.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Minimum number of characters:</b> <span class=\"fm-input\">50</span></div>\n<div class=\"note\">Un token real de Meta tiene más de 100 chars. Min 50 detecta tokens truncados.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Automatically create indexes as needed</div>\n<div class=\"warn\">Indexing: None estricto. Nunca indexar tokens — quedarían en archivos temporales.</div>\n",
+          "valueList": "",
+          "validationKey": "Not empty",
+          "relatedScripts": [
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Publicará en Facebook con Insert from URL y Meta Graph API."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Publicará en Instagram creando primero contenedor media y luego media_publish."
+            },
+            {
+              "name": "Ir a configuración de plataformas",
+              "id": "nav-config",
+              "category": "NAV",
+              "does": "Abre el layout de configuración de Facebook/Instagram."
+            }
+          ],
+          "notes": [
+            "Un token real de Meta tiene más de 100 chars. Min 50 detecta tokens truncados."
+          ],
+          "warnings": [
+            "No usar global storage. El token debe ser por registro, no global.",
+            "Indexing: None estricto. Nunca indexar tokens — quedarían en archivos temporales."
+          ],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "config_plataformas-token_expiracion",
+          "table": "Config_Plataformas",
+          "name": "Token_Expiracion",
+          "rawName": "Token_Expiracion",
+          "type": "Date",
+          "role": [
+            "CONFIG",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Vence ~60 días — para alertas automáticas",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Strict data type:</b> 4-digit year ▾</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Strict data type",
+          "relatedScripts": [],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "config_plataformas-api_version",
+          "table": "Config_Plataformas",
+          "name": "API_Version",
+          "rawName": "API_Version",
+          "type": "Text",
+          "role": [
+            "CONFIG",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "Ej: v21.0 — todos los scripts lo leen",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Data:</b> <span class=\"fm-input\" style=\"margin-left:6px\">v21.0</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Data: v21.0 como default. Cuando Meta cambie versión, solo editas este campo.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Validated by calculation</b></div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Left(API_Version;1) = \"v\"</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Validated by calculation",
+          "relatedScripts": [
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Publicará en Facebook con Insert from URL y Meta Graph API."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Publicará en Instagram creando primero contenedor media y luego media_publish."
+            },
+            {
+              "name": "Ir a configuración de plataformas",
+              "id": "nav-config",
+              "category": "NAV",
+              "does": "Abre el layout de configuración de Facebook/Instagram."
+            }
+          ],
+          "notes": [
+            "Data: v21.0 como default. Cuando Meta cambie versión, solo editas este campo."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "config_plataformas-activo",
+          "table": "Config_Plataformas",
+          "name": "Activo",
+          "rawName": "Activo",
+          "type": "Number",
+          "role": [
+            "CONFIG",
+            "VALIDACIÓN"
+          ],
+          "description": "0=desactivado · 1=activo — interruptor",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Data:</b> <span class=\"fm-input\" style=\"margin-left:6px\">1</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Data: 1 → cada config nueva nace activa por default.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Strict data type:</b> Numeric Only ▾</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>In range:</b> <span class=\"fm-input\">0</span> to <span class=\"fm-input\">1</span></div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Strict data type · In range",
+          "relatedScripts": [
+            {
+              "name": "Ir a configuración de plataformas",
+              "id": "nav-config",
+              "category": "NAV",
+              "does": "Abre el layout de configuración de Facebook/Instagram."
+            }
+          ],
+          "notes": [
+            "Data: 1 → cada config nueva nace activa por default."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        }
+      ]
+    },
+    {
+      "id": "publicacion_multimedia",
+      "name": "Publicacion_Multimedia",
+      "color": "pink",
+      "description": "Tabla auxiliar para archivos e imágenes relacionados con una publicación, incluyendo URL pública requerida por Meta.",
+      "fields": [
+        {
+          "id": "publicacion_multimedia-id_media",
+          "table": "Publicacion_Multimedia",
+          "name": "ID_Media",
+          "rawName": "PK ID_Media",
+          "type": "Number",
+          "role": [
+            "PK",
+            "MULTIMEDIA"
+          ],
+          "description": "Llave primaria de cada archivo",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Serial number</b></div>\n<div class=\"fm-row indent\"><div class=\"rb checked\"></div> <b>On creation</b>  <div class=\"rb\"></div> On commit</div>\n<div class=\"fm-row indent\">next value <span class=\"fm-input\">1</span>   increment by <span class=\"fm-input\">1</span></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification</b></div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Unique value</b></div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb\"></div> Minimal  <div class=\"rb checked\"></div> <b>All</b></div>\n",
+          "valueList": "",
+          "validationKey": "Unique value",
+          "relatedScripts": [],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicacion_multimedia-id_publicacion-3",
+          "table": "Publicacion_Multimedia",
+          "name": "ID_Publicacion",
+          "rawName": "FK ID_Publicacion",
+          "type": "Number",
+          "role": [
+            "FK",
+            "MULTIMEDIA",
+            "VALIDACIÓN"
+          ],
+          "description": "Referencia a Publicaciones",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification</b></div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b>  <div class=\"cb checked\"></div> <b>Existing value</b></div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb\"></div> Minimal  <div class=\"rb checked\"></div> <b>All</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Existing value",
+          "relatedScripts": [],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicacion_multimedia-tipo_media",
+          "table": "Publicacion_Multimedia",
+          "name": "Tipo_Media",
+          "rawName": "Tipo_Media",
+          "type": "Text",
+          "role": [
+            "MULTIMEDIA",
+            "VALIDACIÓN"
+          ],
+          "description": "Imagen / Video / Carrusel",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Data:</b> <span class=\"fm-input\" style=\"margin-left:6px\">Imagen</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Member of value list:</b> Tipos_Media ▾</div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Imagen · Video · Carrusel</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "Tipos_Media",
+          "validationKey": "Not empty · Member of value list",
+          "relatedScripts": [
+            {
+              "name": "Ir a multimedia",
+              "id": "nav-multimedia",
+              "category": "NAV",
+              "does": "Abre el layout de archivos multimedia relacionados."
+            }
+          ],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicacion_multimedia-archivo_container",
+          "table": "Publicacion_Multimedia",
+          "name": "Archivo_Container",
+          "rawName": "Archivo_Container",
+          "type": "Container",
+          "role": [
+            "MULTIMEDIA",
+            "VALIDACIÓN"
+          ],
+          "description": "Archivo físico almacenado en FM",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"note\">Sin validación especial. Container acepta cualquier archivo.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\" style=\"font-weight:500;font-size:12px;margin-bottom:4px\">Almacenamiento container:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> Embedded in file</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>Stored externally</b> — Open Storage</div>\n<div class=\"note\">External obligatorio en esta tabla: puede haber 10 imágenes por carrusel.</div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Unique value",
+          "relatedScripts": [
+            {
+              "name": "Ir a multimedia",
+              "id": "nav-multimedia",
+              "category": "NAV",
+              "does": "Abre el layout de archivos multimedia relacionados."
+            }
+          ],
+          "notes": [
+            "Sin validación especial. Container acepta cualquier archivo.",
+            "External obligatorio en esta tabla: puede haber 10 imágenes por carrusel."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicacion_multimedia-url_publica",
+          "table": "Publicacion_Multimedia",
+          "name": "URL_Publica",
+          "rawName": "URL_Publica",
+          "type": "Text",
+          "role": [
+            "MULTIMEDIA",
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "URL accesible por Meta — requerida por la API",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Validated by calculation</b></div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Left(URL_Publica ; 4) = \"http\"</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Validated by calculation",
+          "relatedScripts": [
+            {
+              "name": "Ir a multimedia",
+              "id": "nav-multimedia",
+              "category": "NAV",
+              "does": "Abre el layout de archivos multimedia relacionados."
+            }
+          ],
+          "notes": [],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicacion_multimedia-orden",
+          "table": "Publicacion_Multimedia",
+          "name": "Orden",
+          "rawName": "Orden",
+          "type": "Number",
+          "role": [
+            "MULTIMEDIA",
+            "VALIDACIÓN"
+          ],
+          "description": "Posición en el carrusel — máx 10",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Serial number</b></div>\n<div class=\"fm-row indent\"><div class=\"rb checked\"></div> <b>On creation</b>  <div class=\"rb\"></div> On commit</div>\n<div class=\"fm-row indent\">next value <span class=\"fm-input\">1</span>   increment by <span class=\"fm-input\">1</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Serial auto para que el orden refleje el de inserción. Editable si el usuario reordena.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Strict data type:</b> Numeric Only ▾</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>In range:</b> <span class=\"fm-input\">1</span> to <span class=\"fm-input\">10</span></div>\n<div class=\"note\">Instagram permite máximo 10 imágenes por carrusel.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
+          "valueList": "",
+          "validationKey": "Not empty · Strict data type · In range",
+          "relatedScripts": [
+            {
+              "name": "Ir a multimedia",
+              "id": "nav-multimedia",
+              "category": "NAV",
+              "does": "Abre el layout de archivos multimedia relacionados."
+            }
+          ],
+          "notes": [
+            "Serial auto para que el orden refleje el de inserción. Editable si el usuario reordena.",
+            "Instagram permite máximo 10 imágenes por carrusel."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado"
+        },
+        {
+          "id": "publicacion-multimedia-estado-subida",
+          "table": "Publicacion_Multimedia",
+          "name": "Estado_Subida",
+          "rawName": "Estado_Subida",
+          "type": "Text",
+          "role": [
+            "EXTENSIÓN",
+            "API"
+          ],
+          "description": "EXTENSIÓN PROPIA: indica si el archivo ya tiene URL pública lista para Meta (Pendiente / Listo). Apoya el flujo de carrusel de Facebook. No incluido en los manuales base originales.",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Data:</b> <span class=\"fm-input\" style=\"margin-left:6px\">Pendiente</span></div>\n<div class=\"note\">Nace como Pendiente; pasa a Listo cuando URL_Publica está disponible.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"note\">Opcional. Valores sugeridos: Pendiente, Listo.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n",
+          "valueList": "",
+          "validationKey": "Opcional",
+          "relatedScripts": [
+            {
+              "name": "Agregar archivo multimedia",
+              "id": "ui-media-agregar",
+              "category": "UI",
+              "does": "Crea un archivo hijo en el portal de multimedia."
+            }
+          ],
+          "notes": [
+            "EXTENSIÓN PROPIA: apoya el flujo de carrusel."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Extensión propia"
+        }
+      ]
+    }
+  ],
+  "matrix": [
+    {
+      "table": "Publicaciones",
+      "field": "ID_Publicacion",
+      "type": "Number",
+      "role": "PK, VALIDACIÓN",
+      "scripts": "Confirmar eliminar publicación",
+      "validation": "Not empty · Unique value · Existing value · Member of value list · Validated by calculation · Strict data type · In range · Maximum number of characters",
+      "result": "Llave primaria · serial automático"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Titulo",
+      "type": "Text",
+      "role": "VALIDACIÓN",
+      "scripts": "Buscar publicaciones, Validar publicación antes de enviar",
+      "validation": "Opcional para Borrador · obligatorio por script 20 antes de publicar",
+      "result": "Nombre interno del post. Puede quedar vacío en borrador; obligatorio antes de publicar."
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Contenido_Texto",
+      "type": "Text",
+      "role": "VALIDACIÓN",
+      "scripts": "Buscar publicaciones, Validar publicación antes de enviar, Publicar Facebook, Publicar Instagram",
+      "validation": "Opcional para Borrador · longitud validada · obligatorio por script 20 antes de publicar",
+      "result": "Cuerpo del post. Puede estar vacío en borrador; obligatorio al publicar."
+    },
+    {
+      "table": "Publicaciones",
+      "field": "URL_Imagen",
+      "type": "Text",
+      "role": "API, VALIDACIÓN",
+      "scripts": "Validar publicación antes de enviar, Publicar Instagram",
+      "validation": "Opcional para Borrador · si tiene valor debe iniciar con http · requerida por script 20 para Instagram/Ambas",
+      "result": "URL pública para Meta. Puede quedar vacía en borrador; obligatoria según plataforma al publicar."
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Imagen_Container",
+      "type": "Container",
+      "role": "API, VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Campo opcional · sin Not empty · sin Unique",
+      "result": "Previsualización local. Opcional para borrador; la API usa URL pública."
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Plataforma_Destino",
+      "type": "Text",
+      "role": "API, VALIDACIÓN",
+      "scripts": "Nueva publicación, Seleccionar plataforma destino, Validar publicación antes de enviar, Publicar ahora Meta",
+      "validation": "Not empty · Member of value list · Validated by calculation",
+      "result": "Define Sin definir, Facebook, Instagram o Ambas."
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Estado",
+      "type": "Text",
+      "role": "API, VALIDACIÓN",
+      "scripts": "Nueva publicación, Filtrar publicaciones, Filtrar por estado, Cambiar estado publicación, Guardar borrador, Publicar ahora Meta",
+      "validation": "Not empty · Member of value list",
+      "result": "Semáforo del ciclo de vida del post"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Fecha_Programada",
+      "type": "Date",
+      "role": "VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Opcional para Borrador · si tiene valor no debe estar en el pasado · requerida por script 20 al programar",
+      "result": "Día de publicación programada. Opcional para borrador; requerido al programar."
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Hora_Programada",
+      "type": "Time",
+      "role": "VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Opcional para Borrador · requerida por script 20 al programar",
+      "result": "Hora exacta de publicación. Opcional para borrador; requerida al programar."
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Fecha_Publicacion_Real",
+      "type": "Timestamp",
+      "role": "API, VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Opcional · no usar Not empty en Manage Database",
+      "result": "Momento de confirmación de la API"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Post_ID_API",
+      "type": "Text",
+      "role": "API, VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Opcional · no usar Not empty en Manage Database",
+      "result": "ID del post retornado por Meta Graph API"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Respuesta_API_JSON",
+      "type": "Text",
+      "role": "API, VALIDACIÓN",
+      "scripts": "Publicar ahora Meta",
+      "validation": "Opcional · no usar Not empty en Manage Database",
+      "result": "JSON completo de respuesta Meta"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Codigo_Error",
+      "type": "Text",
+      "role": "API, VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Opcional · no usar Not empty en Manage Database",
+      "result": "Código de error de Meta (ej: 190)"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Detalle_Error",
+      "type": "Text",
+      "role": "API, VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Opcional · no usar Not empty en Manage Database",
+      "result": "Mensaje legible del error para el usuario"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Hashtags",
+      "type": "Text",
+      "role": "VALIDACIÓN",
+      "scripts": "Buscar publicaciones, Publicar Facebook, Publicar Instagram",
+      "validation": "Opcional · no usar Not empty en Manage Database",
+      "result": "Separado del contenido para gestión independiente"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Creado_Por",
+      "type": "Text",
+      "role": "VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Auto-enter de auditoría · no requiere validación manual",
+      "result": "Cuenta FM que creó el registro — auto"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Fecha_Creacion",
+      "type": "Timestamp",
+      "role": "VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Auto-enter de auditoría · no requiere validación manual",
+      "result": "Momento de creación del registro — auto"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Modificado_Por",
+      "type": "Text",
+      "role": "VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Auto-enter de auditoría · no requiere validación manual",
+      "result": "Última cuenta que editó el registro — auto"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Modificado_En",
+      "type": "Timestamp",
+      "role": "VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Auto-enter de auditoría · no requiere validación manual",
+      "result": "Última fecha/hora de modificación — auto"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "c_Total_Publicaciones",
+      "type": "Calculation",
+      "role": "CALC, VALIDACIÓN",
+      "scripts": "Mostrar todas las publicaciones, Refrescar dashboard",
+      "validation": "Not empty · Unique value · Existing value · Member of value list · Validated by calculation · In range · Maximum number of characters",
+      "result": "Total de registros en la tabla — tarjeta del dashboard"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "c_Total_Programadas",
+      "type": "Calculation",
+      "role": "CALC, API, VALIDACIÓN",
+      "scripts": "Refrescar dashboard",
+      "validation": "Not empty · Unique value · Member of value list · Validated by calculation",
+      "result": "Registros con Estado = Programado — tarjeta ámbar del dashboard"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "c_Total_Publicadas",
+      "type": "Calculation",
+      "role": "CALC, VALIDACIÓN",
+      "scripts": "Refrescar dashboard",
+      "validation": "Not empty · Unique value · Member of value list · Validated by calculation",
+      "result": "Registros con Estado = Publicado — tarjeta verde del dashboard"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "c_Total_Error",
+      "type": "Calculation",
+      "role": "CALC, API, VALIDACIÓN",
+      "scripts": "Refrescar dashboard",
+      "validation": "Not empty · Unique value · Member of value list · Validated by calculation",
+      "result": "Registros con Estado = Error — tarjeta roja del dashboard"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "c_Total_Borradores",
+      "type": "Calculation",
+      "role": "CALC, API, VALIDACIÓN",
+      "scripts": "Refrescar dashboard",
+      "validation": "Not empty · Unique value · Member of value list · Validated by calculation",
+      "result": "Registros con Estado = Borrador — tarjeta azul del dashboard"
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "ID_Log",
+      "type": "Number",
+      "role": "PK, LOG, VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Not empty · Unique value",
+      "result": "Llave primaria del log"
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "ID_Publicacion",
+      "type": "Number",
+      "role": "FK, LOG, VALIDACIÓN",
+      "scripts": "Registrar intento en Log",
+      "validation": "Not empty · Existing value",
+      "result": "Referencia a tabla Publicaciones"
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "Plataforma",
+      "type": "Text",
+      "role": "LOG, API, VALIDACIÓN",
+      "scripts": "Ir a historial completo, Registrar intento en Log",
+      "validation": "Not empty · Member of value list",
+      "result": "Facebook o Instagram (no \"Ambas\")"
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "Fecha_Intento",
+      "type": "Timestamp",
+      "role": "LOG, API, VALIDACIÓN",
+      "scripts": "Ir a historial completo",
+      "validation": "Not empty · Unique value",
+      "result": "Momento exacto de la llamada a la API"
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "Resultado",
+      "type": "Text",
+      "role": "LOG, VALIDACIÓN",
+      "scripts": "Ir a historial completo, Registrar intento en Log",
+      "validation": "Not empty · Member of value list: Resultados_Log",
+      "result": "Resultado real del intento: Exitoso o Fallido."
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "Post_ID_Retornado",
+      "type": "Text",
+      "role": "LOG, API, VALIDACIÓN",
+      "scripts": "Registrar intento en Log",
+      "validation": "Opcional · puede quedar vacío en intentos fallidos",
+      "result": "ID devuelto por Meta en este intento específico"
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "HTTP_Status_Code",
+      "type": "Number",
+      "role": "LOG, API",
+      "scripts": "Ir a historial completo, Registrar intento en Log",
+      "validation": "Strict data type · In range",
+      "result": "200=éxito · 401=token · 403=permiso"
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "JSON_Completo",
+      "type": "Text",
+      "role": "LOG, API, VALIDACIÓN",
+      "scripts": "Registrar intento en Log",
+      "validation": "Not empty · Unique value",
+      "result": "Respuesta íntegra de este intento"
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "Token_Usado",
+      "type": "Text",
+      "role": "LOG, API, VALIDACIÓN",
+      "scripts": "Registrar intento en Log",
+      "validation": "Not empty · Unique value",
+      "result": "Token enmascarado: primeros6...últimos6"
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "Notas_Internas",
+      "type": "Text",
+      "role": "LOG, VALIDACIÓN",
+      "scripts": "Registrar intento en Log",
+      "validation": "Not empty · Unique value",
+      "result": "Observaciones del script o del admin"
+    },
+    {
+      "table": "Config_Plataformas",
+      "field": "ID_Config",
+      "type": "Number",
+      "role": "PK, CONFIG",
+      "scripts": "No directo / técnico",
+      "validation": "Unique value",
+      "result": "Llave primaria de configuración"
+    },
+    {
+      "table": "Config_Plataformas",
+      "field": "Nombre_Plataforma",
+      "type": "Text",
+      "role": "CONFIG, API, VALIDACIÓN",
+      "scripts": "Ir a configuración de plataformas",
+      "validation": "Not empty · Unique value · Member of value list",
+      "result": "Facebook o Instagram — único por registro"
+    },
+    {
+      "table": "Config_Plataformas",
+      "field": "ID_Cuenta_Meta",
+      "type": "Text",
+      "role": "CONFIG, API, VALIDACIÓN",
+      "scripts": "Publicar Facebook, Publicar Instagram, Ir a configuración de plataformas",
+      "validation": "Not empty · Strict data type",
+      "result": "Identificador de cuenta/plataforma Meta"
+    },
+    {
+      "table": "Config_Plataformas",
+      "field": "Access_Token",
+      "type": "Text",
+      "role": "CONFIG, API, VALIDACIÓN",
+      "scripts": "Publicar Facebook, Publicar Instagram, Ir a configuración de plataformas",
+      "validation": "Not empty",
+      "result": "Token de Meta — guardar cifrado"
+    },
+    {
+      "table": "Config_Plataformas",
+      "field": "Token_Expiracion",
+      "type": "Date",
+      "role": "CONFIG, API, VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Not empty · Strict data type",
+      "result": "Vence ~60 días — para alertas automáticas"
+    },
+    {
+      "table": "Config_Plataformas",
+      "field": "API_Version",
+      "type": "Text",
+      "role": "CONFIG, API, VALIDACIÓN",
+      "scripts": "Publicar Facebook, Publicar Instagram, Ir a configuración de plataformas",
+      "validation": "Not empty · Validated by calculation",
+      "result": "Ej: v21.0 — todos los scripts lo leen"
+    },
+    {
+      "table": "Config_Plataformas",
+      "field": "Activo",
+      "type": "Number",
+      "role": "CONFIG, VALIDACIÓN",
+      "scripts": "Ir a configuración de plataformas",
+      "validation": "Not empty · Strict data type · In range",
+      "result": "0=desactivado · 1=activo — interruptor"
+    },
+    {
+      "table": "Publicacion_Multimedia",
+      "field": "ID_Media",
+      "type": "Number",
+      "role": "PK, MULTIMEDIA",
+      "scripts": "No directo / técnico",
+      "validation": "Unique value",
+      "result": "Llave primaria de cada archivo"
+    },
+    {
+      "table": "Publicacion_Multimedia",
+      "field": "ID_Publicacion",
+      "type": "Number",
+      "role": "FK, MULTIMEDIA, VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Not empty · Existing value",
+      "result": "Referencia a Publicaciones"
+    },
+    {
+      "table": "Publicacion_Multimedia",
+      "field": "Tipo_Media",
+      "type": "Text",
+      "role": "MULTIMEDIA, VALIDACIÓN",
+      "scripts": "Ir a multimedia",
+      "validation": "Not empty · Member of value list",
+      "result": "Imagen / Video / Carrusel"
+    },
+    {
+      "table": "Publicacion_Multimedia",
+      "field": "Archivo_Container",
+      "type": "Container",
+      "role": "MULTIMEDIA, VALIDACIÓN",
+      "scripts": "Ir a multimedia",
+      "validation": "Not empty · Unique value",
+      "result": "Archivo físico almacenado en FM"
+    },
+    {
+      "table": "Publicacion_Multimedia",
+      "field": "URL_Publica",
+      "type": "Text",
+      "role": "MULTIMEDIA, API, VALIDACIÓN",
+      "scripts": "Ir a multimedia",
+      "validation": "Not empty · Validated by calculation",
+      "result": "URL accesible por Meta — requerida por la API"
+    },
+    {
+      "table": "Publicacion_Multimedia",
+      "field": "Orden",
+      "type": "Number",
+      "role": "MULTIMEDIA, VALIDACIÓN",
+      "scripts": "Ir a multimedia",
+      "validation": "Not empty · Strict data type · In range",
+      "result": "Posición en el carrusel — máx 10"
+    }
+  ],
+  "flow": [
+    [
+      "Script 00 · Inicializar módulo Publicaciones",
+      "No es un botón. Se asigna como Script Trigger del layout Publicaciones en OnLayoutEnter. Establece Browse Mode, $$modoEdicion = 0, oculta/bloquea Status Toolbar y deja los campos en modo consulta."
+    ],
+    [
+      "Flujo controlado de captura",
+      "Los campos editables se habilitan solo con Nueva o Editar. Guardar borrador confirma el registro; Publicar ahora ejecuta validación fuerte antes de llamar a Meta."
+    ],
+    [
+      "Publicaciones",
+      "Registro principal de cada contenido: título, texto, hashtags, plataforma destino, estado, programación y respuesta API."
+    ],
+    [
+      "Publicaciones_Log",
+      "Registra cada intento real de publicación por plataforma; no sustituye al registro principal."
+    ],
+    [
+      "Config_Plataformas",
+      "Provee ID_Cuenta_Meta, token, versión API y estado activo para Facebook/Instagram."
+    ],
+    [
+      "Publicacion_Multimedia",
+      "Concentra contenedores y URL públicas para recursos multimedia."
+    ],
+    [
+      "Scripts FileMaker",
+      "Usan estos campos para validar, publicar, registrar errores y actualizar estados."
+    ],
+    [
+      "Meta Graph API",
+      "Recibe contenido y devuelve Post ID, JSON, códigos HTTP o errores."
+    ]
+  ],
+  "discrepancies": [
+    {
+      "level": "CORREGIDO",
+      "title": "Validaciones fuertes movidas del campo al script 20",
+      "detail": "Titulo, Contenido_Texto, Fecha_Programada, Hora_Programada y URL_Imagen no deben bloquear la creación de borradores desde Manage Database.",
+      "action": "Desmarcar Not empty en campos que pueden estar vacíos durante captura. El script 20. Validar publicación antes de enviar debe exigir esos datos únicamente cuando el usuario intente publicar o programar.",
+      "status": "CORREGIDO",
+      "resolvedAt": "2026-06-03",
+      "statusLabel": "Resuelto",
+      "statusColor": "green"
+    },
+    {
+      "level": "CORREGIDO",
+      "title": "Script 00 documentado como trigger del layout",
+      "detail": "El script 00. Inicializar módulo Publicaciones no corresponde a un botón ni a un campo. Su función es preparar el módulo cuando se entra al layout Publicaciones.",
+      "action": "Asignarlo en Layout Setup → Script Triggers → OnLayoutEnter para establecer Browse Mode, $$modoEdicion = 0, ocultar/bloquear Status Toolbar y refrescar la interfaz.",
+      "status": "CORREGIDO",
+      "resolvedAt": "2026-06-03",
+      "statusLabel": "Resuelto",
+      "statusColor": "green"
+    },
+    {
+      "level": "CORREGIDO",
+      "title": "Campo Page_ID renombrado a ID_Cuenta_Meta",
+      "detail": "Antes, Config_Plataformas usaba Page_ID para guardar el identificador de Meta. El nombre era correcto para Facebook, pero ambiguo para Instagram porque Instagram trabaja con IG User ID o identificador de cuenta profesional.",
+      "action": "Se documenta el cambio a Config_Plataformas::ID_Cuenta_Meta. El campo sigue siendo Text, conserva validación Not empty y puede usarse para Facebook como ID de página y para Instagram como IG User ID. Los scripts API deben leer ID_Cuenta_Meta junto con Access_Token y API_Version.",
+      "status": "CORREGIDO",
+      "resolvedAt": "2026-06-03",
+      "statusLabel": "Resuelto",
+      "statusColor": "green"
+    },
+    {
+      "level": "CORREGIDO",
+      "title": "Scripts 22 y 16 corregidos contra Resultados_Log",
+      "detail": "Se detectó que los scripts temporales de Facebook e Instagram enviaban Resultado = “Pendiente”, pero la base de datos documenta Resultados_Log como Exitoso / Fallido.",
+      "action": "Se generó una versión correlacionada del manual de scripts donde ambos placeholders envían Resultado = “Fallido” con HTTP = 0 mientras la API real no esté implementada.",
+      "status": "CORREGIDO",
+      "resolvedAt": "2026-06-03",
+      "statusLabel": "Resuelto",
+      "statusColor": "green"
+    },
+    {
+      "level": "CORREGIDO",
+      "title": "Script 50 ampliado para campos técnicos del log",
+      "detail": "Publicaciones_Log::JSON_Completo, Publicaciones_Log::Token_Usado y Publicaciones_Log::Post_ID_Retornado existían en la base de datos, pero el script Registrar intento en Log no los llenaba.",
+      "action": "Se actualizó el script 50 para aceptar parámetros opcionales 5, 6 y 7 y asignarlos a esos campos cuando la API real entregue datos.",
+      "status": "CORREGIDO",
+      "resolvedAt": "2026-06-03",
+      "statusLabel": "Resuelto",
+      "statusColor": "green"
+    },
+    {
+      "level": "OK",
+      "title": "Plataforma_Destino alineado con scripts",
+      "detail": "La base de datos usa “Sin definir” como valor inicial y la lista incluye Sin definir, Facebook, Instagram y Ambas. Esto coincide con los scripts de nueva publicación, selección de plataforma y validación antes de enviar.",
+      "action": "Mantener esta configuración. No regresar a Facebook como valor inicial.",
+      "status": "OK",
+      "resolvedAt": "2026-06-03",
+      "statusLabel": "Verificado",
+      "statusColor": "blue"
+    },
+    {
+      "level": "OK",
+      "title": "Publicaciones_Log::Plataforma no usa “Ambas”",
+      "detail": "La tabla de log debe registrar intentos reales por plataforma. Si Publicaciones::Plataforma_Destino = Ambas, el flujo debe generar un intento para Facebook y otro para Instagram.",
+      "action": "Mantener Plataformas_Log solamente con Facebook e Instagram.",
+      "status": "OK",
+      "resolvedAt": "2026-06-03",
+      "statusLabel": "Verificado",
+      "statusColor": "blue"
+    },
+    {
+      "level": "PENDIENTE_API",
+      "title": "Campos finales de Publicaciones dependen de la API real",
+      "detail": "Post_ID_API, Codigo_Error, Detalle_Error y Fecha_Publicacion_Real existen en Publicaciones, pero solo podrán llenarse correctamente cuando se sustituya el placeholder por Insert from URL + cURL y manejo JSON real.",
+      "action": "No es error de estructura. Queda marcado como pendiente controlado de implementación API final.",
+      "status": "PENDIENTE_API",
+      "resolvedAt": "2026-06-03",
+      "statusLabel": "Pendiente controlado",
+      "statusColor": "amber"
+    },
+    {
+      "level": "SEGURIDAD",
+      "title": "Access_Token requiere control de privilegios",
+      "detail": "El campo se documenta como Text con nota de guardar cifrado o protegido. Para producción no debe quedar visible a usuarios sin permisos.",
+      "action": "Aplicar privilegios de FileMaker, ocultar el campo en layouts operativos y registrar en Publicaciones_Log únicamente Token_Usado enmascarado, nunca el token completo.",
+      "status": "SEGURIDAD",
+      "resolvedAt": "2026-06-03",
+      "statusLabel": "Acción requerida",
+      "statusColor": "red"
+    },
+    {
+      "level": "IMPLEMENTADO",
+      "statusLabel": "Implementado",
+      "statusColor": "green",
+      "title": "Permalink_URL agregado a Publicaciones_Log",
+      "description": "Prueba real con Meta Graph API Explorer confirmó que la URL pública del post (permalink_url) requiere una segunda petición GET después del POST inicial. Se agrega el campo Permalink_URL en Publicaciones_Log para almacenar este dato por intento.",
+      "action": "Campo agregado en Publicaciones_Log entre Post_ID_Retornado y HTTP_Status_Code. Los scripts de publicación 22 (Facebook) y 23 (Instagram) deben implementar el flujo GET para obtener permalink_url. Script 50 (Registrar intento en Log) acepta el parámetro de Permalink. El botón btn_abrir_publicacion (Script 51) usa Open URL con este campo.",
+      "affectedFiles": [
+        "database.json",
+        "scripts.json",
+        "layout-elements.json"
+      ],
+      "resolvedAt": "2026-06-03",
+      "evidence": "POST /102111959623495/feed → {id: '102111959623495_848391164980909'} | GET /{id}?fields=permalink_url → {permalink_url: 'https://www.facebook.com/...'}",
+      "detail": "Prueba real con Meta Graph API Explorer confirmó que la URL pública del post (permalink_url) requiere una segunda petición GET después del POST inicial. Se agrega el campo Permalink_URL en Publicaciones_Log para almacenar este dato por intento.",
+      "status": "IMPLEMENTADO"
+    },
+    {
+      "level": "EXTENSIÓN",
+      "title": "Borrado lógico (soft delete) en lugar de borrado físico",
+      "detail": "EXTENSIÓN PROPIA (no incluida en manuales base): el Script 07 ya no usa Delete Record/Request. En su lugar marca Estado = Eliminado y registra Fecha_Eliminacion y Eliminado_Por. El registro se conserva siempre.",
+      "action": "Configurar la relación con Delete related records = OFF en ambas relaciones (Log y Multimedia). El borrado físico destruiría la trazabilidad y, con cascada, también logs y multimedia. El soft delete preserva el historial completo, exigencia de un sistema empresarial. El borrado en Facebook (DELETE a la API) es una acción remota separada que sí elimina el post real en la red social.",
+      "status": "EXTENSIÓN",
+      "resolvedAt": "2026-06-04",
+      "statusLabel": "Extensión propia",
+      "statusColor": "amber"
+    }
+  ],
+  "source": "manual_bd.html corregido: flujo controlado con Script 00 OnLayoutEnter, validaciones fuertes movidas al script 20, borradores incompletos permitidos, Page_ID → ID_Cuenta_Meta, Resultados_Log y Post_ID_Retornado.",
+  "relations": [
+    {
+      "from": "Publicaciones::ID_Publicacion",
+      "to": "Publicaciones_Log::ID_Publicacion",
+      "type": "1 a muchos",
+      "note": "Una publicación puede tener múltiples intentos de publicación. REGLA DE RELACIÓN (extensión): Delete related records = OFF. El borrado es lógico (soft delete); los logs nunca se eliminan por cascada para preservar la auditoría.",
+      "options": "Allow creation: OFF · Delete related: OFF"
+    },
+    {
+      "from": "Publicaciones::ID_Publicacion",
+      "to": "Publicacion_Multimedia::ID_Publicacion",
+      "type": "1 a muchos",
+      "note": "Una publicación puede tener una o varias imágenes/videos. REGLA DE RELACIÓN (extensión): Allow creation of records in this table via this relationship = ON (necesario para crear archivos desde el portal). Delete related records = OFF (no se usa cascada; el borrado es lógico).",
+      "options": "Allow creation: ON · Delete related: OFF"
+    },
+    {
+      "from": "Config_Plataformas::Nombre_Plataforma",
+      "to": "Scripts API",
+      "type": "Configuración leída por script",
+      "note": "La configuración no necesariamente es hija directa de Publicaciones; funciona como tabla técnica de parámetros."
+    },
+    {
+      "from": "Publicaciones::Plataforma_Destino",
+      "to": "Scripts 08, 13 y 14",
+      "type": "Decisión operativa",
+      "note": "Si el valor es Ambas, el flujo debe generar intentos separados por plataforma en Publicaciones_Log."
+    },
+    {
+      "from": "Layout Publicaciones::OnLayoutEnter",
+      "to": "Script 00 · Inicializar módulo Publicaciones",
+      "type": "Script Trigger de layout",
+      "note": "Debe ejecutarse al entrar al layout. No se coloca como botón visible; funciona como inicializador del módulo."
+    },
+    {
+      "from": "$$modoEdicion",
+      "to": "Campos y botones del layout",
+      "type": "Control de interfaz",
+      "note": "0 = modo consulta con campos bloqueados; 1 = modo captura/edición con campos habilitados."
+    }
+  ],
+  "valueLists": {
+    "Estados_Post": {
+      "values": [
+        "Borrador",
+        "Programado",
+        "Publicado",
+        "Error",
+        "Cancelado",
+        "Eliminado"
+      ],
+      "usedIn": [
+        "Publicaciones::Estado"
+      ],
+      "note": "Controla el ciclo de vida completo de una publicación. Borrador es el valor inicial automático. Eliminado es un estado de borrado lógico (soft delete): el registro se conserva para auditoría y nunca se borra físicamente."
+    },
+    "Plataformas_Destino": {
+      "values": [
+        "Sin definir",
+        "Facebook",
+        "Instagram",
+        "Ambas"
+      ],
+      "usedIn": [
+        "Publicaciones::Plataforma_Destino"
+      ],
+      "note": "Sin definir es el valor inicial. El script 20 bloquea publicación si el valor no cambió."
+    },
+    "Plataformas_Log": {
+      "values": [
+        "Facebook",
+        "Instagram"
+      ],
+      "usedIn": [
+        "Publicaciones_Log::Plataforma"
+      ],
+      "note": "El log registra intentos reales por plataforma. Nunca usa Ambas — si Plataforma_Destino = Ambas se generan dos registros de log."
+    },
+    "Resultado_Log": {
+      "values": [
+        "Exitoso",
+        "Fallido"
+      ],
+      "usedIn": [
+        "Publicaciones_Log::Resultado"
+      ],
+      "note": "Solo dos valores válidos. Pendiente NO es un valor válido — causaría error de validación en FileMaker."
+    },
+    "Tipos_Media": {
+      "values": [
+        "Imagen",
+        "Video",
+        "Carrusel"
+      ],
+      "usedIn": [
+        "Publicacion_Multimedia::Tipo_Media"
+      ],
+      "note": "Define el tipo de archivo adjunto. Carrusel permite hasta 10 imágenes ordenadas por el campo Orden."
+    },
+    "Plataformas_Config": {
+      "values": [
+        "Facebook",
+        "Instagram"
+      ],
+      "usedIn": [
+        "Config_Plataformas::Nombre_Plataforma"
+      ],
+      "note": "Una fila de Config_Plataformas por plataforma. El token de Facebook y el de Instagram se configuran en registros separados."
+    }
+  }
+}
