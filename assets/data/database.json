@@ -1067,7 +1067,7 @@
           "notes": [
             "EXTENSIÓN PROPIA: este campo NO forma parte de los tres manuales base originales (BD, Scripts, Layout). Fue añadido como mejora para almacenar la URL pública del post y permitir abrirlo desde el historial (ver Script 51). Documentar como aporte propio del desarrollador.",
             "Este campo requiere un segundo Insert from URL (método GET) después del POST inicial de publicación.",
-            "Endpoint GET: https://graph.facebook.com/v21.0/{POST_ID}?fields=id,message,created_time,permalink_url&access_token={TOKEN}",
+            "Endpoint GET: https://graph.facebook.com/v25.0/{POST_ID}?fields=id,message,created_time,permalink_url&access_token={TOKEN}",
             "Si el campo está vacío en un registro del Log, significa que la publicación fue fallida o que la API placeholder aún no implementa el GET.",
             "No confundir con Post_ID_Retornado: ese guarda el ID técnico, este guarda la URL pública visible."
           ],
@@ -1386,8 +1386,8 @@
             "API",
             "VALIDACIÓN"
           ],
-          "description": "Ej: v21.0 — todos los scripts lo leen",
-          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Data:</b> <span class=\"fm-input\" style=\"margin-left:6px\">v21.0</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Data: v21.0 como default. Cuando Meta cambie versión, solo editas este campo.</div>\n",
+          "description": "Ej: v25.0 — todos los scripts lo leen",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Data:</b> <span class=\"fm-input\" style=\"margin-left:6px\">v25.0</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Data: v25.0 como default. Cuando Meta cambie versión, solo editas este campo.</div>\n",
           "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Validated by calculation</b></div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Left(API_Version;1) = \"v\"</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
           "valueList": "",
@@ -1413,7 +1413,7 @@
             }
           ],
           "notes": [
-            "Data: v21.0 como default. Cuando Meta cambie versión, solo editas este campo."
+            "Data: v25.0 como default. Cuando Meta cambie versión, solo editas este campo."
           ],
           "warnings": [],
           "consistencyStatus": "Alineado"
@@ -2010,7 +2010,7 @@
       "role": "CONFIG, API, VALIDACIÓN",
       "scripts": "Publicar Facebook, Publicar Instagram, Ir a configuración de plataformas",
       "validation": "Not empty · Validated by calculation",
-      "result": "Ej: v21.0 — todos los scripts lo leen"
+      "result": "Ej: v25.0 — todos los scripts lo leen"
     },
     {
       "table": "Config_Plataformas",

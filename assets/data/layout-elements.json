@@ -660,7 +660,7 @@
         "type": "Text",
         "role": "API",
         "auto": [
-          "Data sugerido: v21.0 o versión definida."
+          "Data sugerido: v25.0 o versión definida."
         ],
         "validation": [
           "Not empty recomendado."
@@ -963,7 +963,7 @@
     },
     "api-facebook": {
       "purpose": "Publicar en Facebook mediante Meta Graph API. Flujo en dos fases: POST para publicar, GET para obtener permalink_url.",
-      "steps": "01. Leer credenciales de Config_Plataformas (Nombre_Plataforma = Facebook, Activo = 1)\n02. Construir mensaje: Contenido_Texto + Hashtags\n03. INSERT FROM URL POST → /v21.0/{ID_Cuenta_Meta}/feed\n04. Extraer id del JSON de respuesta con JSONGetElement\n05. INSERT FROM URL GET → /v21.0/{post_id}?fields=permalink_url\n06. Extraer permalink_url con JSONGetElement → guardar en $$permalink\n07. Set Field Estado = Publicado, Post_ID_API, Fecha_Publicacion_Real\n08. Perform Script 50 con parámetro: Facebook|Exitoso|200||{post_id}|{json}|{token_masked}|{permalink}",
+      "steps": "01. Leer credenciales de Config_Plataformas (Nombre_Plataforma = Facebook, Activo = 1)\n02. Construir mensaje: Contenido_Texto + Hashtags\n03. INSERT FROM URL POST → /v25.0/{ID_Cuenta_Meta}/feed\n04. Extraer id del JSON de respuesta con JSONGetElement\n05. INSERT FROM URL GET → /v25.0/{post_id}?fields=permalink_url\n06. Extraer permalink_url con JSONGetElement → guardar en $$permalink\n07. Set Field Estado = Publicado, Post_ID_API, Fecha_Publicacion_Real\n08. Perform Script 50 con parámetro: Facebook|Exitoso|200||{post_id}|{json}|{token_masked}|{permalink}",
       "code": "Ver scripts.json → api-facebook para código completo"
     },
     "api-instagram": {

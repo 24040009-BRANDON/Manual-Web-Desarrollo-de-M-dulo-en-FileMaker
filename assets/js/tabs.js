@@ -20,6 +20,9 @@ export function initTabs() {
       return;
     }
 
+    // Tema oscuro del header solo en la portada
+    document.body.classList.toggle("home-active", sectionId === "home");
+
     tabs.forEach((tab) => {
       const isActive = tab.dataset.section === sectionId;
 
@@ -57,6 +60,17 @@ export function initTabs() {
 
   sections.forEach((section) => {
     section.setAttribute("role", "tabpanel");
+  });
+
+  // Tarjetas de la portada (data-goto) navegan a su sección
+  document.querySelectorAll("[data-goto]").forEach((cardEl) => {
+    cardEl.addEventListener("click", () => {
+      const target = cardEl.dataset.goto;
+      if (target) {
+        activateSection(target);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
   });
 
   const activeTab = document.querySelector(".nav-tab.active");

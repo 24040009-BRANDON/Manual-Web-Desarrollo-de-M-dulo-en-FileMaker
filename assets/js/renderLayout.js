@@ -494,7 +494,7 @@ function createLayoutShell() {
                         <div class="lm-mini-val lm-code-fm">EAABsb...X789</div>
 
                         <div class="lm-mini-label">VERSIÓN API</div>
-                        <div class="lm-mini-val">v21.0</div>
+                        <div class="lm-mini-val">v25.0</div>
 
                         <div class="lm-mini-label">EXPIRA</div>
                         <div class="lm-mini-val">14/07/2026 — 42 días</div>
