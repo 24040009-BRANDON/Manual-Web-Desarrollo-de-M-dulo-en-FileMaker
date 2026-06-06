@@ -24,7 +24,7 @@
     linear-gradient(180deg, #f8fafc, #eef2f7 50%, #edf2f8);
   border: 1px solid var(--lm-line);
   border-radius: 28px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: var(--lm-shadow-lg);
 }
 
@@ -59,7 +59,7 @@
 .lm-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
-  align-items: start;
+  align-items: stretch;
   gap: 0;
 }
 
@@ -605,12 +605,11 @@
 .lm-inspector {
   position: sticky;
   top: 16px;
-  max-height: calc(100vh - 40px);
+  align-self: start;
+  height: calc(100vh - 32px);
+  overflow-y: auto;
   background: var(--lm-panel);
   border-left: 1px solid var(--lm-line);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
   box-shadow: -4px 0 18px rgba(15, 23, 42, 0.06);
 }
 
@@ -648,9 +647,6 @@
 }
 
 .lm-ins-b {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
   padding: 12px 14px;
 }
 
@@ -663,6 +659,19 @@
 }
 
 .lm-ins-b::-webkit-scrollbar-thumb {
+  background: #c8d5e4;
+  border-radius: 4px;
+}
+
+.lm-inspector::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lm-inspector::-webkit-scrollbar-track {
+  background: var(--lm-soft);
+}
+
+.lm-inspector::-webkit-scrollbar-thumb {
   background: #c8d5e4;
   border-radius: 4px;
 }
