@@ -1,12 +1,12 @@
 .dbm {
-  --dbm-bg: #252525;
-  --dbm-panel: #1d1c22;
-  --dbm-soft: #24232a;
-  --dbm-soft2: #24232a;
-  --dbm-line: #34343c;
+  --dbm-bg: #2e2d33;
+  --dbm-panel: #26252c;
+  --dbm-soft: #2f2e36;
+  --dbm-soft2: #2f2e36;
+  --dbm-line: #403f49;
   --dbm-text: #f4f4f5;
-  --dbm-muted: #a1a1aa;
-  --dbm-purple: #a1a1aa;
+  --dbm-muted: #b4b4bd;
+  --dbm-purple: #b4b4bd;
   --dbm-blue: #4ade80;
   --dbm-green: #4ade80;
   --dbm-amber: #fbbf24;
@@ -32,7 +32,7 @@
   background:
     radial-gradient(circle at top left, rgba(96, 165, 250, 0.1), transparent 32rem),
     radial-gradient(circle at top right, rgba(37, 99, 235, 0.07), transparent 28rem),
-    #252525;
+    #2e2d33;
   border: 1px solid var(--dbm-line);
   border-radius: 28px;
   overflow: hidden;
@@ -217,7 +217,7 @@
 .dbm-filter-btn {
   border: 1px solid var(--dbm-line);
   background: var(--dbm-panel);
-  color: #475569;
+  color: #b4b4bd;
   border-radius: 14px;
   padding: 9px 10px;
   font-weight: 800;
@@ -252,7 +252,7 @@
   width: 18rem;
   height: 18rem;
   border-radius: 50%;
-  background: rgba(37, 99, 235, 0.06);
+  background: rgba(74, 222, 128, 0.05);
 }
 
 .dbm-hero-inner {
@@ -260,12 +260,14 @@
   z-index: 1;
 }
 
-.dbm-hero h2 {
+".dbm-hero h2 {
   margin: 0 0 1rem;
   font-size: var(--fs-h1);
   line-height: var(--lh-tight);
-  font-weight: 900;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  letter-spacing: 0;
+  font-family: "Oswald", var(--font-main);
+  text-transform: uppercase;
 }
 
 .dbm-lead {
@@ -273,13 +275,15 @@
   line-height: var(--lh-normal);
 }
 
-.dbm-section-title {
+".dbm-section-title {
   margin: 0 0 1rem;
   font-size: var(--fs-h2);
   line-height: var(--lh-tight);
-  font-weight: 900;
-  letter-spacing: -0.03em;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--dbm-text);
+  font-family: "Oswald", var(--font-main);
+  text-transform: uppercase;
 }
 
 .dbm-card-soft {
@@ -289,7 +293,7 @@
 
 .dbm-note-box {
   background: rgba(74, 222, 128, 0.08);
-  border: 1px solid #34343c;
+  border: 1px solid #403f49;
   border-top: 4px solid var(--dbm-green);
   border-radius: 16px;
   padding: 14px 16px;
@@ -324,11 +328,20 @@
 
 .dbm-metric {
   border-radius: 10px;
-  padding: 12px 14px;
-  height: 100%;
+  padding: 10px 14px;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.dbm-metric .dbm-num {
+  font-size: 1.15rem;
+}
+
+.dbm-metric p {
+  font-size: 0.78rem;
+  align-self: center;
 }
 
 .dbm-metric h3 {
@@ -441,7 +454,7 @@
 
 .dbm-table th {
   background: var(--dbm-soft);
-  color: #64748b;
+  color: #a1a1aa;
   font-size: 0.74rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -455,7 +468,7 @@
 
 .dbm-table code {
   font-family: Consolas, "Courier New", monospace;
-  color: #1d4ed8;
+  color: #7dd3fc;
   font-size: 0.82rem;
 }
 
@@ -501,7 +514,7 @@
   width: 100%;
   min-height: 48px;
   border: 1px solid var(--dbm-line);
-  color: #475569;
+  color: #b4b4bd;
   background: var(--dbm-panel);
   border-radius: 16px;
   font-weight: 800;
@@ -652,7 +665,7 @@
 
 .dbm-field-name {
   font-weight: 900;
-  color: #0f172a;
+  color: #f4f4f5;
   font-family: Consolas, "Courier New", monospace;
   font-size: 0.88rem;
   word-break: break-word;
@@ -670,7 +683,7 @@
 .dbm-list-cell {
   font-size: 0.84rem;
   line-height: 1.45;
-  color: #334155;
+  color: #cbd5e1;
   overflow-wrap: break-word;
   word-break: normal;
 }
@@ -680,7 +693,7 @@
   align-items: center;
   border: 1px solid var(--dbm-line);
   background: var(--dbm-soft);
-  color: #334155;
+  color: #cbd5e1;
   border-radius: 999px;
   padding: 4px 9px;
   font-size: 0.78rem;
@@ -699,7 +712,7 @@
 
 .dbm-tag.object {
   border-color: rgba(37, 99, 235, 0.2);
-  color: #1d4ed8;
+  color: #7dd3fc;
   background: rgba(37, 99, 235, 0.08);
 }
 
@@ -717,7 +730,7 @@
 
 .dbm-tag.table {
   border-color: rgba(71, 85, 105, 0.22);
-  color: #475569;
+  color: #b4b4bd;
   background: rgba(100, 116, 139, 0.08);
 }
 
@@ -745,13 +758,13 @@
 
 .dbm-cat-FK {
   background: rgba(37, 99, 235, 0.1);
-  color: #1d4ed8;
+  color: #7dd3fc;
   border: 1px solid rgba(37, 99, 235, 0.18);
 }
 
 .dbm-cat-CALC {
   background: rgba(96, 165, 250, 0.12);
-  color: #1d4ed8;
+  color: #7dd3fc;
   border: 1px solid rgba(96, 165, 250, 0.30);
 }
 
@@ -776,7 +789,7 @@
 
 .dbm-cat-CONFIG {
   background: rgba(37, 99, 235, 0.1);
-  color: #1d4ed8;
+  color: #7dd3fc;
   border: 1px solid rgba(37, 99, 235, 0.18);
 }
 
@@ -791,7 +804,7 @@
   font-weight: 800;
   border-radius: 999px;
   padding: 6px 10px;
-  color: #334155;
+  color: #cbd5e1;
   background: var(--dbm-soft);
   border: 1px solid var(--dbm-line);
 }
@@ -820,7 +833,7 @@
 .dbm-mini-card b {
   display: block;
   font-size: 0.76rem;
-  color: #64748b;
+  color: #a1a1aa;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 4px;
@@ -841,7 +854,7 @@
 .dbm-copy {
   border: 1px solid rgba(37, 99, 235, 0.22);
   background: var(--dbm-panel);
-  color: #1e293b;
+  color: #e4e4e7;
   border-radius: 10px;
   padding: 6px 10px;
   font-size: 0.78rem;
@@ -877,7 +890,7 @@
   border-bottom: 3px solid transparent !important;
   border-radius: 0 !important;
   background: transparent !important;
-  color: #64748b !important;
+  color: #a1a1aa !important;
   font-size: 0.92rem;
   font-weight: 800;
   padding: 12px 14px;
@@ -887,12 +900,12 @@
 }
 
 .dbm-tab-link:hover {
-  color: #334155 !important;
+  color: #cbd5e1 !important;
   background: rgba(255, 255, 255, 0.7) !important;
 }
 
 .dbm-tab-link.active {
-  color: #1e293b !important;
+  color: #e4e4e7 !important;
   background: var(--dbm-panel) !important;
   border-bottom-color: var(--dbm-blue) !important;
 }
@@ -1077,7 +1090,7 @@
   letter-spacing: 0.04em;
   border: 1px solid var(--dbm-line);
   background: var(--dbm-panel);
-  color: #475569;
+  color: #b4b4bd;
   margin-bottom: 8px;
 }
 
@@ -1092,7 +1105,7 @@
 .dbm-disc-status-BAJA {
   background: rgba(37, 99, 235, 0.08);
   border-color: rgba(37, 99, 235, 0.16);
-  color: #1d4ed8;
+  color: #7dd3fc;
 }
 
 .dbm-disc-status-SEGURIDAD {
@@ -1119,14 +1132,14 @@
   border: 1px solid #dbe7f3;
   border-top: 3px solid rgba(37, 99, 235, 0.14);
   background: rgba(74,222,128,0.06);
-  color: #1e3a8a;
+  color: #cbd5e1;
   border-radius: 16px;
   line-height: 1.58;
   font-size: 0.92rem;
 }
 
 .dbm-disc-action strong {
-  color: #1d4ed8;
+  color: #7dd3fc;
 }
 
 .dbm-collapse {

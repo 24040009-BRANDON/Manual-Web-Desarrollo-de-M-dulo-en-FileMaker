@@ -52,7 +52,7 @@
 .section-hero {
   background:
     radial-gradient(circle at top right, rgba(74, 222, 128, 0.08), transparent 20rem),
-    linear-gradient(135deg, #1d1c22, #24232a);
+    linear-gradient(135deg, #26252c, #2f2e36);
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow);
@@ -107,7 +107,7 @@
 }
 
 .note-box strong {
-  color: #1d4ed8;
+  color: #7dd3fc;
 }
 
 @media (max-width: 900px) {

@@ -21,8 +21,8 @@
   background:
     radial-gradient(circle at top left, rgba(74, 222, 128, 0.06), transparent 30rem),
     radial-gradient(circle at top right, rgba(59, 130, 246, 0.05), transparent 26rem),
-    #252525;
-  border: 1px solid #34343c;
+    #2e2d33;
+  border: 1px solid #403f49;
   border-radius: 28px;
   overflow: visible;
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.4);
@@ -34,7 +34,7 @@
 
 .lm-header {
   padding: 14px 22px;
-  border-bottom: 1px solid #34343c;
+  border-bottom: 1px solid #403f49;
   background: rgba(37, 37, 37, 0.92);
   backdrop-filter: blur(12px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
@@ -129,7 +129,7 @@
 
 .lm-sub {
   font-size: 10px;
-  color: #64748b;
+  color: #a1a1aa;
   margin-top: 2px;
 }
 
@@ -137,7 +137,7 @@
   padding: 10px 14px 4px;
   font-size: 9px;
   font-weight: 700;
-  color: #64748b;
+  color: #a1a1aa;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -159,7 +159,7 @@
 .lm-nav.active {
   background: #22224a;
   color: #ffffff;
-  border-left-color: #2563eb;
+  border-left-color: #7dd3fc;
 }
 
 /* ── TOPBAR DEL MOCKUP ── */
@@ -175,7 +175,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  color: #334155;
+  color: #cbd5e1;
 }
 
 .lm-topbar strong {
@@ -252,7 +252,7 @@
 /* ── CONTENIDO DEL MOCKUP ── */
 .lm-content {
   padding: 12px 16px;
-  color: #334155;
+  color: #cbd5e1;
 }
 
 .lm-stats {
@@ -270,7 +270,7 @@
 }
 
 .lm-stat small {
-  color: #64748b;
+  color: #a1a1aa;
   display: block;
   margin-bottom: 3px;
   font-size: 10px;
@@ -329,7 +329,7 @@
 .lm-label {
   font-size: 10px;
   font-weight: 700;
-  color: #64748b;
+  color: #a1a1aa;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-bottom: 3px;
@@ -342,7 +342,7 @@
   border-radius: 6px;
   padding: 6px 9px;
   min-height: 28px;
-  color: #334155;
+  color: #cbd5e1;
   font-size: 11px;
 }
 
@@ -368,7 +368,7 @@
 .lm-tag-fm {
   font-size: 9px;
   background: #f0f0fc;
-  color: #64748b;
+  color: #a1a1aa;
   padding: 1px 6px;
   border-radius: 3px;
 }
@@ -383,7 +383,7 @@
   border-radius: 6px;
   border: 1.5px solid #d0d0f0;
   background: #f8fafc;
-  color: #64748b;
+  color: #a1a1aa;
   font-weight: 700;
   font-size: 10px;
   cursor: pointer;
@@ -403,7 +403,7 @@
 
 .lm-pbtn.both {
   background: #eef4fb;
-  color: #334155;
+  color: #cbd5e1;
   border-color: #c5d6ea;
 }
 
@@ -432,7 +432,7 @@
   background: #f5f8ff;
   display: grid;
   place-items: center;
-  color: #2563eb;
+  color: #7dd3fc;
   text-align: center;
   font-size: 10px;
 }
@@ -454,7 +454,7 @@
   border-radius: 6px;
   border: 1.5px solid #d0d0f0;
   background: #f8fafc;
-  color: #64748b;
+  color: #a1a1aa;
   font-weight: 700;
   font-size: 10px;
   cursor: pointer;
@@ -493,7 +493,7 @@
 
 .lm-api-pend {
   background: #f5f5fc;
-  color: #64748b;
+  color: #a1a1aa;
   border: 1px solid #d0d0f0;
   border-radius: 7px;
   padding: 7px 9px;
@@ -518,7 +518,7 @@
   background: #f5f5fc;
   border-top: 1px solid #e8e8f0;
   border-bottom: 1px solid #e8e8f0;
-  color: #64748b;
+  color: #a1a1aa;
   font-weight: 800;
   text-transform: uppercase;
   font-size: 9px;
@@ -561,7 +561,7 @@
 .lm-mini-label {
   font-size: 9px;
   font-weight: 800;
-  color: #64748b;
+  color: #a1a1aa;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-bottom: 2px;
@@ -569,7 +569,7 @@
 
 .lm-mini-val {
   font-size: 11px;
-  color: #334155;
+  color: #cbd5e1;
   margin-bottom: 8px;
   word-break: break-word;
 }
@@ -609,8 +609,8 @@
   align-self: start;
   height: calc(100vh - 32px);
   overflow-y: auto;
-  background: #1d1c22;
-  border-left: 1px solid #34343c;
+  background: #26252c;
+  border-left: 1px solid #403f49;
   box-shadow: -4px 0 18px rgba(0, 0, 0, 0.3);
   color: #e4e4e7;
 }
@@ -618,7 +618,7 @@
 .lm-ins-h {
   flex-shrink: 0;
   padding: 12px 14px;
-  border-bottom: 1px solid #34343c;
+  border-bottom: 1px solid #403f49;
   background: rgba(74, 222, 128, 0.06);
 }
 
@@ -682,7 +682,7 @@
   display: grid;
   grid-template-columns: 96px 1fr;
   gap: 5px;
-  border-bottom: 1px solid #34343c;
+  border-bottom: 1px solid #403f49;
   padding: 5px 0;
 }
 
@@ -704,7 +704,7 @@
   color: #94a3b8;
   text-transform: uppercase;
   letter-spacing: 0.09em;
-  border-bottom: 1px solid #34343c;
+  border-bottom: 1px solid #403f49;
   padding-bottom: 3px;
   font-weight: 900;
 }
@@ -726,8 +726,8 @@
 }
 
 .lm-ins-script {
-  background: #16151a;
-  border: 1px solid #34343c;
+  background: #1f1e24;
+  border: 1px solid #403f49;
   border-radius: 10px;
   color: #e4e4e7;
   padding: 9px 11px;
@@ -764,13 +764,13 @@
 
 .lm-ins-badge.portal {
   background: rgba(37, 99, 235, 0.1);
-  color: #1d4ed8;
+  color: #7dd3fc;
   border: 1px solid rgba(37, 99, 235, 0.2);
 }
 
 .lm-ins-badge.calc {
   background: rgba(96, 165, 250, 0.1);
-  color: #1d4ed8;
+  color: #7dd3fc;
   border: 1px solid rgba(96, 165, 250, 0.2);
 }
 
@@ -839,7 +839,7 @@
 
 .lm-create-steps {
   background: rgba(74, 222, 128, 0.06);
-  border: 1px solid #34343c;
+  border: 1px solid #403f49;
   border-radius: 10px;
   color: #d4d4d8;
   padding: 11px 13px;
@@ -859,8 +859,8 @@
 
 .lm-formula {
   display: block;
-  background: #16151a;
-  border: 1px solid #34343c;
+  background: #1f1e24;
+  border: 1px solid #403f49;
   border-radius: 8px;
   color: #86efac;
   padding: 9px 11px;
@@ -931,7 +931,7 @@
 .portal-open-btn {
   border: 1px solid #93c5fd;
   background: #eff6ff;
-  color: #1d4ed8;
+  color: #7dd3fc;
   border-radius: 7px;
   padding: 4px 8px;
   font-size: 9px;
@@ -947,7 +947,7 @@
 .portal-open-btn:hover {
   background: #dbeafe;
   border-color: #60a5fa;
-  color: #1e40af;
+  color: #cbd5e1;
 }
 
 .lm-no-link {

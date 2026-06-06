@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(37, 37, 37, 0.92);
+  background: rgba(46, 45, 51, 0.92);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
   box-shadow: var(--shadow-sm);

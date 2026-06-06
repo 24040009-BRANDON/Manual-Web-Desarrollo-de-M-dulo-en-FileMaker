@@ -1,20 +1,20 @@
 :root {
   /* Fondos */
-  --bg: #252525;
-  --bg-soft: #202020;
-  --panel: #1d1c22;
-  --soft: #24232a;
-  --soft-blue: #24232a;
+  --bg: #2e2d33;
+  --bg-soft: #28272d;
+  --panel: #26252c;
+  --soft: #2f2e36;
+  --soft-blue: #2f2e36;
 
   /* Bordes y líneas */
-  --line: #34343c;
-  --line-strong: #3f3f48;
+  --line: #403f49;
+  --line-strong: #4a4954;
 
   /* Texto */
   --text: #f4f4f5;
   --text-strong: #ffffff;
-  --muted: #a1a1aa;
-  --muted-light: #71717a;
+  --muted: #b4b4bd;
+  --muted-light: #8a8a94;
 
   /* Colores principales (acento verde menta PUCU) */
   --primary: #4ade80;
