@@ -1,14 +1,14 @@
 :root {
   /* Fondos */
-  --bg: #2e2d33;
-  --bg-soft: #28272d;
-  --panel: #26252c;
-  --soft: #2f2e36;
-  --soft-blue: #2f2e36;
+  --bg: #1c1c1f;
+  --bg-soft: #1c1c1f;
+  --panel: #302f36;
+  --soft: #3a3941;
+  --soft-blue: #3a3941;
 
   /* Bordes y líneas */
-  --line: #403f49;
-  --line-strong: #4a4954;
+  --line: #46454e;
+  --line-strong: #48484f;
 
   /* Texto */
   --text: #f4f4f5;

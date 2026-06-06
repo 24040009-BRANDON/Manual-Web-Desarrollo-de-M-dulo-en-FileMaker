@@ -5,11 +5,11 @@
    ============================================================ */
 
 #home {
-  --hm-bg: #2e2d33;
+  --hm-bg: #1c1c1f;
   --hm-bg-soft: #202020;
-  --hm-card: #26252c;
-  --hm-card-hover: #2f2e36;
-  --hm-line: #403f49;
+  --hm-card: #302f36;
+  --hm-card-hover: #3a3941;
+  --hm-line: #46454e;
   --hm-text: #f4f4f5;
   --hm-muted: #a1a1aa;
   --hm-accent: #4ade80;
@@ -250,12 +250,12 @@
    (body.home-active). Al entrar al manual, vuelve a claro.
    ============================================================ */
 body.home-active {
-  background: #2e2d33;
+  background: #1c1c1f;
 }
 
 body.home-active .main-header {
   background: rgba(37, 37, 37, 0.92);
-  border-color: #403f49;
+  border-color: #46454e;
 }
 
 body.home-active .main-header .eyebrow {
@@ -270,12 +270,12 @@ body.home-active .main-header .project-name {
 }
 
 body.home-active .nav-tab {
-  background: #26252c;
+  background: #302f36;
   color: #d4d4d8;
-  border-color: #403f49;
+  border-color: #46454e;
 }
 body.home-active .nav-tab:hover {
-  background: #2f2e36;
+  background: #3a3941;
   border-color: #4ade80;
 }
 body.home-active .nav-tab.active {

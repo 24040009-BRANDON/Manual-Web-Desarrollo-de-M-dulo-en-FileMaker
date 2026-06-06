@@ -45,6 +45,9 @@ function normalizeAboutData(data = {}) {
     career: data.career || "Tecnologías de la Información — Área Desarrollo de Software Multiplataforma",
     period: data.period || "Mayo – Agosto 2026",
     businessTutor: data.businessTutor || "Tutor empresarial no registrado",
+    university: data.university || "Universidad Tecnológica de Coahuila",
+    location: data.location || "Saltillo, Coahuila",
+    year: data.year || "2026",
     platform: data.platform || "FileMaker 18",
     description: data.description || "Sección informativa del proyecto.",
     companyDescription: data.companyDescription || "Información empresarial no registrada.",
@@ -96,9 +99,11 @@ export async function renderAbout() {
           <h3>Contexto académico</h3>
           <p>
             Proyecto desarrollado como parte de la estadía profesional del alumno
-            <strong>${escapeHTML(data.student)}</strong>, perteneciente a la carrera de
+            <strong>${escapeHTML(data.student)}</strong>, de la
+            <strong>${escapeHTML(data.university)}</strong>, perteneciente a la carrera de
             <strong>${escapeHTML(data.career)}</strong>, durante el periodo
-            <strong>${escapeHTML(data.period)}</strong>.
+            <strong>${escapeHTML(data.period)}</strong> en
+            <strong>${escapeHTML(data.location)}</strong>.
           </p>
         </article>
 

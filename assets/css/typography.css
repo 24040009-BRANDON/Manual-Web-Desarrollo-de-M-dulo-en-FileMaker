@@ -1,0 +1,81 @@
+/* ============================================================
+   TIPOGRAFÍA UNIFICADA — todos los módulos (estética PUCU)
+   Oswald en títulos, tamaños iguales en todo el manual.
+   Se carga DESPUÉS de los demás CSS para unificar.
+   ============================================================ */
+
+/* Títulos principales de sección (h1 / hero de cada módulo) */
+.section-hero h2,
+.dbm-hero h2,
+.scripts-manual .hero h1,
+.scripts-manual .hero h2,
+.lm-header h1 {
+  font-family: "Oswald", var(--font-main) !important;
+  font-size: 1.85rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  text-transform: uppercase !important;
+  line-height: 1.12 !important;
+}
+
+/* Títulos de sección secundarios (h2 dentro de cada módulo) */
+.dbm-section-title,
+.scripts-manual .section-title,
+.lm-ins-section-title,
+.info-card-section-title {
+  font-family: "Oswald", var(--font-main) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
+}
+
+/* Encabezados de tarjeta (h3) — unificados en tamaño */
+.info-card h3,
+.dbm-flow h3,
+.scripts-manual .flow h3,
+.dbm-table-card-title,
+.hm-card-title {
+  font-family: "Oswald", var(--font-main) !important;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
+}
+
+/* Eyebrows / etiquetas pequeñas — consistentes */
+.section-hero .eyebrow,
+.dbm-hero .eyebrow,
+.hm-eyebrow {
+  font-family: "Oswald", var(--font-main) !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+}
+
+/* ============================================================
+   FOOTER GLOBAL — datos institucionales
+   ============================================================ */
+.site-footer {
+  width: min(100% - 32px, var(--content-max-width));
+  margin: 0 auto;
+  padding: 28px 0 40px;
+  text-align: center;
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+}
+
+.site-footer-main {
+  margin: 0 0 4px;
+  font-family: "Oswald", var(--font-main);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.site-footer-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
