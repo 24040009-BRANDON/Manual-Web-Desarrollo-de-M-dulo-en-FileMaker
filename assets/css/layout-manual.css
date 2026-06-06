@@ -605,7 +605,7 @@
 .lm-inspector {
   position: sticky;
   top: 16px;
-  height: calc(100vh - 40px);
+  max-height: calc(100vh - 40px);
   background: var(--lm-panel);
   border-left: 1px solid var(--lm-line);
   display: flex;
