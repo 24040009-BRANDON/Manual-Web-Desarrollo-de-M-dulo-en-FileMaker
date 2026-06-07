@@ -260,7 +260,7 @@
   z-index: 1;
 }
 
-".dbm-hero h2 {
+.dbm-hero h2 {
   margin: 0 0 1rem;
   font-size: var(--fs-h1);
   line-height: var(--lh-tight);
@@ -275,7 +275,7 @@
   line-height: var(--lh-normal);
 }
 
-".dbm-section-title {
+.dbm-section-title {
   margin: 0 0 1rem;
   font-size: var(--fs-h2);
   line-height: var(--lh-tight);
