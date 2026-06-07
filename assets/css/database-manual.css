@@ -302,6 +302,10 @@
   line-height: 1.6;
 }
 
+.dbm-note-box strong {
+  color: #7dd3fc;
+}
+
 .dbm-metrics-row,
 .dbm-flow-row,
 .dbm-relation-row,
