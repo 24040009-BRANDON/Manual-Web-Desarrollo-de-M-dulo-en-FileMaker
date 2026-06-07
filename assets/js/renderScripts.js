@@ -60,7 +60,7 @@ function renderScriptCard(script, index, combined, visual) {
             <b class="small muted">Tabla / Layout</b>
             <div>
               <span style="font-size:.85rem;color:#1d4ed8;font-weight:600">${escapeHTML(script.table)}</span>
-              <span style="font-size:.8rem;color:#475569;margin-left:6px">/ ${escapeHTML(script.layout)}</span>
+              <span style="font-size:.8rem;color:#ffffff;margin-left:6px">/ ${escapeHTML(script.layout)}</span>
             </div>
           </div>
 
@@ -227,10 +227,10 @@ function renderMatrix(container, matrix = []) {
   container.innerHTML = matrix.map((row) => `
     <tr>
       <td>${escapeHTML(row.button)}</td>
-      <td><code style="font-size:.82rem;color:#1d4ed8">${escapeHTML(row.object)}</code></td>
+      <td><code style="font-size:.82rem;color:#7dd3fc">${escapeHTML(row.object)}</code></td>
       <td><b>${escapeHTML(row.script)}</b></td>
       <td>${escapeHTML(row.field)}</td>
-      <td style="color:#1d4ed8;font-size:.85rem;font-weight:600">${escapeHTML(row.table)}</td>
+      <td style="color:#7dd3fc;font-size:.85rem;font-weight:600">${escapeHTML(row.table)}</td>
       <td style="color:#9d174d;font-size:.85rem">${escapeHTML(row.param)}</td>
       <td>${escapeHTML(row.result)}</td>
     </tr>

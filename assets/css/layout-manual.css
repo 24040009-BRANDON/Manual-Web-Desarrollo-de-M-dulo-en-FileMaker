@@ -5,7 +5,7 @@
   --lm-soft2: #eef4fb;
   --lm-line: #d9e3ef;
   --lm-text: #1e293b;
-  --lm-muted: #5e7188;
+  --lm-muted: #98b1d0;
   --lm-purple: #475569;
   --lm-blue: #2563eb;
   --lm-green: #15803d;
@@ -77,11 +77,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 9px 16px;
-  border-bottom: 1px solid var(--lm-line);
-  background: var(--lm-soft);
+  border-bottom: 1px solid #46454e;
+  background: #2c2c31;
   font-size: 12px;
   font-weight: 700;
-  color: var(--lm-muted);
+  color: #d4d4d8;
 }
 
 /* El mock crece a su altura natural — sin scroll interno */
@@ -625,9 +625,11 @@
 .lm-ins-h h2 {
   margin: 0;
   font-size: 13px;
-  font-weight: 900;
-  color: var(--lm-text);
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: #f4f4f5;
+  letter-spacing: 0.02em;
+  font-family: "Oswald", var(--font-main);
+  text-transform: uppercase;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -644,7 +646,7 @@
 
 .lm-ins-hint {
   font-size: 10px;
-  color: #94a3b8;
+  color: #a1a1aa;
   margin-top: 3px;
 }
 
@@ -751,33 +753,33 @@
 }
 
 .lm-ins-badge.field {
-  background: rgba(21, 128, 61, 0.1);
-  color: #166534;
-  border: 1px solid rgba(21, 128, 61, 0.2);
+  background: rgba(74, 222, 128, 0.14);
+  color: #86efac;
+  border: 1px solid rgba(74, 222, 128, 0.35);
 }
 
 .lm-ins-badge.button {
-  background: rgba(180, 83, 9, 0.1);
-  color: #92400e;
-  border: 1px solid rgba(180, 83, 9, 0.2);
+  background: rgba(251, 191, 36, 0.14);
+  color: #fcd34d;
+  border: 1px solid rgba(251, 191, 36, 0.35);
 }
 
 .lm-ins-badge.portal {
-  background: rgba(37, 99, 235, 0.1);
+  background: rgba(125, 211, 252, 0.14);
   color: #7dd3fc;
-  border: 1px solid rgba(37, 99, 235, 0.2);
+  border: 1px solid rgba(125, 211, 252, 0.35);
 }
 
 .lm-ins-badge.calc {
-  background: rgba(96, 165, 250, 0.1);
+  background: rgba(125, 211, 252, 0.14);
   color: #7dd3fc;
-  border: 1px solid rgba(96, 165, 250, 0.2);
+  border: 1px solid rgba(125, 211, 252, 0.35);
 }
 
 .lm-ins-badge.layout {
-  background: rgba(190, 24, 93, 0.1);
-  color: #9d174d;
-  border: 1px solid rgba(190, 24, 93, 0.2);
+  background: rgba(244, 114, 182, 0.14);
+  color: #f9a8d4;
+  border: 1px solid rgba(244, 114, 182, 0.35);
 }
 
 .lm-ins-empty {
