@@ -16,6 +16,10 @@
   --muted: #b4b4bd;
   --muted-light: #8a8a94;
 
+  /* Texto secundario/terciario (usado en anotaciones de réplicas FM) */
+  --color-text-secondary: #b4b4bd;
+  --color-text-tertiary: #8a8a94;
+
   /* Colores principales (acento verde menta PUCU) */
   --primary: #4ade80;
   --primary-soft: rgba(74, 222, 128, 0.14);

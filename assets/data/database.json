@@ -233,7 +233,7 @@
           ],
           "notes": [
             "Data \"Sin definir\" obliga al usuario a elegir explícitamente la plataforma antes de publicar. El script 20 · Validar antes de enviar bloquea la publicación si el valor sigue en \"Sin definir\".",
-            "Lista correcta Plataformas_Destino: Sin definir · Facebook · Instagram · Ambas. Debe coincidir con los scripts 01, 8, 13 y 14."
+            "Lista correcta Plataformas_Destino: Sin definir · Facebook · Instagram · Ambas. Debe coincidir con los scripts 01, 08, 20 y 21."
           ],
           "warnings": [],
           "consistencyStatus": "Alineado"
@@ -995,7 +995,7 @@
           ],
           "notes": [
             "Script lo llena. Inmutable: el resultado de un intento no cambia.",
-            "IMPORTANTE: La VL Resultados_Log acepta SOLO \"Exitoso\" o \"Fallido\". \"Pendiente\" NO es un valor válido y causará error de validación en FileMaker. Los scripts 22 y 16 (placeholder API) registran \"Fallido\" con HTTP=0 hasta que la API real esté implementada."
+            "IMPORTANTE: La VL Resultados_Log acepta SOLO \"Exitoso\" o \"Fallido\". \"Pendiente\" NO es un valor válido y causará error de validación en FileMaker. Los scripts 22 y 23 (placeholder API) registran \"Fallido\" con HTTP=0 hasta que la API real esté implementada."
           ],
           "warnings": [],
           "consistencyStatus": "Alineado"
@@ -1072,7 +1072,7 @@
             "No confundir con Post_ID_Retornado: ese guarda el ID técnico, este guarda la URL pública visible."
           ],
           "warnings": [
-            "Requiere implementación completa del flujo GET en script 22 y 16 antes de poblarse.",
+            "Requiere implementación completa del flujo GET en los scripts 22 y 23 antes de poblarse.",
             "No mostrar en layouts operativos del usuario final — solo en portal de historial técnico."
           ],
           "consistencyStatus": "Nuevo campo — requiere scripts 22/16 actualizados"
@@ -2074,6 +2074,42 @@
       "scripts": "Ir a multimedia",
       "validation": "Not empty · Strict data type · In range",
       "result": "Posición en el carrusel — máx 10"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Fecha_Eliminacion",
+      "type": "Timestamp",
+      "role": "EXTENSIÓN, LOG",
+      "scripts": "Confirmar eliminar publicación",
+      "validation": "Opcional",
+      "result": "EXTENSIÓN PROPIA: fecha y hora en que la publicación se marcó como eliminada (borrado lógico / soft delete). El registro NUNCA se borra físicamente. No incluido"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Eliminado_Por",
+      "type": "Text",
+      "role": "EXTENSIÓN, LOG",
+      "scripts": "Confirmar eliminar publicación",
+      "validation": "Opcional",
+      "result": "EXTENSIÓN PROPIA: nombre de la cuenta FileMaker que marcó la publicación como eliminada. Lo llena el Script 07 con Get(AccountName). Permite trazabilidad de qui"
+    },
+    {
+      "table": "Publicaciones_Log",
+      "field": "Permalink_URL",
+      "type": "Text",
+      "role": "EXTENSIÓN, LOG, API",
+      "scripts": "Publicar Facebook; Publicar Instagram",
+      "validation": "Always   Only during data entry  Allow user to override during data entry  Require:  Strict data type  Not empty   Unique value   Existing value  Member of value list  In range  Validated by calculati",
+      "result": "URL pública directa del post publicado en Facebook o Instagram. Se obtiene mediante una segunda petición GET a Meta Graph API después de recibir el Post ID."
+    },
+    {
+      "table": "Publicacion_Multimedia",
+      "field": "Estado_Subida",
+      "type": "Text",
+      "role": "EXTENSIÓN, API",
+      "scripts": "Agregar archivo multimedia",
+      "validation": "Opcional",
+      "result": "EXTENSIÓN PROPIA: indica si el archivo ya tiene URL pública lista para Meta (Pendiente / Listo). Apoya el flujo de carrusel de Facebook. No incluido en los manu"
     }
   ],
   "flow": [
@@ -2143,7 +2179,7 @@
     },
     {
       "level": "CORREGIDO",
-      "title": "Scripts 22 y 16 corregidos contra Resultados_Log",
+      "title": "Scripts 22 y 23 corregidos contra Resultados_Log",
       "detail": "Se detectó que los scripts temporales de Facebook e Instagram enviaban Resultado = “Pendiente”, pero la base de datos documenta Resultados_Log como Exitoso / Fallido.",
       "action": "Se generó una versión correlacionada del manual de scripts donde ambos placeholders envían Resultado = “Fallido” con HTTP = 0 mientras la API real no esté implementada.",
       "status": "CORREGIDO",
@@ -2253,7 +2289,7 @@
     },
     {
       "from": "Publicaciones::Plataforma_Destino",
-      "to": "Scripts 08, 13 y 14",
+      "to": "Scripts 08, 20 y 21",
       "type": "Decisión operativa",
       "note": "Si el valor es Ambas, el flujo debe generar intentos separados por plataforma en Publicaciones_Log."
     },

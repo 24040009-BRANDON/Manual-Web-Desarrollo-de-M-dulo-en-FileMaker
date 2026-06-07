@@ -65,12 +65,12 @@
 
 .status-pill.warn {
   background: var(--amber-soft);
-  color: var(--amber);
+  color: #fbbf24;
 }
 
 .status-pill.danger {
   background: var(--danger-soft);
-  color: var(--danger);
+  color: #f87171;
 }
 
 .status-pill.info {
