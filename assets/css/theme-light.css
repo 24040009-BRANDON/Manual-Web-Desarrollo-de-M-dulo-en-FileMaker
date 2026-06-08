@@ -457,7 +457,7 @@
 [data-theme="light"] .scripts-manual .form-select { color: #1e293b !important; }
 
 /* LAYOUT: nav activo e imgbox del mockup FM */
-[data-theme="light"] .lm-nav.active { color: #1d4ed8; }
+[data-theme="light"] .lm-nav.active { color: #ffffff; }
 [data-theme="light"] .lm-imgbox { color: #1d4ed8; }
 
 /* =========================================================
@@ -511,3 +511,75 @@
 [data-theme="light"] .lm-formula .fmh-func    { color: #93c5fd !important; font-weight: 600; }
 [data-theme="light"] .lm-formula .fmh-comment { color: #86efac !important; font-style: italic; }
 [data-theme="light"] .lm-formula .fmh-num     { color: #fdba74 !important; }
+/* =========================================================
+   MOCKUP FILEMAKER (.lm-mock*) en MODO CLARO — texto oscuro
+   Los labels/valores del cuerpo del mockup usan gris claro
+   (#a1a1aa, #94a3b8) que se pierde sobre blanco. Se oscurecen
+   para igualar la legibilidad del modo oscuro. El SIDEBAR
+   (.lm-sidebar / .lm-nav) NO se toca: queda oscuro a propósito.
+   ========================================================= */
+[data-theme="light"] .lm-label,
+[data-theme="light"] .lm-stat small,
+[data-theme="light"] .lm-char,
+[data-theme="light"] .lm-tag-fm,
+[data-theme="light"] .lm-sep,
+[data-theme="light"] .lm-portal-head,
+[data-theme="light"] .lm-mini-label,
+[data-theme="light"] .lm-api-pend,
+[data-theme="light"] .lm-no-link { color: #475569; }
+
+[data-theme="light"] .lm-stat,
+[data-theme="light"] .lm-pbtn { color: #1e293b; }
+
+/* Variable --lm-muted del mockup: gris más oscuro en claro */
+[data-theme="light"] .lm { --lm-muted: #64748b; }
+/* =========================================================
+   MOCKUP FILEMAKER en MODO OSCURO — texto oscuro
+   Las tarjetas del cuerpo del mockup son CLARAS en ambos
+   temas, pero su texto usaba grises claros (#cbd5e1, #a1a1aa,
+   #94a3b8) que se pierden sobre el fondo claro. Se oscurecen
+   SOLO en modo oscuro (html:not([data-theme="light"])) para
+   no alterar el modo claro ya resuelto. El SIDEBAR, INSPECTOR,
+   TOPBAR y CABECERA (fondo oscuro en oscuro) NO se tocan.
+   ========================================================= */
+html:not([data-theme="light"]) .lm-label,
+html:not([data-theme="light"]) .lm-stat small,
+html:not([data-theme="light"]) .lm-char,
+html:not([data-theme="light"]) .lm-tag-fm,
+html:not([data-theme="light"]) .lm-sep,
+html:not([data-theme="light"]) .lm-portal-head,
+html:not([data-theme="light"]) .lm-mini-label,
+html:not([data-theme="light"]) .lm-api-pend,
+html:not([data-theme="light"]) .lm-no-link { color: #475569; }
+
+html:not([data-theme="light"]) .lm-stat,
+html:not([data-theme="light"]) .lm-content,
+html:not([data-theme="light"]) .lm-textarea,
+html:not([data-theme="light"]) .lm-mini-val,
+html:not([data-theme="light"]) .lm-pbtn { color: #1e293b; }
+
+/* Azul claro de enlaces/botones del mockup en oscuro -> azul legible */
+html:not([data-theme="light"]) .lm-pbtn.both,
+html:not([data-theme="light"]) .portal-open-btn,
+html:not([data-theme="light"]) .lm-link-btn { color: #1d4ed8; }
+
+/* Inputs y texto enfático suelto dentro de las tarjetas del mockup (oscuro) */
+html:not([data-theme="light"]) .lm-input,
+html:not([data-theme="light"]) .lm-card strong,
+html:not([data-theme="light"]) .lm-card small,
+html:not([data-theme="light"]) .lm-content strong,
+html:not([data-theme="light"]) .lm-content small { color: #1e293b; }
+
+/* =========================================================
+   FIX: título "Gestión de publicaciones" (.lm-mock-title)
+   En modo oscuro el texto #d4d4d8 sobre la barra clara del
+   mockup queda tenue. Se aclara la barra y se oscurece el
+   texto para que sea nítido (igual que el resto del mockup).
+   El modo claro ya estaba resuelto y no se toca.
+   ========================================================= */
+html:not([data-theme="light"]) .lm-mock-title {
+  background: #f1f5f9;
+  color: #1e293b;
+  border-bottom: 1px solid #d9e3ef;
+}
+html:not([data-theme="light"]) .lm-mock-title strong { color: #0f172a; }
