@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>D&T Informática | Manual técnico FileMaker</title>
+  <meta name="description" content="Manual técnico interactivo del módulo de gestión y publicación de contenido en redes sociales para DT Informática, desarrollado en FileMaker Pro 18 con integración a Meta Graph API (Facebook e Instagram)." />
+  <meta name="author" content="Brandon Arreola Cortés" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234ade80'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='26' font-weight='bold' text-anchor='middle' fill='%231c1c1f'%3EDT%3C/text%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,6 +21,7 @@
   <link rel="stylesheet" href="assets/css/tables.css" />
   <link rel="stylesheet" href="assets/css/home.css" />
   <link rel="stylesheet" href="assets/css/typography.css" />
+  <link rel="stylesheet" href="assets/css/theme-light.css" />
 </head>
 
 <body>
@@ -62,6 +66,11 @@
       <button class="nav-tab" data-section="about" type="button">
         Acerca de
       </button>
+
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar tema">
+        <span class="theme-toggle-label" id="themeToggleLabel">Light</span>
+        <span class="theme-toggle-icon" aria-hidden="true">◐</span>
+      </button>
     </nav>
   </header>
 
@@ -72,31 +81,43 @@
         <div class="hm-glow hm-glow-1"></div>
         <div class="hm-glow hm-glow-2"></div>
 
-        <!-- Figura 1: Facebook (ícono estilizado) -->
+        <!-- Facebook -->
         <div class="hm-bg-shape hm-bg-1">
-          <svg viewBox="0 0 24 24" fill="currentColor" style="color:#4ade80"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
         </div>
-        <!-- Figura 2: Instagram (ícono estilizado) -->
+        <!-- Instagram -->
         <div class="hm-bg-shape hm-bg-2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:#4ade80"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
         </div>
-        <!-- ===== SUBIR FOTO: logo real de DT Informática =====
-             Coloca tu archivo en assets/img/ y reemplaza el src de abajo.
-             Ejemplo: src="assets/img/logo-dt.png"
-             Mientras no haya imagen, se muestra el texto D&T como respaldo. -->
+        <!-- Logo DT (placeholder con respaldo SVG) -->
         <div class="hm-bg-shape hm-bg-3">
-          <!-- SUBIR FOTO aquí: -->
           <img src="assets/img/logo-dt.png" alt="DT Informática"
                onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
-          <svg viewBox="0 0 100 100" fill="currentColor" style="color:#4ade80;display:none"><rect x="10" y="30" width="80" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="3"/><text x="50" y="62" font-size="26" font-weight="700" text-anchor="middle" font-family="Oswald, sans-serif">D&amp;T</text></svg>
+          <svg viewBox="0 0 100 100" fill="currentColor" style="display:none"><rect x="10" y="30" width="80" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="3"/><text x="50" y="62" font-size="26" font-weight="700" text-anchor="middle" font-family="Oswald, sans-serif">D&amp;T</text></svg>
         </div>
-        <!-- Figura 4: FileMaker (ícono estilizado de base de datos) -->
+        <!-- FileMaker / base de datos (cilindro) -->
         <div class="hm-bg-shape hm-bg-4">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:#4ade80"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg>
         </div>
-        <!-- Figura 5: API / código -->
+        <!-- API / código -->
         <div class="hm-bg-shape hm-bg-5">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:#3b82f6"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg>
+        </div>
+        <!-- Servidor / racks -->
+        <div class="hm-bg-shape hm-bg-6">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="7" rx="1.5"/><rect x="3" y="14" width="18" height="7" rx="1.5"/><circle cx="7" cy="6.5" r=".9" fill="currentColor"/><circle cx="7" cy="17.5" r=".9" fill="currentColor"/></svg>
+        </div>
+        <!-- Candado / seguridad (token) -->
+        <div class="hm-bg-shape hm-bg-7">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        </div>
+        <!-- Imagen / multimedia -->
+        <div class="hm-bg-shape hm-bg-8">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9" r="1.8"/><path d="M21 17l-5-5-6 6"/></svg>
+        </div>
+        <!-- Nube / publicación -->
+        <div class="hm-bg-shape hm-bg-9">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 18a4 4 0 0 1 1-7.87A5 5 0 0 1 17 9a3.5 3.5 0 0 1 0 9H6z"/></svg>
         </div>
       </div>
 

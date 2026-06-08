@@ -309,7 +309,7 @@
         "usage": "Usuario que modificó por última vez el registro."
       },
       {
-        "name": "Fecha_Modificacion",
+        "name": "Modificado_En",
         "type": "Timestamp",
         "role": "Auditoría",
         "auto": [
@@ -321,7 +321,7 @@
         "storage": [
           "Storage normal."
         ],
-        "usage": "Fecha y hora de la última modificación."
+        "usage": "Fecha y hora de la última modificación (campo Modificado_En)."
       },
       {
         "name": "c_Total_Publicaciones",
@@ -515,7 +515,7 @@
         "role": "Campo API — Log",
         "auto": [
           "Sin Auto-Enter automático.",
-          "Lo llena el script 22 · Publicar Facebook o 16 · Publicar Instagram.",
+          "Lo llena el script 22 · Publicar Facebook o 23 · Publicar Instagram.",
           "Prohibit modification during data entry: marcado."
         ],
         "validation": [
@@ -802,7 +802,9 @@
       "Creado_Por",
       "Fecha_Creacion",
       "Modificado_Por",
-      "Fecha_Modificacion",
+      "Modificado_En",
+      "Fecha_Eliminacion",
+      "Eliminado_Por",
       "c_Total_Publicaciones",
       "c_Total_Programadas",
       "c_Total_Publicadas",
@@ -837,7 +839,8 @@
       "Tipo_Media",
       "Archivo_Container",
       "URL_Publica",
-      "Orden"
+      "Orden",
+      "Estado_Subida"
     ]
   },
   "fieldAliases": {
@@ -935,7 +938,7 @@
     },
     "Publicar ahora Meta": {
       "purpose": "Ejecuta validación y decide si publicar en Facebook, Instagram o ambas.",
-      "steps": "Perform Script [ \"20. Validar publicación antes de enviar\" ]\nIf [ Get ( ScriptResult ) ≠ \"OK\" ] Exit Script [ Get ( ScriptResult ) ]\nCommit Records/Requests [ With dialog: Off ]\nIf [ Plataforma_Destino = \"Facebook\" ] Perform Script [ \"22. Publicar Facebook\" ]\nIf [ Plataforma_Destino = \"Instagram\" ] Perform Script [ \"23. Publicar Instagram\" ]\nIf [ Plataforma_Destino = \"Ambas\" ] Perform Script [ \"15\" ] and [ \"16\" ]"
+      "steps": "Perform Script [ \"20. Validar publicación antes de enviar\" ]\nIf [ Get ( ScriptResult ) ≠ \"OK\" ] Exit Script [ Get ( ScriptResult ) ]\nCommit Records/Requests [ With dialog: Off ]\nIf [ Plataforma_Destino = \"Facebook\" ] Perform Script [ \"22. Publicar Facebook\" ]\nIf [ Plataforma_Destino = \"Instagram\" ] Perform Script [ \"23. Publicar Instagram\" ]\nIf [ Plataforma_Destino = \"Ambas\" ] Perform Script [ \"22. Publicar Facebook\" ] and [ \"23. Publicar Instagram\" ]"
     },
     "Publicar Facebook": {
       "purpose": "Publica o simula publicación en Facebook mediante la configuración de Meta.",
@@ -981,9 +984,29 @@
       "steps": "If [ IsEmpty ( Publicaciones_Log::Permalink_URL ) ]\n    Show Custom Dialog [ \"Sin enlace disponible\" ; \"Este intento de publicación no tiene un permalink registrado. Puede tratarse de un intento fallido o de una publicación que aún no ha devuelto URL pública.\" ]\n    Exit Script [ Text Result: \"SIN_PERMALINK\" ]\nEnd If\n\nOpen URL [ With dialog: Off ; Publicaciones_Log::Permalink_URL ]\n\nExit Script [ Text Result: \"OK\" ]",
       "code": "If [ IsEmpty ( Publicaciones_Log::Permalink_URL ) ]\n    Show Custom Dialog [ \"Sin enlace disponible\" ; \"Este intento de publicación no tiene un permalink registrado. Puede tratarse de un intento fallido o de una publicación que aún no ha devuelto URL pública.\" ]\n    Exit Script [ Text Result: \"SIN_PERMALINK\" ]\nEnd If\n\nOpen URL [ With dialog: Off ; Publicaciones_Log::Permalink_URL ]\n\nExit Script [ Text Result: \"OK\" ]"
     },
-    "Abrir publicación": {
+    "Abrir publicación en navegador": {
       "purpose": "Abre en el navegador la URL pública de una publicación generada por Meta Graph API.",
       "steps": "If [ IsEmpty ( Publicaciones_Log::Permalink_URL ) ]\n    Show Custom Dialog [ \"Sin enlace disponible\" ; \"Este intento de publicación no tiene un permalink registrado. Puede tratarse de un intento fallido o de una publicación que aún no ha devuelto URL pública.\" ]\n    Exit Script [ Text Result: \"SIN_PERMALINK\" ]\nEnd If\n\nOpen URL [ With dialog: Off ; Publicaciones_Log::Permalink_URL ]\n\nExit Script [ Text Result: \"OK\" ]"
+    },
+    "Refrescar dashboard": {
+      "purpose": "Fuerza el recálculo de las tarjetas del tablero (Total, Programadas, Publicadas, Error, Borradores) que son campos calculados unstored.",
+      "steps": "Refresh Window []\n# Opcional, si las tarjetas son objetos nombrados:\n# Refresh Object [ Object Name: \"card_stat_total\" ] ... etc.",
+      "code": "Refresh Window []\n\n# Opcional si tienes objetos nombrados:\n# Refresh Object [ Object Name: \"card_stat_total\" ]\n# Refresh Object [ Object Name: \"card_stat_programadas\" ]\n# Refresh Object [ Object Name: \"card_stat_publicadas\" ]\n# Refresh Object [ Object Name: \"card_stat_error\" ]\n# Refresh Object [ Object Name: \"card_stat_borradores\" ]"
+    },
+    "Restaurar publicación eliminada": {
+      "purpose": "Revierte el borrado lógico (soft delete): devuelve la publicación a Borrador y limpia los campos de auditoría de eliminación. Nunca borra físicamente el registro.",
+      "steps": "Show Custom Dialog [ confirmar ]\nIf [ confirmado ]\n  Set Field [ Estado ; \"Borrador\" ]\n  Set Field [ Fecha_Eliminacion ; \"\" ]\n  Set Field [ Eliminado_Por ; \"\" ]\n  Commit\nEnd If\nRefresh Window",
+      "code": "# Restaurar publicación eliminada (revertir soft delete)\nShow Custom Dialog [ \"Restaurar\" ; \"¿Restaurar esta publicación a Borrador?\" ; Default Button: “Restaurar” ; Button 2: “Cancelar” ]\nIf [ Get ( LastMessageChoice ) = 1 ]\n    Set Field [ Publicaciones::Estado ; \"Borrador\" ]\n    Set Field [ Publicaciones::Fecha_Eliminacion ; \"\" ]\n    Set Field [ Publicaciones::Eliminado_Por ; \"\" ]\n    Commit Records/Requests [ With dialog: Off ]\nEnd If\nRefresh Window []"
+    },
+    "Agregar archivo multimedia": {
+      "purpose": "Crea un registro hijo en Publicacion_Multimedia (vía la relación con Allow creation = ON), validando el límite de 10 archivos por carrusel, y abre el diálogo para insertar el archivo en el Container.",
+      "steps": "Set Variable [ $cuenta ; Count(...) ]\nIf [ $cuenta >= 10 ] -> avisar y salir\nSet Field [ ID_Publicacion ; Orden ; Estado_Subida=\"Pendiente\" ]\nInsert File [ Archivo_Container ]\nCommit / Refresh",
+      "code": "# Agregar archivo multimedia (máx 10)\nSet Variable [ $cuenta ; Value: Count ( Publicacion_Multimedia::ID_Media ) ]\nIf [ $cuenta >= 10 ]\n    Show Custom Dialog [ \"Límite alcanzado\" ; \"Una publicación admite máximo 10 archivos (carrusel).\" ; Default Button: “OK” ]\n    Exit Script [ Text Result: \"LIMITE\" ]\nEnd If\n\n# Crear registro hijo vía la relación (Allow creation = ON)\nSet Field [ Publicacion_Multimedia::ID_Publicacion ; Publicaciones::ID_Publicacion ]\nSet Field [ Publicacion_Multimedia::Orden ; $cuenta + 1 ]\nSet Field [ Publicacion_Multimedia::Estado_Subida ; \"Pendiente\" ]\nGo to Field [ Publicacion_Multimedia::Archivo_Container ]\nInsert File [ Publicacion_Multimedia::Archivo_Container ]\nCommit Records/Requests [ With dialog: Off ]\nRefresh Window []"
+    },
+    "Quitar archivo multimedia": {
+      "purpose": "Elimina un archivo del carrusel. Aquí el borrado SÍ es real (no lógico) porque los archivos son borradores previos a la publicación. Tras quitar, conviene reordenar el campo Orden de los restantes.",
+      "steps": "Show Custom Dialog [ confirmar ]\nIf [ confirmado ]\n  Delete Portal Row\n  Commit\n  # reordenar Orden 1..N de los restantes\nEnd If\nRefresh Window",
+      "code": "# Quitar archivo multimedia (borrado real — son borradores pre-publicación)\nShow Custom Dialog [ \"Quitar archivo\" ; \"¿Quitar este archivo de la publicación?\" ; Default Button: “Quitar” ; Button 2: “Cancelar” ]\nIf [ Get ( LastMessageChoice ) = 1 ]\n    Delete Portal Row [ With dialog: Off ]\n    Commit Records/Requests [ With dialog: Off ]\n    # Reordenar el campo Orden de los archivos restantes (1..N) mediante un loop por el portal\nEnd If\nRefresh Window []"
     }
   },
   "elements": {
@@ -1254,7 +1277,7 @@
       "object_name": "portal_publicaciones_log",
       "table": "Publicaciones_Log",
       "field": "ID_Publicacion / Plataforma / Resultado / HTTP_Status_Code / Notas_Internas / Permalink_URL",
-      "script": "50. Registrar intento en Log / 51. Abrir publicación",
+      "script": "50. Registrar intento en Log / 51. Abrir publicación en navegador",
       "explain": "Muestra registros relacionados de Publicaciones_Log para auditar intentos de publicación. También permite abrir la URL pública de una publicación cuando el intento fue exitoso y existe Permalink_URL."
     },
     "metadatos": {
@@ -1262,7 +1285,7 @@
       "fm_object": "Field Group",
       "object_name": "grp_metadatos",
       "table": "Publicaciones",
-      "field": "ID_Publicacion / Creado_Por / Fecha_Creacion / Modificado_Por / Fecha_Modificacion / Estado / Plataforma_Destino",
+      "field": "ID_Publicacion / Creado_Por / Fecha_Creacion / Modificado_Por / Modificado_En / Estado / Plataforma_Destino",
       "script": "N/A",
       "explain": "Resumen técnico del registro actual: ID, usuario creador, modificación, estado y plataforma."
     },
@@ -1290,7 +1313,7 @@
       "object_name": "btn_abrir_publicacion",
       "table": "Publicaciones_Log",
       "field": "Permalink_URL",
-      "script": "51. Abrir publicación",
+      "script": "51. Abrir publicación en navegador",
       "explain": "Botón colocado dentro de cada fila del portal Publicaciones_Log. Abre en el navegador la URL pública generada por Meta Graph API para el intento seleccionado. Si el campo Permalink_URL está vacío, el script muestra un aviso y no intenta abrir ninguna página.",
       "section": "portal",
       "notes": [

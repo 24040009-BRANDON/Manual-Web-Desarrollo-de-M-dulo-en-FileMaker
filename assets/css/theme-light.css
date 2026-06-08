@@ -1,0 +1,513 @@
+/* =========================================================
+   THEME LIGHT — Estilo "PUCU"
+   Modo claro activado con <html data-theme="light">.
+   Sobrescribe las variables del tema oscuro sin tocar el resto.
+   Paleta: fondo gris muy claro, tarjetas blancas, sombras
+   suaves y difusas, acento verde menta #4ade80 conservado.
+   ========================================================= */
+
+[data-theme="light"] {
+  /* --- Fondos --- */
+  --bg: #eef2f7;
+  --bg-soft: #f8fafc;
+  --panel: #ffffff;
+  --soft: #f8fafc;
+  --soft-blue: #eef4fb;
+
+  /* --- Bordes y líneas --- */
+  --line: #e2e8f0;
+  --line-strong: #d9e3ef;
+
+  /* --- Texto --- */
+  --text: #1e293b;
+  --text-strong: #0f172a;
+  --muted: #64748b;
+  --muted-light: #94a3b8;
+  --color-text-secondary: #64748b;
+  --color-text-tertiary: #94a3b8;
+
+  /* --- Acento (verde menta PUCU, se conserva) --- */
+  --primary: #22c55e;
+  --primary-soft: rgba(34, 197, 94, 0.12);
+  --primary-border: rgba(34, 197, 94, 0.35);
+  --accent: #22c55e;
+  --accent-soft: rgba(34, 197, 94, 0.10);
+
+  /* --- Estados (tonos legibles sobre blanco) --- */
+  --green: #16a34a;
+  --green-soft: rgba(34, 197, 94, 0.12);
+  --amber: #b45309;
+  --amber-soft: rgba(245, 158, 11, 0.12);
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.10);
+  --pink: #be185d;
+  --pink-soft: rgba(236, 72, 153, 0.10);
+
+  /* --- Sombras suaves y difusas (lo que da el aire premium PUCU) --- */
+  --shadow-sm: 0 4px 18px rgba(15, 23, 42, 0.06);
+  --shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 22px 58px rgba(15, 23, 42, 0.10);
+}
+
+/* Fondo general de la página en claro */
+[data-theme="light"] body {
+  background:
+    radial-gradient(circle at top left, rgba(34, 197, 94, 0.05), transparent 32rem),
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.04), transparent 28rem),
+    var(--bg);
+}
+
+/* =========================================================
+   MANUAL BASE DE DATOS (.dbm) — variables locales
+   ========================================================= */
+[data-theme="light"] .dbm {
+  --dbm-bg: #eef2f7;
+  --dbm-panel: #ffffff;
+  --dbm-soft: #f8fafc;
+  --dbm-soft2: #eef4fb;
+  --dbm-line: #e2e8f0;
+  --dbm-text: #1e293b;
+  --dbm-muted: #64748b;
+  --dbm-purple: #475569;
+  --dbm-blue: #2563eb;     /* "Regla práctica" azul, igual que en oscuro */
+  --dbm-green: #16a34a;
+  --dbm-amber: #b45309;
+  --dbm-red: #dc2626;
+  --dbm-pink: #be185d;
+  --dbm-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+}
+
+/* Tags y badges: en claro vuelven a sus tonos oscuros legibles
+   sobre fondos translúcidos claros (revierte el aclarado del modo oscuro) */
+[data-theme="light"] .dbm-tag.field,
+[data-theme="light"] .dbm-cat-PK   { color: #166534; }
+[data-theme="light"] .dbm-tag.btnx,
+[data-theme="light"] .dbm-cat-LOG  { color: #92400e; }
+[data-theme="light"] .dbm-tag.param,
+[data-theme="light"] .dbm-cat-API,
+[data-theme="light"] .dbm-disc-status-SEGURIDAD { color: #9d174d; }
+[data-theme="light"] .dbm-cat-MULTIMEDIA { color: #0e7490; }
+[data-theme="light"] .dbm-disc-status-OK { color: #166534; }
+[data-theme="light"] .dbm-disc-status-MEDIA { color: #92400e; }
+[data-theme="light"] .dbm-disc-status-CRÍTICO { color: #991b1b; }
+[data-theme="light"] .dbm-warn { color: #7a3d00; }
+[data-theme="light"] .dbm-note-box strong { color: #2563eb; }
+
+/* Réplicas de ventanas FileMaker: en claro su texto vuelve a ser oscuro */
+[data-theme="light"] .dbm-fm-row,
+[data-theme="light"] .dbm-fm-row b,
+[data-theme="light"] .dbm-fm-input { color: #202124; }
+[data-theme="light"] .dbm-fm-label { color: #4b5565; }
+[data-theme="light"] .dbm-fm-input { background: #ffffff; }
+
+/* =========================================================
+   MANUAL SCRIPTS (.scripts-manual) — variables locales
+   ========================================================= */
+[data-theme="light"] .scripts-manual {
+  --sm-bg: #eef2f7;
+  --sm-panel: #ffffff;
+  --sm-soft: #f8fafc;
+  --sm-soft2: #eef4fb;
+  --sm-line: #e2e8f0;
+  --sm-text: #1e293b;
+  --sm-muted: #64748b;
+  --sm-purple: #475569;
+  --sm-blue: #2563eb;
+  --sm-green: #16a34a;
+  --sm-amber: #b45309;
+  --sm-pink: #be185d;
+  --sm-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="light"] .scripts-manual .tag.field { color: #166534; }
+[data-theme="light"] .scripts-manual .tag.param { color: #9d174d; }
+[data-theme="light"] .note-box strong { color: #2563eb; }
+
+/* =========================================================
+   MANUAL LAYOUT (.lm) — ya es claro por defecto.
+   Solo ajustamos su fondo/sombra exterior para que combine
+   con el resto del modo claro (sin el marco oscuro).
+   ========================================================= */
+[data-theme="light"] .lm {
+  background:
+    radial-gradient(circle at top left, rgba(34, 197, 94, 0.06), transparent 30rem),
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.05), transparent 26rem),
+    #eef2f7;
+  border: 1px solid #d9e3ef;
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+}
+
+/* Pills de estado en tablas (claro) */
+[data-theme="light"] .status-pill.warn   { color: #b45309; }
+[data-theme="light"] .status-pill.danger { color: #dc2626; }
+
+/* Transición suave al cambiar de tema */
+[data-theme="light"] body,
+[data-theme="light"] .dbm,
+[data-theme="light"] .scripts-manual,
+[data-theme="light"] .lm {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* =========================================================
+   BOTÓN TOGGLE DE TEMA (visible en ambos temas)
+   ========================================================= */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+.theme-toggle:hover {
+  border-color: var(--primary-border);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+.theme-toggle-icon {
+  color: var(--primary);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* =========================================================
+   HEADER y PESTAÑAS en modo claro (PUCU)
+   ========================================================= */
+[data-theme="light"] .main-header {
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+[data-theme="light"] .nav-tab {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  box-shadow: var(--shadow-sm);
+}
+[data-theme="light"] .nav-tab:hover {
+  background: var(--primary-soft);
+  color: var(--text);
+  border-color: var(--primary-border);
+}
+[data-theme="light"] .nav-tab.active {
+  color: var(--primary);
+}
+
+/* =========================================================
+   PORTADA DE INICIO (#home) en modo claro (PUCU)
+   ========================================================= */
+[data-theme="light"] #home {
+  --hm-bg: #eef2f7;
+  --hm-bg-soft: #f8fafc;
+  --hm-card: #ffffff;
+  --hm-card-hover: #f8fafc;
+  --hm-line: #e2e8f0;
+  --hm-text: #1e293b;
+  --hm-muted: #64748b;
+  --hm-accent: #22c55e;
+  --hm-accent-strong: #16a34a;
+  --hm-accent-soft: rgba(34, 197, 94, 0.12);
+}
+/* Glows más sutiles sobre fondo claro */
+[data-theme="light"] .hm-glow-1 { opacity: 0.06; }
+[data-theme="light"] .hm-glow-2 { opacity: 0.05; }
+/* Tarjetas del bento con sombra suave PUCU */
+[data-theme="light"] #home .hm-card { box-shadow: var(--shadow-sm); }
+/* =========================================================
+   FIX TEMA CLARO — bloques con color OSCURO hardcodeado
+   que no respondían a las variables. Se sobreescriben aquí.
+   ========================================================= */
+
+/* --- SCRIPTS: hero con gradiente oscuro hardcodeado --- */
+[data-theme="light"] .scripts-manual .hero {
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  border: 1px solid var(--sm-line);
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+}
+
+/* --- SCRIPTS: tags y categorías vuelven a tonos oscuros legibles --- */
+[data-theme="light"] .scripts-manual .tag { color: #475569; }
+[data-theme="light"] .scripts-manual .tag.field { color: #166534; }
+[data-theme="light"] .scripts-manual .tag.object { color: #1d4ed8; }
+[data-theme="light"] .scripts-manual .tag.btnx { color: #92400e; }
+[data-theme="light"] .scripts-manual .tag.param { color: #9d174d; }
+[data-theme="light"] .scripts-manual .tag.table { color: #475569; }
+[data-theme="light"] .scripts-manual .cat-UI { color: #1d4ed8; }
+[data-theme="light"] .scripts-manual .cat-API { color: #166534; }
+[data-theme="light"] .scripts-manual .cat-NAV { color: #1d4ed8; }
+[data-theme="light"] .scripts-manual .cat-LOG { color: #92400e; }
+[data-theme="light"] .scripts-manual .cat-MULTIMEDIA { color: #0e7490; }
+[data-theme="light"] .scripts-manual .pill { color: #475569; }
+
+/* --- SCRIPTS: bloques de pasos (step-*) — fondo claro y código oscuro legible --- */
+[data-theme="light"] .scripts-manual .combined-header { color: #1e3a5f; }
+[data-theme="light"] .scripts-manual .combined-guide-title { color: #0f172a; }
+[data-theme="light"] .scripts-manual .step-text-main { color: #1e293b; }
+[data-theme="light"] .scripts-manual .step-extra {
+  background: #f1f5f9; color: #334155; border-color: rgba(100,116,139,.25);
+}
+[data-theme="light"] .scripts-manual .step-normal .step-number,
+[data-theme="light"] .scripts-manual .step-normal .step-body { background: #f8fafc; color: #334155; }
+[data-theme="light"] .scripts-manual .step-normal .step-code pre,
+[data-theme="light"] .scripts-manual .step-normal .step-inst { color: #334155; }
+[data-theme="light"] .scripts-manual .step-logic .step-body,
+[data-theme="light"] .scripts-manual .step-action .step-body { background: #f8fafc; }
+[data-theme="light"] .scripts-manual .step-logic .step-code pre,
+[data-theme="light"] .scripts-manual .step-action .step-code pre,
+[data-theme="light"] .scripts-manual .step-logic .step-number,
+[data-theme="light"] .scripts-manual .step-action .step-number { color: #166534; }
+[data-theme="light"] .scripts-manual .step-set .step-number { color: #15803d; }
+[data-theme="light"] .scripts-manual .step-set .step-body { background: rgba(34,197,94,.08); }
+[data-theme="light"] .scripts-manual .step-set .step-code pre { color: #166534; }
+[data-theme="light"] .scripts-manual .step-dialog .step-number,
+[data-theme="light"] .scripts-manual .step-dialog .step-code pre { color: #92400e; }
+[data-theme="light"] .scripts-manual .step-dialog .step-body { background: rgba(245,158,11,.10); }
+[data-theme="light"] .scripts-manual .step-comment .step-code pre { color: #64748b; }
+[data-theme="light"] .scripts-manual .fm-icon { background: #dbeafe; color: #1d4ed8; }
+
+/* --- LAYOUT: cabecera, título de mockup e inspector --- */
+[data-theme="light"] .lm-header {
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--lm-line);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+[data-theme="light"] .lm-mock-title { background: #f1f5f9; color: #334155; }
+[data-theme="light"] .lm-inspector {
+  background: #ffffff;
+  border-left: 1px solid var(--lm-line);
+  box-shadow: -4px 0 18px rgba(15, 23, 42, 0.06);
+  color: #1e293b;
+}
+
+/* --- CARDS: gradiente oscuro genérico --- */
+[data-theme="light"] .info-card,
+[data-theme="light"] .card-grad {
+  background: var(--panel);
+}
+
+/* --- ACERCA DE: panel hero con gradiente oscuro hardcodeado --- */
+[data-theme="light"] .section-hero {
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.06), transparent 20rem),
+    linear-gradient(135deg, #ffffff, #f8fafc);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+/* =========================================================
+   ICONOS FLOTANTES DEL INICIO — visibilidad por tema
+   En claro: gris/negro tenue (eran verde casi invisible).
+   En oscuro: conservan el verde menta (definido en home.css).
+   Usan currentColor, así que solo cambiamos 'color' y opacidad.
+   ========================================================= */
+[data-theme="light"] #home .hm-bg-shape {
+  color: #475569;       /* gris pizarra */
+  opacity: 0.10;        /* algo más visible que en oscuro */
+}
+/* Acentos: el logo DT y la nube de publicación con un toque verde */
+[data-theme="light"] #home .hm-bg-3,
+[data-theme="light"] #home .hm-bg-9 {
+  color: #16a34a;
+  opacity: 0.12;
+}
+
+/* --- SCRIPTS: cuerpo de la "Regla práctica" y lead legibles en claro --- */
+[data-theme="light"] .note-box { color: #334155; }
+[data-theme="light"] .scripts-manual .lead { color: #475569; }
+[data-theme="light"] .scripts-manual .hero p { color: #475569; }
+
+/* =========================================================
+   LAYOUT — título del header e INSPECTOR en tema claro
+   ========================================================= */
+/* Título grande del manual de layout (era blanco) */
+[data-theme="light"] .lm-header h1 { color: #0f172a; }
+[data-theme="light"] .lm-header p { color: #64748b; }
+
+/* Inspector: títulos, secciones, propiedades y valores */
+[data-theme="light"] .lm-ins-h h2 { color: #0f172a; }
+[data-theme="light"] .lm-ins-h p,
+[data-theme="light"] .lm-ins-hint { color: #64748b; }
+[data-theme="light"] .lm-ins-section-title {
+  color: #64748b;
+  border-bottom-color: var(--lm-line);
+}
+[data-theme="light"] .lm-ins-b,
+[data-theme="light"] .lm-ins-b li,
+[data-theme="light"] .lm-ins-script { color: #334155; }
+[data-theme="light"] .lm-kv span { color: #64748b; }
+[data-theme="light"] .lm-kv b { color: #1e293b; }
+[data-theme="light"] .lm-create-steps { color: #334155; }
+
+/* Encabezado "Vista recreada / Haz clic" (topbar de la réplica) */
+[data-theme="light"] .lm-topbar { background: rgba(255,255,255,0.92); color: #334155; }
+[data-theme="light"] .lm-topbar strong { color: #0f172a; }
+/* =========================================================
+   FIX: reglas body.home-active (alta especificidad) que
+   forzaban el header/tabs oscuros en la pestaña Inicio.
+   Se igualan en modo claro.
+   ========================================================= */
+[data-theme="light"] body.home-active {
+  background: var(--bg);
+}
+[data-theme="light"] body.home-active .main-header {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: var(--line);
+}
+[data-theme="light"] body.home-active .main-header h1 { color: var(--text-strong); }
+[data-theme="light"] body.home-active .main-header .subtitle,
+[data-theme="light"] body.home-active .main-header .project-name { color: var(--muted); }
+[data-theme="light"] body.home-active .nav-tab {
+  background: #ffffff;
+  color: var(--muted);
+  border-color: var(--line);
+}
+[data-theme="light"] body.home-active .nav-tab:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary-border);
+}
+[data-theme="light"] body.home-active .nav-tab.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: var(--primary-border);
+}
+
+/* =========================================================
+   FIX EXHAUSTIVO — textos claros invisibles sobre fondo
+   claro en modo light. (El sidebar FM .lm-sidebar se deja
+   claro a propósito: su fondo #334155 sigue oscuro.)
+   ========================================================= */
+
+/* --- DATABASE --- */
+[data-theme="light"] .dbm-field-name { color: #0f172a; }
+[data-theme="light"] .dbm-list-cell { color: #334155; }
+[data-theme="light"] .dbm-pill { color: #475569; }
+[data-theme="light"] .dbm-copy { color: #334155; }
+[data-theme="light"] .dbm-tab-link:hover { color: #1e293b !important; }
+[data-theme="light"] .dbm-tab-link.active { color: #0f172a !important; }
+[data-theme="light"] .dbm-disc-action { color: #334155; }
+
+/* --- LAYOUT --- */
+[data-theme="light"] .lm-content { color: #334155; }
+[data-theme="light"] .lm-textarea { color: #334155; }
+[data-theme="light"] .lm-pbtn.both { color: #475569; }
+[data-theme="light"] .lm-mini-val { color: #334155; }
+[data-theme="light"] .lm-ins-badge.field { color: #166534; }
+[data-theme="light"] .lm-ins-badge.button { color: #92400e; }
+[data-theme="light"] .lm-create-steps li { color: #334155; }
+[data-theme="light"] .portal-open-btn:hover { color: #1e3a5f; }
+
+/* --- SCRIPTS --- */
+[data-theme="light"] .scripts-manual .note-box { color: #334155; }
+[data-theme="light"] .scripts-manual .table-soft { color: #1e293b; }
+[data-theme="light"] .scripts-manual .accordion-button { color: #0f172a !important; }
+[data-theme="light"] .scripts-manual .code pre { color: #1e293b; }
+[data-theme="light"] .scripts-manual .copy { color: #334155; }
+[data-theme="light"] .scripts-manual .combined-warnings { color: #166534; }
+
+/* --- Últimos genéricos: tag base y cuerpo de note-box (DB) --- */
+[data-theme="light"] .dbm-tag { color: #475569; }
+[data-theme="light"] .dbm-note-box { color: #334155; }
+
+/* =========================================================
+   FIX FINAL — azul claro #7dd3fc (invisible sobre blanco)
+   pasa a azul oscuro legible en modo claro.
+   ========================================================= */
+[data-theme="light"] .dbm-table code,
+[data-theme="light"] .dbm-tag.object,
+[data-theme="light"] .dbm-cat-FK,
+[data-theme="light"] .dbm-cat-CALC,
+[data-theme="light"] .dbm-cat-CONFIG,
+[data-theme="light"] .dbm-disc-status-BAJA,
+[data-theme="light"] .dbm-disc-action strong { color: #1d4ed8; }
+
+[data-theme="light"] .lm-ins-badge.portal,
+[data-theme="light"] .lm-ins-badge.calc,
+[data-theme="light"] .portal-open-btn { color: #1d4ed8; }
+
+/* Inputs y valores del mockup FM que quedaron en gris claro */
+[data-theme="light"] .lm-input,
+[data-theme="light"] .lm-field-value,
+[data-theme="light"] .lm-mini-card,
+[data-theme="light"] .lm-portal-cell,
+[data-theme="light"] .lm-hashtag { color: #334155; }
+
+/* =========================================================
+   FIX FINAL 2 — grises (#b4b4bd) y azules de botones/mockup
+   que quedaban invisibles en claro.
+   ========================================================= */
+/* DATABASE: filtros, tags y estados en gris */
+[data-theme="light"] .dbm-filter-btn,
+[data-theme="light"] .dbm-clear,
+[data-theme="light"] .dbm-tag.table,
+[data-theme="light"] .dbm-disc-status { color: #475569; }
+
+/* SCRIPTS: botones del buscador del mockup */
+[data-theme="light"] .scripts-manual .btn { color: #1d4ed8; }
+[data-theme="light"] .scripts-manual .btn-outline-secondary { color: #475569; }
+[data-theme="light"] .scripts-manual .form-control,
+[data-theme="light"] .scripts-manual .form-select { color: #1e293b !important; }
+
+/* LAYOUT: nav activo e imgbox del mockup FM */
+[data-theme="light"] .lm-nav.active { color: #1d4ed8; }
+[data-theme="light"] .lm-imgbox { color: #1d4ed8; }
+
+/* =========================================================
+   FIX FINAL 3 — <code> y celdas de tabla con azul claro,
+   y badges de estado "Resuelto" sobre verde tenue.
+   ========================================================= */
+/* code y celdas dentro de los manuales en claro */
+[data-theme="light"] .scripts-manual code,
+[data-theme="light"] .scripts-manual td code,
+[data-theme="light"] .scripts-manual td,
+[data-theme="light"] .dbm code,
+[data-theme="light"] .dbm td code,
+[data-theme="light"] .dbm-table code { color: #1d4ed8 !important; }
+[data-theme="light"] .scripts-manual .table-soft td,
+[data-theme="light"] .dbm .table-soft td { color: #1e293b !important; }
+
+/* Badges de discrepancia "Resuelto/OK" legibles sobre verde claro */
+[data-theme="light"] .dbm-disc-status-OK,
+[data-theme="light"] .dbm-disc-status-RESUELTO { color: #15803d; }
+
+/* =========================================================
+   FIX FINAL 4 — badge "CORREGIDO/Resuelto" en verde oscuro
+   sobre su fondo verde tenue, y acentos verdes del inicio
+   con verde un poco más oscuro para mejor contraste.
+   ========================================================= */
+[data-theme="light"] .dbm-disc-status-CORREGIDO,
+[data-theme="light"] .dbm-disc-status-OK,
+[data-theme="light"] .dbm-disc-status-RESUELTO { color: #15803d !important; }
+
+/* Eyebrow y subtítulo de marca del inicio (verde acento) */
+[data-theme="light"] #home .hm-eyebrow,
+[data-theme="light"] #home .hm-accent { color: #16a34a; }
+
+/* --- LAYOUT: botones de enlace del mockup (Abrir publicación / Quitar) --- */
+[data-theme="light"] .lm-link-btn { color: #1d4ed8; }
+
+/* =========================================================
+   CONSOLA "Script explicado" (.lm-formula) — IDÉNTICA en
+   ambos temas: fondo negro + sintaxis brillante FileMaker.
+   Se blinda en claro para que ninguna regla la aclare.
+   ========================================================= */
+[data-theme="light"] .lm-formula {
+  background: #16161a !important;
+  border: 1px solid #46454e;
+  color: #86efac !important;
+}
+[data-theme="light"] .lm-formula .fmh-keyword { color: #c084fc !important; font-weight: 700; }
+[data-theme="light"] .lm-formula .fmh-string  { color: #fca5a5 !important; }
+[data-theme="light"] .lm-formula .fmh-field   { color: #67e8f9 !important; }
+[data-theme="light"] .lm-formula .fmh-var     { color: #fcd34d !important; }
+[data-theme="light"] .lm-formula .fmh-func    { color: #93c5fd !important; font-weight: 600; }
+[data-theme="light"] .lm-formula .fmh-comment { color: #86efac !important; font-style: italic; }
+[data-theme="light"] .lm-formula .fmh-num     { color: #fdba74 !important; }

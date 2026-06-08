@@ -994,3 +994,15 @@
   font-size: 10px;
   color: var(--lm-muted);
 }
+/* =========================================================
+   RESALTADO DE SINTAXIS FILEMAKER — bloque .lm-formula
+   Modo OSCURO (por defecto): fondo oscuro, colores brillantes
+   y legibles (con realce de peso).
+   ========================================================= */
+.lm-formula .fmh-keyword { color: #c084fc; font-weight: 700; }   /* morado brillante */
+.lm-formula .fmh-string  { color: #fca5a5; }                      /* rojo/salmón claro */
+.lm-formula .fmh-field   { color: #67e8f9; }                      /* cian brillante */
+.lm-formula .fmh-var     { color: #fcd34d; }                      /* ámbar brillante */
+.lm-formula .fmh-func    { color: #93c5fd; font-weight: 600; }    /* azul claro */
+.lm-formula .fmh-comment { color: #86efac; font-style: italic; }  /* verde menta */
+.lm-formula .fmh-num     { color: #fdba74; }                      /* naranja claro */

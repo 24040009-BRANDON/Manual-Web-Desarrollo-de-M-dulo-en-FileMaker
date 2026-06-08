@@ -1,5 +1,104 @@
 import { escapeHTML } from "./utils.js";
 
+/**
+ * Resaltador de sintaxis ligero para código FileMaker (Script Steps y
+ * cálculos). Tokeniza en una sola pasada de izquierda a derecha para no
+ * re-procesar lo ya coloreado. Escapa cada pieza con escapeHTML.
+ * La consola se ve igual en ambos temas (fondo oscuro + colores brillantes).
+ */
+function highlightFileMaker(rawCode) {
+  const code = String(rawCode ?? "");
+
+  const keywords = [
+    "Else If", "End If", "If", "Else", "Exit Loop If", "End Loop", "Loop",
+    "Set Field", "Set Variable", "Show Custom Dialog", "Perform Script",
+    "Exit Script", "Go to Layout", "Go to Field", "Enter Find Mode",
+    "Perform Find", "Commit Records/Requests", "New Record/Request",
+    "Delete Portal Row", "Delete Record/Request", "Refresh Window",
+    "Refresh Object", "Insert File", "Insert from URL", "New Window",
+    "Close Window", "Pause/Resume Script", "Allow User Abort",
+    "Set Error Capture", "Freeze Window", "Go to Record/Request/Page",
+    "Show All Records"
+  ].sort((a, b) => b.length - a.length);
+
+  const funcs = ["Get", "IsEmpty", "Length", "Left", "Right", "Middle",
+    "Count", "Trim", "Upper", "Lower", "GetValue", "ValueCount",
+    "ExecuteSQL", "Substitute", "Position", "Abs", "Round", "Int"];
+
+  const esc = (s) => escapeHTML(s);
+  const wrap = (cls, s) => `<span class="${cls}">${esc(s)}</span>`;
+
+  let out = "";
+  let i = 0;
+  const n = code.length;
+
+  const startsWith = (list, pos) => {
+    for (const w of list) {
+      if (code.startsWith(w, pos)) {
+        // límite de palabra a la derecha
+        const after = code[pos + w.length];
+        if (after === undefined || /[^A-Za-z0-9_]/.test(after)) return w;
+      }
+    }
+    return null;
+  };
+
+  while (i < n) {
+    const ch = code[i];
+
+    // Comentario de línea: # ... hasta fin de línea
+    if (ch === "#" && (i === 0 || code[i - 1] === "\n")) {
+      let j = code.indexOf("\n", i);
+      if (j === -1) j = n;
+      out += wrap("fmh-comment", code.slice(i, j));
+      i = j;
+      continue;
+    }
+    // String entre comillas dobles
+    if (ch === '"') {
+      let j = i + 1;
+      while (j < n && code[j] !== '"') j++;
+      out += wrap("fmh-string", code.slice(i, Math.min(j + 1, n)));
+      i = j + 1;
+      continue;
+    }
+    // Variable $var / $$global
+    if (ch === "$") {
+      let j = i + 1;
+      if (code[j] === "$") j++;
+      while (j < n && /[A-Za-z0-9_]/.test(code[j])) j++;
+      out += wrap("fmh-var", code.slice(i, j));
+      i = j;
+      continue;
+    }
+    // Palabra que empieza con letra: keyword, función, Tabla::Campo, o texto
+    if (/[A-Za-z]/.test(ch)) {
+      // Tabla::Campo
+      const fld = code.slice(i).match(/^[A-Z][A-Za-z0-9_]*::[A-Za-z0-9_]+/);
+      if (fld) { out += wrap("fmh-field", fld[0]); i += fld[0].length; continue; }
+      // keyword
+      const kw = startsWith(keywords, i);
+      if (kw) { out += wrap("fmh-keyword", kw); i += kw.length; continue; }
+      // función (palabra seguida de '(')
+      const word = code.slice(i).match(/^[A-Za-z_][A-Za-z0-9_]*/)[0];
+      const rest = code.slice(i + word.length).match(/^\s*\(/);
+      if (funcs.includes(word) && rest) {
+        out += wrap("fmh-func", word); i += word.length; continue;
+      }
+      out += esc(word); i += word.length; continue;
+    }
+    // Número
+    if (/[0-9]/.test(ch)) {
+      const num = code.slice(i).match(/^\d+/)[0];
+      out += wrap("fmh-num", num); i += num.length; continue;
+    }
+    // Cualquier otro carácter
+    out += esc(ch); i++;
+  }
+  return out;
+}
+
+
 function ensureLayoutManualStyles() {
   const id = "layout-manual-css";
 
@@ -151,7 +250,7 @@ function renderFieldStatus(data, table, fieldText) {
           html += `
             <div class="lm-create-steps">
               <strong>Fórmula documentada para ${escapeHTML(calc.name)}:</strong>
-              <span class="lm-formula">${escapeHTML(calc.formula)}</span>
+              <span class="lm-formula">${highlightFileMaker(calc.formula)}</span>
               <div style="margin-top:6px">
                 Tipo: <strong>${escapeHTML(calc.type)}</strong> ·
                 Resultado: <strong>${escapeHTML(calc.result)}</strong> ·
@@ -193,7 +292,7 @@ function renderScriptDetail(data, scriptName) {
     <div class="lm-create-steps">
       <strong>${escapeHTML(main)}</strong><br>
       ${escapeHTML(detail.purpose)}
-      <span class="lm-formula">${escapeHTML(detail.steps)}</span>
+      <span class="lm-formula">${highlightFileMaker(detail.steps)}</span>
     </div>
   `;
 }

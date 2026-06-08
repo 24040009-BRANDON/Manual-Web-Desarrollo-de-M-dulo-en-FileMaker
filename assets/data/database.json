@@ -361,7 +361,20 @@
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
           "valueList": "",
           "validationKey": "Opcional · no usar Not empty en Manage Database",
-          "relatedScripts": [],
+          "relatedScripts": [
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Tras la respuesta de Meta, escribe el resultado en este campo."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Tras la respuesta de Meta, escribe el resultado en este campo."
+            }
+          ],
           "notes": [
             "La llena el script después de publicación exitosa. Puede estar vacía antes de publicar.",
             "Lo llena exclusivamente el script de publicación tras recibir éxito de la API."
@@ -387,7 +400,20 @@
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"note\">Minimal para buscar por Post_ID en futuras consultas de estadísticas.</div>\n",
           "valueList": "",
           "validationKey": "Opcional · no usar Not empty en Manage Database",
-          "relatedScripts": [],
+          "relatedScripts": [
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Tras la respuesta de Meta, escribe el resultado en este campo."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Tras la respuesta de Meta, escribe el resultado en este campo."
+            }
+          ],
           "notes": [
             "ID devuelto por Meta. Puede estar vacío si no se ha publicado o si falló.",
             "Script lo llena. Ejemplo del valor: 123456789_987654321",
@@ -446,7 +472,20 @@
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"note\">Minimal para poder buscar \"todos los registros con error 190\".</div>\n",
           "valueList": "",
           "validationKey": "Opcional · no usar Not empty en Manage Database",
-          "relatedScripts": [],
+          "relatedScripts": [
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Tras la respuesta de Meta, escribe el resultado en este campo."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Tras la respuesta de Meta, escribe el resultado en este campo."
+            }
+          ],
           "notes": [
             "Código de error. Puede estar vacío si no hay error.",
             "Text (no Number) para aceptar códigos como \"190\", \"OAuthException\" etc.",
@@ -471,7 +510,20 @@
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n",
           "valueList": "",
           "validationKey": "Opcional · no usar Not empty en Manage Database",
-          "relatedScripts": [],
+          "relatedScripts": [
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Tras la respuesta de Meta, escribe el resultado en este campo."
+            },
+            {
+              "name": "Publicar Instagram",
+              "id": "api-instagram",
+              "category": "API",
+              "does": "Tras la respuesta de Meta, escribe el resultado en este campo."
+            }
+          ],
           "notes": [
             "Detalle de error. Puede estar vacío si no hay error.",
             "Puede estar vacío si no hubo error."
@@ -1045,7 +1097,7 @@
             "API"
           ],
           "description": "URL pública directa del post publicado en Facebook o Instagram. Se obtiene mediante una segunda petición GET a Meta Graph API después de recibir el Post ID.",
-          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification during data entry</b></div>\n<div class=\"note\">Lo llena exclusivamente el script 22 · Publicar Facebook o 16 · Publicar Instagram mediante una petición GET a Meta Graph API. El usuario no lo edita.</div>\n",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification during data entry</b></div>\n<div class=\"note\">Lo llena exclusivamente el script 22 · Publicar Facebook o 23 · Publicar Instagram mediante una petición GET a Meta Graph API. El usuario no lo edita.</div>\n",
           "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override during data entry</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Require:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Strict data type</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value  <div class=\"cb\"></div> Existing value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n<div class=\"note\">Sin validación forzada. El campo puede estar vacío en intentos fallidos donde Meta no devuelve permalink. Vacío = intento fallido o API placeholder. Valor presente = publicación exitosa con URL verificable.</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b>  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n<div class=\"note\">Minimal. No requiere indexado fuerte. Se muestra en el portal de historial y se usa para el botón Abrir publicación.</div>\n",
           "valueList": "",
@@ -1075,7 +1127,7 @@
             "Requiere implementación completa del flujo GET en los scripts 22 y 23 antes de poblarse.",
             "No mostrar en layouts operativos del usuario final — solo en portal de historial técnico."
           ],
-          "consistencyStatus": "Nuevo campo — requiere scripts 22/16 actualizados"
+          "consistencyStatus": "Nuevo campo — requiere scripts 22/23 actualizados"
         },
         {
           "id": "publicaciones_log-http_status_code",
@@ -2343,7 +2395,7 @@
       ],
       "note": "El log registra intentos reales por plataforma. Nunca usa Ambas — si Plataforma_Destino = Ambas se generan dos registros de log."
     },
-    "Resultado_Log": {
+    "Resultados_Log": {
       "values": [
         "Exitoso",
         "Fallido"
