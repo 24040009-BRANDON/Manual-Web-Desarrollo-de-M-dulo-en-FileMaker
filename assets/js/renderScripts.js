@@ -306,27 +306,23 @@ export async function renderScripts() {
       <div class="scripts-manual">
         <section class="hero has-hero-bg" id="scripts-inicio">
         ${heroBackgroundHTML()}
-          <div class="position-relative z1">
-            <div class="d-flex flex-wrap gap-2 mb-3">
-              <span class="chip">FileMaker 18 Advanced</span>
-              <span class="chip">Meta Graph API</span>
-              <span class="chip">Sistema DT Informática</span>
-              <span class="chip">Manual v6 · flujo controlado</span>
-            </div>
+          <div class="position-relative z1 hero-std">
+            <span class="hero-eyebrow"><i class="bi bi-code-square"></i> Automatización · FileMaker 18 Advanced</span>
 
-            <h2 class="display-6 fw-black mb-3">Manual interactivo de scripts del módulo de publicaciones</h2>
+            <h1 class="hero-title">Manual interactivo de <span class="hero-grad">scripts</span></h1>
 
-            <p class="lead muted mb-3">
-              Ahora cada card separa claramente <strong>Script</strong> e <strong>Indicaciones</strong>.
+            <p class="hero-desc">
+              Cada card separa claramente <strong>Script</strong> e <strong>Indicaciones</strong>.
               El bloque Script queda como referencia limpia. La sección Indicaciones explica qué se configura
               manualmente en FileMaker, incluyendo ventanas como
               <strong>Show Custom Dialog Options → General / Input Fields</strong>.
             </p>
 
-            <div class="note-box">
-              <strong>Regla práctica:</strong> lo que aparece en el bloque Script se transcribe como Script Steps;
-              lo que aparece en Indicaciones te dice dónde usar botones como <em>Specify...</em>, qué pestaña abrir
-              y qué valores escribir.
+            <div class="hero-chips">
+              <span class="hero-chip">FileMaker 18 Advanced</span>
+              <span class="hero-chip">Meta Graph API</span>
+              <span class="hero-chip">Sistema DT Informática</span>
+              <span class="hero-chip">Manual v6 · flujo controlado</span>
             </div>
           </div>
         </section>

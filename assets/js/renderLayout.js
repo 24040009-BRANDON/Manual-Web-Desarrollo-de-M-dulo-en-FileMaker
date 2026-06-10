@@ -381,14 +381,23 @@ function renderInspector(data, key) {
 function createLayoutShell() {
   return `
     <div class="lm">
-      <header class="lm-header has-hero-bg">
+      <header class="lm-header lm-hero-detached has-hero-bg">
         ${heroBackgroundHTML()}
-        <h1>Manual técnico interactivo — FileMaker 18 Advanced</h1>
-        <p>
-          Manual del layout del módulo de Publicaciones. Incluye flujo controlado con
-          <strong>Script 0 · Inicializar módulo Publicaciones</strong>, campos bloqueados hasta
-          <strong>Nueva</strong> o <strong>Editar</strong>, y validaciones fuertes ejecutadas desde scripts.
-        </p>
+        <div class="hero-std">
+          <span class="hero-eyebrow"><i class="bi bi-window-stack"></i> Interfaz · FileMaker 18 Advanced</span>
+          <h1 class="hero-title">Manual interactivo del <span class="hero-grad">layout</span></h1>
+          <p class="hero-desc">
+            Manual del layout del módulo de Publicaciones. Incluye flujo controlado con
+            <strong>Script 0 · Inicializar módulo Publicaciones</strong>, campos bloqueados hasta
+            <strong>Nueva</strong> o <strong>Editar</strong>, y validaciones fuertes ejecutadas desde scripts.
+          </p>
+          <div class="hero-chips">
+            <span class="hero-chip">Layout FileMaker</span>
+            <span class="hero-chip">Inspector interactivo</span>
+            <span class="hero-chip">Flujo controlado</span>
+            <span class="hero-chip">Meta Graph API</span>
+          </div>
+        </div>
       </header>
 
       <div class="lm-layout">
@@ -399,25 +408,6 @@ function createLayoutShell() {
           </div>
 
           <div class="lm-mock">
-            <aside class="lm-sidebar lm-clickable" data-el="sidebar">
-              <div class="lm-logo">
-                <div class="lm-brand">DT Informática</div>
-                <div class="lm-sub">Módulo de Publicaciones</div>
-              </div>
-
-              <div class="lm-nav-sec">Publicaciones</div>
-              <div class="lm-nav active">Panel principal</div>
-              <div class="lm-nav">Nueva publicación</div>
-              <div class="lm-nav">Programadas</div>
-              <div class="lm-nav">Publicadas</div>
-              <div class="lm-nav">Con errores</div>
-
-              <div class="lm-nav-sec">Sistema</div>
-              <div class="lm-nav">Config. plataformas</div>
-              <div class="lm-nav">Historial completo</div>
-              <div class="lm-nav">Multimedia</div>
-            </aside>
-
             <section class="lm-main lm-clickable" data-el="layout-publicaciones">
               <div class="lm-topbar lm-clickable" data-el="topbar">
                 <strong>Gestión de publicaciones</strong>

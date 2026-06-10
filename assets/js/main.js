@@ -2,6 +2,7 @@ import { initTabs } from "./tabs.js";
 import { renderDatabase } from "./renderDatabase.js";
 import { renderScripts } from "./renderScripts.js";
 import { renderLayout } from "./renderLayout.js";
+import { renderMeta } from "./renderMeta.js";
 import { renderAbout } from "./renderAbout.js";
 
 async function runRenderer(renderer, name) {
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await runRenderer(renderDatabase, "renderDatabase");
     await runRenderer(renderScripts, "renderScripts");
     await runRenderer(renderLayout, "renderLayout");
+    await runRenderer(renderMeta, "renderMeta");
     await runRenderer(renderAbout, "renderAbout");
   } catch (error) {
     console.error("Error al inicializar la página:", error);

@@ -1006,3 +1006,37 @@
 .lm-formula .fmh-func    { color: #93c5fd; font-weight: 600; }    /* azul claro */
 .lm-formula .fmh-comment { color: #86efac; font-style: italic; }  /* verde menta */
 .lm-formula .fmh-num     { color: #fdba74; }                      /* naranja claro */
+/* =========================================================
+   AJUSTES: hero separado/redondeado + mockup sin sidebar
+   (el sidebar no existe en el proyecto real). Se añaden al
+   final para no alterar las reglas previas.
+   ========================================================= */
+
+/* Hero del layout como tarjeta independiente y redondeada,
+   igual que los heroes de los demás módulos */
+.lm-header.lm-hero-detached {
+  border: 1px solid #46454e;
+  border-radius: 22px;
+  margin-bottom: 22px;
+  padding: 26px 28px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.30);
+  overflow: hidden;            /* recorta el fondo decorativo */
+  position: relative;
+}
+.lm-header.lm-hero-detached h1 { margin-top: 0; }
+
+/* El mockup ahora es de UNA sola columna (sin sidebar de 200px) */
+.lm-mock {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* La vista del módulo recupera su borde redondeado al quedar sola */
+.lm-mock .lm-main {
+  border-radius: 0;
+}
+
+/* Modo claro: el hero separado combina con el resto */
+[data-theme="light"] .lm-header.lm-hero-detached {
+  border-color: var(--line, #e2e8f0);
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+}

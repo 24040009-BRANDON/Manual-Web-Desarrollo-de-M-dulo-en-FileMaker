@@ -411,24 +411,21 @@ function createDatabaseShell() {
         <main class="dbm-main">
           <section class="dbm-hero dbm-mb-4 has-hero-bg" id="dbm-inicio">
             ${heroBackgroundHTML()}
-            <div class="dbm-hero-inner">
-              <div class="dbm-chip-row dbm-mb-3">
-                <span class="dbm-chip">FileMaker Manage Database</span>
-                <span class="dbm-chip">Auto-Enter</span>
-                <span class="dbm-chip">Validation</span>
-                <span class="dbm-chip">Storage</span>
-                <span class="dbm-chip">Meta Graph API</span>
-              </div>
+            <div class="dbm-hero-inner hero-std">
+              <span class="hero-eyebrow"><i class="bi bi-database-fill"></i> Estructura de datos · FileMaker 18</span>
 
-              <h2>Manual interactivo de base de datos del módulo de publicaciones</h2>
+              <h1 class="hero-title">Manual interactivo de <span class="hero-grad">base de datos</span></h1>
 
-              <p class="dbm-lead dbm-muted dbm-mb-3">
-                Este manual documenta las tablas, campos, tipos de dato, llaves, validaciones, opciones Auto-Enter, Storage y dependencias necesarias para el módulo de publicaciones en FileMaker y su integración con Meta Graph API.
+              <p class="hero-desc">
+                Documenta las tablas, campos, tipos de dato, llaves, validaciones, opciones Auto-Enter, Storage y dependencias del módulo de publicaciones en FileMaker y su integración con Meta Graph API.
               </p>
 
-              <div class="dbm-note-box">
-                <strong>Regla práctica:</strong>
-                lo que aparece aquí se configura en <em>Manage Database</em>. Los nombres de tablas, campos, listas de valores y validaciones deben coincidir carácter por carácter con los scripts para evitar errores de ejecución.
+              <div class="hero-chips">
+                <span class="hero-chip">FileMaker Manage Database</span>
+                <span class="hero-chip">Auto-Enter</span>
+                <span class="hero-chip">Validation</span>
+                <span class="hero-chip">Storage</span>
+                <span class="hero-chip">Meta Graph API</span>
               </div>
             </div>
           </section>

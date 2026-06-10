@@ -1,0 +1,36 @@
+{
+  "version": "v25.0",
+  "permisos": [
+    { "scope": "pages_show_list", "icon": "bi-list-ul", "desc": "Listar las Páginas que administra el usuario.", "endpoint": "GET /me/accounts", "color": "blue" },
+    { "scope": "pages_read_engagement", "icon": "bi-eye", "desc": "Leer contenido y metadatos de la Página.", "endpoint": "GET /{page-id}", "color": "blue" },
+    { "scope": "pages_manage_posts", "icon": "bi-pencil-square", "desc": "Crear, editar y borrar publicaciones en la Página.", "endpoint": "POST /{page-id}/feed", "color": "green" },
+    { "scope": "instagram_basic", "icon": "bi-instagram", "desc": "Leer perfil y media básica de la cuenta de Instagram.", "endpoint": "GET /{ig-user-id}", "color": "pink" },
+    { "scope": "instagram_content_publish", "icon": "bi-cloud-upload", "desc": "Publicar fotos, carruseles y reels en Instagram.", "endpoint": "POST /{ig-user-id}/media", "color": "pink" }
+  ],
+  "tasks": [
+    { "name": "MANAGE", "icon": "bi-gear-fill", "desc": "Control total: administrar la Página, roles y configuración." },
+    { "name": "CREATE_CONTENT", "icon": "bi-file-earmark-plus-fill", "desc": "Crear y publicar contenido. Indispensable para postear.", "critical": true },
+    { "name": "MODERATE", "icon": "bi-chat-left-text-fill", "desc": "Responder mensajes y comentarios, moderar." },
+    { "name": "ADVERTISE", "icon": "bi-megaphone-fill", "desc": "Crear y gestionar anuncios." },
+    { "name": "ANALYZE", "icon": "bi-graph-up", "desc": "Ver estadísticas e insights." },
+    { "name": "MESSAGING", "icon": "bi-envelope-fill", "desc": "Enviar y recibir mensajes como la Página." }
+  ],
+  "tokens": [
+    { "tipo": "User Token (corto)", "icon": "bi-person", "rep": "Un usuario que inició sesión", "dur": "~1–2 horas", "uso": "Punto de partida." },
+    { "tipo": "User Token (largo)", "icon": "bi-person-check", "rep": "El mismo usuario", "dur": "~60 días", "uso": "Paso intermedio para el token de Página." },
+    { "tipo": "Page Access Token", "icon": "bi-flag-fill", "rep": "La Página (no la persona)", "dur": "No expira*", "uso": "El que usa FileMaker para publicar.", "destacado": true },
+    { "tipo": "App Token", "icon": "bi-box", "rep": "La app misma", "dur": "Permanente", "uso": "Operaciones a nivel de app." }
+  ],
+  "flujoToken": [
+    { "n": 1, "titulo": "User Token corto", "icon": "bi-key", "detalle": "Graph API Explorer → Generate Access Token con los permisos requeridos. Devuelve un token de usuario de ~1-2 h." },
+    { "n": 2, "titulo": "User Token largo", "icon": "bi-arrow-repeat", "detalle": "GET /oauth/access_token?grant_type=fb_exchange_token&client_id=<APP_ID>&client_secret=<APP_SECRET>&fb_exchange_token=<token-corto>. Devuelve ~60 días." },
+    { "n": 3, "titulo": "Page Token (no expira)", "icon": "bi-flag-fill", "detalle": "GET /me/accounts. Cada Página trae su access_token. Como se derivó de un user token largo, este Page Token NO EXPIRA." },
+    { "n": 4, "titulo": "Verificar", "icon": "bi-shield-check", "detalle": "Access Token Debugger → confirmar Type: Page, Expires: Never y los permisos correctos." }
+  ],
+  "errores": [
+    { "code": "190", "titulo": "Token inválido o expirado", "causa": "El token caducó o se revocó.", "fix": "Regenerar el Page Token." },
+    { "code": "200", "titulo": "Permiso insuficiente", "causa": "Falta pages_manage_posts, o se usó un User Token en vez de Page Token.", "fix": "Usar el Page Token de /me/accounts y reautorizar." },
+    { "code": "100", "titulo": "Parámetro inválido", "causa": "Falta message/image_url, o la URL no es pública.", "fix": "Revisar parámetros y que la URL sea HTTPS accesible." },
+    { "code": "4 / 17 / 32", "titulo": "Límite de tasa (rate limit)", "causa": "Demasiadas llamadas en poco tiempo.", "fix": "Esperar y reintentar; máx. 25 posts/24 h en Instagram." }
+  ]
+}

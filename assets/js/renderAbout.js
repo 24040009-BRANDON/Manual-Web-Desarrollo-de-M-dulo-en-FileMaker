@@ -79,14 +79,16 @@ export async function renderAbout() {
     aboutSection.innerHTML = `
       <div class="section-hero has-hero-bg">
         ${heroBackgroundHTML()}
-        <p class="eyebrow">Acerca del proyecto</p>
+        <div class="hero-std">
+          <span class="hero-eyebrow"><i class="bi bi-info-circle-fill"></i> Acerca del proyecto</span>
 
-        <h2>${escapeHTML(data.manualTitle)}</h2>
+          <h1 class="hero-title">${escapeHTML(data.manualTitle)}</h1>
 
-        <p>${escapeHTML(data.description)}</p>
+          <p class="hero-desc">${escapeHTML(data.description)}</p>
 
-        <div class="badge-row">
-          ${createBadges(data.technology)}
+          <div class="hero-chips badge-row">
+            ${createBadges(data.technology)}
+          </div>
         </div>
       </div>
 

@@ -601,3 +601,46 @@ html:not([data-theme="light"]) .lm-mock-title strong { color: #0f172a; }
    vuelve al azul suave original (legible con texto oscuro).
    ========================================================= */
 [data-theme="light"] .scripts-manual { --sm-hover: #f0f6ff; }
+/* =========================================================
+   MÓDULO META GRAPH API — adaptación a MODO CLARO
+   Redefine las variables del módulo para fondo claro,
+   conservando los acentos verde/azul/rosa. La consola del
+   simulador y los bloques de código JSON se quedan oscuros
+   a propósito (estética terminal, legible en ambos temas).
+   ========================================================= */
+[data-theme="light"] .meta {
+  --m-panel: #ffffff;
+  --m-panel2: #f1f5f9;
+  --m-line: #e2e8f0;
+  --m-text: #0f172a;
+  --m-muted: #64748b;
+  --m-bg: #eef2f7;
+  --m-accent2: #16a34a;
+}
+[data-theme="light"] .meta-hero {
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+}
+[data-theme="light"] .meta-hero p { color: #475569; }
+[data-theme="light"] .meta-concept:hover,
+[data-theme="light"] .meta-perm:hover,
+[data-theme="light"] .meta-token:hover,
+[data-theme="light"] .meta-err:hover { box-shadow: 0 14px 30px rgba(15,23,42,.10); }
+[data-theme="light"] .meta-perm-ico { background: #f1f5f9; }
+[data-theme="light"] .meta-pattern > div { background: #f8fafc; }
+[data-theme="light"] .meta-pattern code { color: #0f172a; }
+[data-theme="light"] .meta-flow-card strong,
+[data-theme="light"] .meta-token h4,
+[data-theme="light"] .meta-concept h4,
+[data-theme="light"] .meta-err-body strong,
+[data-theme="light"] .meta-note strong { color: #0f172a; }
+/* La consola del simulador permanece oscura en ambos temas */
+[data-theme="light"] .meta-sim {
+  background: linear-gradient(135deg, #ffffff, #f1f5f9);
+  box-shadow: 0 16px 42px rgba(15,23,42,.08);
+}
+[data-theme="light"] .meta-sim-head h3 { color: #0f172a; }
+[data-theme="light"] .meta-field textarea,
+[data-theme="light"] .meta-field input[type="text"],
+[data-theme="light"] .meta-seg-btn { background: #f8fafc; color: #0f172a; }
+[data-theme="light"] .meta-sim-console { background: #16161a; }   /* terminal oscura siempre */
