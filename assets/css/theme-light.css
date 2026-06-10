@@ -583,3 +583,21 @@ html:not([data-theme="light"]) .lm-mock-title {
   border-bottom: 1px solid #d9e3ef;
 }
 html:not([data-theme="light"]) .lm-mock-title strong { color: #0f172a; }
+/* =========================================================
+   RESALTADO matriz/tarjetas de scripts en MODO CLARO
+   Azul y rojo más oscuros para destacar sobre fondo blanco.
+   ========================================================= */
+[data-theme="light"] .sm-hl-blue,
+[data-theme="light"] .scripts-manual td.sm-hl-blue,
+[data-theme="light"] .scripts-manual .table-soft td.sm-hl-blue { color: #1d4ed8 !important; font-weight: 600; }
+[data-theme="light"] .sm-hl-red,
+[data-theme="light"] .scripts-manual td.sm-hl-red,
+[data-theme="light"] .scripts-manual .table-soft td.sm-hl-red { color: #dc2626 !important; font-weight: 600; }
+[data-theme="light"] .sm-hl-muted { color: #64748b; }
+
+/* =========================================================
+   FIX hover de la tabla de scripts en MODO CLARO
+   En oscuro --sm-hover es un verde tenue oscuro; en claro
+   vuelve al azul suave original (legible con texto oscuro).
+   ========================================================= */
+[data-theme="light"] .scripts-manual { --sm-hover: #f0f6ff; }

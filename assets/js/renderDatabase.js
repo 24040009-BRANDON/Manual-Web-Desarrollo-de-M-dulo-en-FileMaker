@@ -1,4 +1,4 @@
-import { escapeHTML } from "./utils.js";
+import { escapeHTML, heroBackgroundHTML } from "./utils.js";
 
 function normalizeText(value = "") {
   return String(value)
@@ -409,7 +409,8 @@ function createDatabaseShell() {
     <div class="dbm">
       <div class="dbm-app">
         <main class="dbm-main">
-          <section class="dbm-hero dbm-mb-4" id="dbm-inicio">
+          <section class="dbm-hero dbm-mb-4 has-hero-bg" id="dbm-inicio">
+            ${heroBackgroundHTML()}
             <div class="dbm-hero-inner">
               <div class="dbm-chip-row dbm-mb-3">
                 <span class="dbm-chip">FileMaker Manage Database</span>

@@ -1,5 +1,4 @@
-
-import { escapeHTML } from "./utils.js";
+import { escapeHTML, heroBackgroundHTML } from "./utils.js";
 
 function ensureScriptsManualCSS() {
   const href = "assets/css/scripts-manual.css";
@@ -59,14 +58,14 @@ function renderScriptCard(script, index, combined, visual) {
           <div class="col-lg-6">
             <b class="small muted">Tabla / Layout</b>
             <div>
-              <span style="font-size:.85rem;color:#1d4ed8;font-weight:600">${escapeHTML(script.table)}</span>
-              <span style="font-size:.8rem;color:#ffffff;margin-left:6px">/ ${escapeHTML(script.layout)}</span>
+              <span class="sm-hl-blue" style="font-size:.85rem;font-weight:600">${escapeHTML(script.table)}</span>
+              <span class="sm-hl-muted" style="font-size:.8rem;margin-left:6px">/ ${escapeHTML(script.layout)}</span>
             </div>
           </div>
 
           <div class="col-lg-6">
             <b class="small muted">Parámetro</b>
-            <div><span style="font-size:.84rem;color:#9d174d">${escapeHTML(script.params)}</span></div>
+            <div><span class="sm-hl-red" style="font-size:.84rem">${escapeHTML(script.params)}</span></div>
           </div>
 
           <div class="col-12">
@@ -227,11 +226,11 @@ function renderMatrix(container, matrix = []) {
   container.innerHTML = matrix.map((row) => `
     <tr>
       <td>${escapeHTML(row.button)}</td>
-      <td><code style="font-size:.82rem;color:#7dd3fc">${escapeHTML(row.object)}</code></td>
+      <td><code class="sm-hl-blue" style="font-size:.82rem">${escapeHTML(row.object)}</code></td>
       <td><b>${escapeHTML(row.script)}</b></td>
       <td>${escapeHTML(row.field)}</td>
-      <td style="color:#7dd3fc;font-size:.85rem;font-weight:600">${escapeHTML(row.table)}</td>
-      <td style="color:#9d174d;font-size:.85rem">${escapeHTML(row.param)}</td>
+      <td class="sm-hl-blue" style="font-size:.85rem;font-weight:600">${escapeHTML(row.table)}</td>
+      <td class="sm-hl-red" style="font-size:.85rem">${escapeHTML(row.param)}</td>
       <td>${escapeHTML(row.result)}</td>
     </tr>
   `).join("");
@@ -305,7 +304,8 @@ export async function renderScripts() {
 
     section.innerHTML = `
       <div class="scripts-manual">
-        <section class="hero" id="scripts-inicio">
+        <section class="hero has-hero-bg" id="scripts-inicio">
+        ${heroBackgroundHTML()}
           <div class="position-relative z1">
             <div class="d-flex flex-wrap gap-2 mb-3">
               <span class="chip">FileMaker 18 Advanced</span>

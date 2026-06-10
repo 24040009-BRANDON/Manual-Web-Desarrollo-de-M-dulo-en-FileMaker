@@ -1,4 +1,4 @@
-import { escapeHTML } from "./utils.js";
+import { escapeHTML, heroBackgroundHTML } from "./utils.js";
 
 /**
  * Resaltador de sintaxis ligero para código FileMaker (Script Steps y
@@ -381,7 +381,8 @@ function renderInspector(data, key) {
 function createLayoutShell() {
   return `
     <div class="lm">
-      <header class="lm-header">
+      <header class="lm-header has-hero-bg">
+        ${heroBackgroundHTML()}
         <h1>Manual técnico interactivo — FileMaker 18 Advanced</h1>
         <p>
           Manual del layout del módulo de Publicaciones. Incluye flujo controlado con

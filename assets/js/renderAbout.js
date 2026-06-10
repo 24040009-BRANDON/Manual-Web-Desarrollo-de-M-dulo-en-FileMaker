@@ -1,4 +1,4 @@
-import { escapeHTML } from "./utils.js";
+import { escapeHTML, heroBackgroundHTML } from "./utils.js";
 
 function createList(items = []) {
   if (!Array.isArray(items) || items.length === 0) {
@@ -77,7 +77,8 @@ export async function renderAbout() {
     const data = normalizeAboutData(rawData);
 
     aboutSection.innerHTML = `
-      <div class="section-hero">
+      <div class="section-hero has-hero-bg">
+        ${heroBackgroundHTML()}
         <p class="eyebrow">Acerca del proyecto</p>
 
         <h2>${escapeHTML(data.manualTitle)}</h2>
