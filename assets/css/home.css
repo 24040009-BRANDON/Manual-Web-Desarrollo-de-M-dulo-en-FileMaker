@@ -288,3 +288,45 @@ body.home-active .nav-tab.active {
   color: #4ade80;
   border-color: #4ade80;
 }
+/* =========================================================
+   REEQUILIBRIO DE LA CUADRÍCULA DEL INICIO
+   6 tarjetas iguales en 3 columnas (2 filas), sin el cuadro
+   verde gigante. Compacto para entrar sin scroll. Se añade
+   al final para sobrescribir las reglas previas del bento.
+   ========================================================= */
+.hm-bento {
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 14px;
+}
+/* Anular spans de las tarjetas antiguas */
+.hm-bento .hm-card-feature,
+.hm-bento .hm-card-wide,
+.hm-bento .hm-card-accent,
+.hm-bento .hm-card-stats {
+  grid-column: auto;
+  grid-row: auto;
+}
+/* Base de datos: acento verde sutil, NO bloque sólido gigante */
+.hm-card-accent {
+  background: linear-gradient(150deg, rgba(74, 222, 128, 0.14), var(--hm-card));
+  border-color: rgba(74, 222, 128, 0.35);
+}
+.hm-card-accent .hm-card-icon { color: var(--hm-accent); }
+
+/* Tarjetas un poco más compactas */
+.hm-card { padding: 18px 18px 16px; box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22); }
+.hm-card-icon { width: 40px; height: 40px; }
+.hm-card-title { font-size: 19px; }
+.hm-card-desc { font-size: 12.5px; }
+
+/* Stats centradas verticalmente */
+.hm-card-stats { justify-content: center; }
+
+/* Responsive: 2 columnas en pantallas medianas, 1 en móvil */
+@media (max-width: 960px) { .hm-bento { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .hm-bento { grid-template-columns: 1fr; } }
+
+/* Compactar el inicio para que entre sin scroll */
+.hm-inner { padding: 28px 36px 32px; }
+.hm-hero { margin-bottom: 22px; }

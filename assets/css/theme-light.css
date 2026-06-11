@@ -615,6 +615,7 @@ html:not([data-theme="light"]) .lm-mock-title strong { color: #0f172a; }
   --m-text: #0f172a;
   --m-muted: #64748b;
   --m-bg: #eef2f7;
+  --m-accent: #15803d;
   --m-accent2: #16a34a;
 }
 [data-theme="light"] .meta-hero {

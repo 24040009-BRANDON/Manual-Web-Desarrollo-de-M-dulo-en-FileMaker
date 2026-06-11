@@ -1124,10 +1124,10 @@
             "No confundir con Post_ID_Retornado: ese guarda el ID técnico, este guarda la URL pública visible."
           ],
           "warnings": [
-            "Requiere implementación completa del flujo GET en los scripts 22 y 23 antes de poblarse.",
+            "Script 22 (Facebook) ya puebla este campo vía flujo POST + GET. El script 23 (Instagram) lo poblará cuando se implemente la API de Instagram.",
             "No mostrar en layouts operativos del usuario final — solo en portal de historial técnico."
           ],
-          "consistencyStatus": "Nuevo campo — requiere scripts 22/23 actualizados"
+          "consistencyStatus": "Implementado en script 22 (Facebook) — pendiente solo en script 23 (Instagram)"
         },
         {
           "id": "publicaciones_log-http_status_code",
@@ -2270,13 +2270,13 @@
       "statusColor": "blue"
     },
     {
-      "level": "PENDIENTE_API",
+      "level": "CORREGIDO",
       "title": "Campos finales de Publicaciones dependen de la API real",
-      "detail": "Post_ID_API, Codigo_Error, Detalle_Error y Fecha_Publicacion_Real existen en Publicaciones, pero solo podrán llenarse correctamente cuando se sustituya el placeholder por Insert from URL + cURL y manejo JSON real.",
-      "action": "No es error de estructura. Queda marcado como pendiente controlado de implementación API final.",
-      "status": "PENDIENTE_API",
+      "detail": "Post_ID_API, Codigo_Error, Detalle_Error y Fecha_Publicacion_Real se llenan ya correctamente desde el script 22 (Publicar Facebook), que implementa Insert from URL + cURL y manejo JSON real (POST + GET). Para Instagram (script 23) estos campos siguen pendientes hasta implementar el flujo /media + /media_publish.",
+      "action": "Facebook: ningún cambio pendiente, los campos se poblan en tiempo real. Instagram: implementar script 23 para completar el poblado de estos campos en publicaciones de Instagram.",
+      "status": "CORREGIDO",
       "resolvedAt": "2026-06-03",
-      "statusLabel": "Pendiente controlado",
+      "statusLabel": "FACEBOOK OK · INSTAGRAM PENDIENTE",
       "statusColor": "amber"
     },
     {

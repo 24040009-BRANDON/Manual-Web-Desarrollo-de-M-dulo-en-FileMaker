@@ -16,7 +16,7 @@ function createBadges(items = []) {
   }
 
   return items
-    .map((item) => `<span class="badge">${escapeHTML(item)}</span>`)
+    .map((item) => `<span class="hero-chip">${escapeHTML(item)}</span>`)
     .join("");
 }
 
