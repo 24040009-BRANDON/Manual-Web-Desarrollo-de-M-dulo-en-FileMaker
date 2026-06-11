@@ -424,6 +424,47 @@
           "consistencyStatus": "Alineado al flujo controlado"
         },
         {
+          "id": "publicaciones-permalink_url",
+          "table": "Publicaciones",
+          "name": "Permalink_URL",
+          "rawName": "Permalink_URL",
+          "type": "Text",
+          "role": [
+            "API"
+          ],
+          "description": "Enlace público (permalink) del post publicado; lo usan el Web Viewer y el botón Ver publicación.",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"note\">El script 22 lo llena en FASE 5 con $$permalink_url. Ejemplo: https://www.facebook.com/&lt;PAGE_ID&gt;/posts/&lt;POST_ID&gt;</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"note\">NUNCA marcar Not empty: el permalink llega vacío hasta publicar con éxito. Forzarlo rompe borradores y programadas (error 509).</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b>  <div class=\"rb\"></div> Minimal</div>\n<div class=\"note\">Sin índice: no se busca por permalink.</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional · NO usar Not empty en Manage Database",
+          "relatedScripts": [
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "En FASE 5 guarda el permalink (de la respuesta GET) en este campo."
+            },
+            {
+              "name": "Abrir publicación en navegador",
+              "id": "btn-abrir-publicacion",
+              "category": "Sistema",
+              "does": "Usa este campo con Open URL para abrir el post en el navegador real."
+            }
+          ],
+          "notes": [
+            "Existe en paralelo a Publicaciones_Log::Permalink_URL: este guarda el permalink vigente de la publicación (para mostrar); el del Log guarda el de cada intento histórico (auditoría).",
+            "Lo llena el script 22 en FASE 5. El del Log lo llena el script 50 (parámetro 9).",
+            "El Web Viewer lo lee para previsualizar; el botón Ver publicación lo abre con Open URL.",
+            "Puede estar vacío en borradores, programadas o publicaciones con error.",
+            "El embed del Web Viewer solo funciona con posts públicos; si es privado, Facebook muestra 'publicación no disponible'. El botón Open URL es la vía confiable."
+          ],
+          "warnings": [
+            "No marcar Not empty en la validación: provoca error 509 al guardar borradores."
+          ],
+          "consistencyStatus": "Implementado y probado en producción (página Bazar)"
+        },
+        {
           "id": "publicaciones-respuesta_api_json",
           "table": "Publicaciones",
           "name": "Respuesta_API_JSON",
@@ -834,7 +875,7 @@
             "EXTENSIÓN",
             "LOG"
           ],
-          "description": "EXTENSIÓN PROPIA: fecha y hora en que la publicación se marcó como eliminada (borrado lógico / soft delete). El registro NUNCA se borra físicamente. No incluido en los manuales base originales.",
+          "description": "Fecha del borrado lógico (soft delete); el registro no se borra físicamente.",
           "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"note\">Sin Auto-Enter. Lo llena el Script 07 al marcar como eliminado.</div>\n",
           "validation": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"note\">Campo opcional. Solo se llena cuando el registro pasa a Estado Eliminado.</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n",
@@ -864,7 +905,7 @@
             "EXTENSIÓN",
             "LOG"
           ],
-          "description": "EXTENSIÓN PROPIA: nombre de la cuenta FileMaker que marcó la publicación como eliminada. Lo llena el Script 07 con Get(AccountName). Permite trazabilidad de quién eliminó. No incluido en los manuales base originales.",
+          "description": "Usuario de FileMaker que marcó la publicación como eliminada (Get(AccountName)).",
           "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"note\">Sin Auto-Enter. Lo llena el Script 07 al marcar como eliminado.</div>\n",
           "validation": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"note\">Campo opcional. Solo se llena cuando el registro pasa a Estado Eliminado.</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n",
@@ -1096,7 +1137,7 @@
             "LOG",
             "API"
           ],
-          "description": "URL pública directa del post publicado en Facebook o Instagram. Se obtiene mediante una segunda petición GET a Meta Graph API después de recibir el Post ID.",
+          "description": "URL pública del post; se obtiene en la segunda petición GET a Meta tras el Post ID.",
           "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Prohibit modification during data entry</b></div>\n<div class=\"note\">Lo llena exclusivamente el script 22 · Publicar Facebook o 23 · Publicar Instagram mediante una petición GET a Meta Graph API. El usuario no lo edita.</div>\n",
           "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override during data entry</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Require:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Strict data type</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value  <div class=\"cb\"></div> Existing value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n<div class=\"note\">Sin validación forzada. El campo puede estar vacío en intentos fallidos donde Meta no devuelve permalink. Vacío = intento fallido o API placeholder. Valor presente = publicación exitosa con URL verificable.</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b>  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n<div class=\"note\">Minimal. No requiere indexado fuerte. Se muestra en el portal de historial y se usa para el botón Abrir publicación.</div>\n",
@@ -1680,7 +1721,7 @@
             "EXTENSIÓN",
             "API"
           ],
-          "description": "EXTENSIÓN PROPIA: indica si el archivo ya tiene URL pública lista para Meta (Pendiente / Listo). Apoya el flujo de carrusel de Facebook. No incluido en los manuales base originales.",
+          "description": "Indica si el archivo ya tiene URL pública lista para Meta (Pendiente / Listo).",
           "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Data:</b> <span class=\"fm-input\" style=\"margin-left:6px\">Pendiente</span></div>\n<div class=\"note\">Nace como Pendiente; pasa a Listo cuando URL_Publica está disponible.</div>\n",
           "validation": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"note\">Opcional. Valores sugeridos: Pendiente, Listo.</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b></div>\n",
@@ -1802,6 +1843,15 @@
       "scripts": "No directo / técnico",
       "validation": "Opcional · no usar Not empty en Manage Database",
       "result": "ID del post retornado por Meta Graph API"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Permalink_URL",
+      "type": "Text",
+      "role": "API, VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Opcional · no usar Not empty en Manage Database",
+      "result": "Enlace público del post; lo usan el Web Viewer y el botón Ver publicación"
     },
     {
       "table": "Publicaciones",
@@ -2134,7 +2184,7 @@
       "role": "EXTENSIÓN, LOG",
       "scripts": "Confirmar eliminar publicación",
       "validation": "Opcional",
-      "result": "EXTENSIÓN PROPIA: fecha y hora en que la publicación se marcó como eliminada (borrado lógico / soft delete). El registro NUNCA se borra físicamente. No incluido"
+      "result": "Fecha del borrado lógico (soft delete); el registro no se borra físicamente"
     },
     {
       "table": "Publicaciones",
@@ -2143,7 +2193,7 @@
       "role": "EXTENSIÓN, LOG",
       "scripts": "Confirmar eliminar publicación",
       "validation": "Opcional",
-      "result": "EXTENSIÓN PROPIA: nombre de la cuenta FileMaker que marcó la publicación como eliminada. Lo llena el Script 07 con Get(AccountName). Permite trazabilidad de qui"
+      "result": "Usuario de FileMaker que marcó la publicación como eliminada"
     },
     {
       "table": "Publicaciones_Log",
@@ -2152,7 +2202,7 @@
       "role": "EXTENSIÓN, LOG, API",
       "scripts": "Publicar Facebook; Publicar Instagram",
       "validation": "Always   Only during data entry  Allow user to override during data entry  Require:  Strict data type  Not empty   Unique value   Existing value  Member of value list  In range  Validated by calculati",
-      "result": "URL pública directa del post publicado en Facebook o Instagram. Se obtiene mediante una segunda petición GET a Meta Graph API después de recibir el Post ID."
+      "result": "URL pública del post; se obtiene en la segunda petición GET a Meta tras el Post ID"
     },
     {
       "table": "Publicacion_Multimedia",
@@ -2161,7 +2211,7 @@
       "role": "EXTENSIÓN, API",
       "scripts": "Agregar archivo multimedia",
       "validation": "Opcional",
-      "result": "EXTENSIÓN PROPIA: indica si el archivo ya tiene URL pública lista para Meta (Pendiente / Listo). Apoya el flujo de carrusel de Facebook. No incluido en los manu"
+      "result": "Indica si el archivo ya tiene URL pública lista para Meta (Pendiente / Listo)"
     }
   ],
   "flow": [

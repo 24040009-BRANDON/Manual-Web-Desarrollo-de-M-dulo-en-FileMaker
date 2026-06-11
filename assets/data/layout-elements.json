@@ -1281,13 +1281,19 @@
       "explain": "Muestra registros relacionados de Publicaciones_Log para auditar intentos de publicación. También permite abrir la URL pública de una publicación cuando el intento fue exitoso y existe Permalink_URL."
     },
     "metadatos": {
-      "title": "Tarjeta Metadatos del registro",
+      "title": "Bloque de datos técnicos (zona derecha, bajo el Web Viewer)",
       "fm_object": "Field Group",
-      "object_name": "grp_metadatos",
+      "object_name": "grp_datos_tecnicos",
       "table": "Publicaciones",
-      "field": "ID_Publicacion / Creado_Por / Fecha_Creacion / Modificado_Por / Modificado_En / Estado / Plataforma_Destino",
-      "script": "N/A",
-      "explain": "Resumen técnico del registro actual: ID, usuario creador, modificación, estado y plataforma."
+      "field": "Permalink_URL / Post_ID_API / Fecha_Publicacion_Real / Respuesta_API_JSON / Codigo_Error / Detalle_Error",
+      "script": "N/A (solo lectura)",
+      "explain": "Tras la reorganización del layout, los datos técnicos de solo lectura se agrupan en la zona DERECHA, debajo del Web Viewer. Muestran el resultado de la última publicación: permalink, Post ID de Meta, fecha real, respuesta JSON cruda y, si hubo fallo, código y detalle del error.",
+      "section": "derecha",
+      "notes": [
+        "Reorganización: la zona izquierda concentra el flujo operativo (captura + botones de acción); la zona derecha el resultado (Web Viewer arriba, datos técnicos debajo).",
+        "Permalink_URL aquí es el campo NUEVO de la tabla Publicaciones (no el del Log).",
+        "Son campos de solo lectura: el usuario no los edita, los llena el script 22."
+      ]
     },
     "config": {
       "title": "Tarjeta Config. plataformas activas",
@@ -1296,7 +1302,12 @@
       "table": "Config_Plataformas",
       "field": "Nombre_Plataforma / ID_Cuenta_Meta / Access_Token / API_Version / Token_Expiracion / Activo",
       "script": "30. Ir a configuración de plataformas",
-      "explain": "Muestra configuración activa de Facebook o Instagram, token enmascarado, versión API y expiración."
+      "explain": "Los campos de Config_Plataformas (Nombre_Plataforma, ID_Cuenta_Meta, Access_Token, API_Version, Token_Expiracion, Activo) NO van en el layout Publicaciones: son campos de otra tabla sin relación directa y, sueltos en este layout, se comportan como campos fantasma. Se gestionan en un layout administrativo aparte basado en la tabla Config_Plataformas.",
+      "notes": [
+        "Mantener estos campos fuera del layout operativo de Publicaciones.",
+        "Crear/usar un layout administrativo basado en Config_Plataformas para editar el token y la configuración.",
+        "El script 22 lee la config en runtime (Find por Nombre_Plataforma=Facebook y Activo=1); no necesita los campos visibles en Publicaciones."
+      ]
     },
     "multimedia": {
       "title": "Tarjeta Multimedia adjunta",
@@ -1311,15 +1322,15 @@
       "title": "Botón Abrir publicación",
       "fm_object": "Button",
       "object_name": "btn_abrir_publicacion",
-      "table": "Publicaciones_Log",
+      "table": "Publicaciones",
       "field": "Permalink_URL",
       "script": "51. Abrir publicación en navegador",
-      "explain": "Botón colocado dentro de cada fila del portal Publicaciones_Log. Abre en el navegador la URL pública generada por Meta Graph API para el intento seleccionado. Si el campo Permalink_URL está vacío, el script muestra un aviso y no intenta abrir ninguna página.",
+      "explain": "Botón que abre el post en el navegador predeterminado del sistema usando Publicaciones::Permalink_URL. Es la vía CONFIABLE de ver la publicación (a diferencia del Web Viewer embebido, que solo muestra posts públicos). Si el permalink está vacío, el script avisa y no abre nada.",
       "section": "portal",
       "notes": [
-        "Colocar dentro del portal de Publicaciones_Log.",
-        "Solo funciona cuando el intento de publicación fue exitoso y existe Permalink_URL.",
-        "Open URL abre el enlace en el navegador predeterminado del sistema."
+        "Lee Publicaciones::Permalink_URL (campo vigente), no el del Log.",
+        "Open URL abre el navegador real del sistema, donde hay sesión de Facebook: muestra el post aunque el Web Viewer embebido falle.",
+        "Puede colocarse junto al Web Viewer o en la fila de acciones."
       ]
     },
     "btn-restaurar": {
@@ -1357,6 +1368,22 @@
       "field": "Publicacion_Multimedia::ID_Media",
       "script": "41. Quitar archivo multimedia",
       "explain": "EXTENSIÓN: borrado real de la fila del portal (son borradores pre-publicación) y reordena los restantes. No es cascada."
+    },
+    "web-viewer": {
+      "title": "Web Viewer · previsualización del post",
+      "fm_object": "Web Viewer",
+      "object_name": "wv_post_facebook",
+      "table": "Publicaciones",
+      "field": "Permalink_URL",
+      "script": "N/A",
+      "explain": "Visor web en la zona superior derecha. Intenta embeber el post publicado usando el plugin oficial de Facebook. Dirección web (cálculo): \"https://www.facebook.com/plugins/post.php?href=\" & Publicaciones::Permalink_URL & \"&show_text=true&width=500\".",
+      "section": "derecha",
+      "notes": [
+        "El embed SOLO funciona con posts PÚBLICOS. Si el post es privado o la página no está publicada, Facebook muestra 'Esta publicación ya no está disponible'. No es un error del módulo, es una restricción de Facebook.",
+        "El Web Viewer de FileMaker no tiene sesión de Facebook, por lo que ve el post como visitante anónimo.",
+        "Para ver el post de forma CONFIABLE se usa el botón 'Abrir publicación' (Open URL), que abre el navegador real con sesión. El Web Viewer queda como previsualización opcional.",
+        "Si el permalink está vacío (borrador/programada/error), el visor queda en blanco."
+      ]
     }
   }
 }
