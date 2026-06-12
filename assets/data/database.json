@@ -136,13 +136,19 @@
             "API",
             "VALIDACIÓN"
           ],
-          "description": "URL pública para Meta Graph API",
+          "description": "URL pública HTTPS de la imagen; si tiene valor, la publicación se envía con foto vía /photos.",
           "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n",
           "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Validated by calculation</b></div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">IsEmpty ( URL_Imagen ) or Left ( URL_Imagen ; 4 ) = \"http\"</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n<div class=\"note\">La validación permite vacío para borrador. Si hay URL, debe iniciar con http. La obligatoriedad depende del flujo de publicación y se valida en el script 20.</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
           "valueList": "",
           "validationKey": "Opcional para Borrador · si tiene valor debe iniciar con http · requerida por script 20 para Instagram/Ambas",
           "relatedScripts": [
+            {
+              "name": "Publicar Facebook",
+              "id": "api-facebook",
+              "category": "API",
+              "does": "Si este campo tiene valor, publica la imagen vía POST /photos (url=esta_URL, caption=texto); si está vacío, publica solo texto vía /feed."
+            },
             {
               "name": "Validar publicación antes de enviar",
               "id": "api-validar",
@@ -157,12 +163,15 @@
             }
           ],
           "notes": [
-            "URL pública requerida por Meta Graph API cuando se publica en Instagram o en ambas plataformas.",
-            "El campo puede quedar vacío en Borrador.",
-            "Si el usuario sube imagen a Container, el flujo futuro debe generar una URL pública antes de publicar."
+            "Si tiene valor, el script 22 publica con imagen (POST /photos); si está vacío, publica solo texto (POST /feed). La detección es automática.",
+            "Debe ser una URL pública HTTPS accesible por Meta (Meta descarga la imagen desde ahí). DT usa su propio dominio: https://dt-informatica.com.mx/Imagenes/...",
+            "Meta NO acepta base64 ni el binario del contenedor de forma simple; por eso se usa una URL pública.",
+            "También requerida para Instagram (script 23), que siempre exige URL pública.",
+            "Puede quedar vacío en Borrador.",
+            "Pendiente: automatizar la subida del Imagen_Container al servidor de DT (FTP o script PHP) para generar esta URL sin pegarla a mano."
           ],
           "warnings": [],
-          "consistencyStatus": "Alineado al flujo controlado"
+          "consistencyStatus": "Implementado y probado en producción (publicación con imagen vía /photos)"
         },
         {
           "id": "publicaciones-imagen_container",

@@ -1188,7 +1188,12 @@
       "table": "Publicaciones",
       "field": "Imagen_Container",
       "script": "N/A",
-      "explain": "Campo Container local para mostrar imagen en FileMaker. No se envía directamente a Meta Graph API."
+      "explain": "Campo Container local para previsualizar la imagen dentro de FileMaker. NO se envía a Meta (Meta no acepta el binario del contenedor de forma simple). Para publicar la foto se usa su URL pública en el campo URL_Imagen.",
+      "notes": [
+        "Solo previsualización en FileMaker; no se sube directo a Meta.",
+        "El flujo de publicación usa URL_Imagen (URL pública), no este contenedor.",
+        "Idea futura: arrastras la imagen aquí, un script la sube al servidor de DT y rellena URL_Imagen automáticamente."
+      ]
     },
     "url": {
       "title": "Campo URL pública",
@@ -1196,8 +1201,13 @@
       "object_name": "fld_url_imagen",
       "table": "Publicaciones",
       "field": "URL_Imagen",
-      "script": "20. Validar publicación antes de enviar / 23. Publicar Instagram",
-      "explain": "URL pública que Meta Graph API puede consultar. Es obligatoria para Instagram o Ambas al publicar."
+      "script": "22. Publicar Facebook / 20. Validar / 23. Publicar Instagram",
+      "explain": "URL pública HTTPS de la imagen. Si tiene valor, el script 22 publica con foto vía /photos (caption + url); si está vacío, publica solo texto vía /feed. También requerida para Instagram. Meta descarga la imagen desde esta URL, por eso debe ser pública (DT usa su propio dominio).",
+      "notes": [
+        "Entrada del flujo de imagen: su presencia decide /photos vs /feed en el script 22.",
+        "Debe ser URL pública HTTPS (ej. https://dt-informatica.com.mx/Imagenes/foto.jpg).",
+        "Pendiente: automatizar la subida del Imagen_Container al servidor de DT para llenar este campo sin pegar la URL a mano."
+      ]
     },
     "estado": {
       "title": "Grupo Estado",
