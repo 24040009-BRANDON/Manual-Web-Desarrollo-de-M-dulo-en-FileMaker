@@ -1,0 +1,68 @@
+/* ============================================================
+   MÓDULO ARQUITECTURA — estilos (prefijo .arq-)
+   Usa variables globales de tokens.css para respetar claro/oscuro.
+   ============================================================ */
+
+.arq-wrap { padding: 4px 0 24px; }
+.arq-head h2 { font-size: 22px; font-weight: 600; margin: 0 0 4px; color: var(--text); }
+.arq-head p { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
+
+.arq-stage { display: grid; grid-template-columns: 1fr; gap: 18px; }
+@media (min-width: 920px) { .arq-stage { grid-template-columns: 1.15fr 0.85fr; align-items: start; } }
+
+/* --- Diagrama --- */
+.arq-diagram { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.arq-diagram h3 { font-size: 12px; color: var(--muted); font-weight: 500; margin: 0 0 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+.arq-tables { display: flex; flex-direction: column; gap: 0; }
+
+.arq-tbl { background: var(--soft); border: 1.5px solid var(--line); border-radius: 10px; padding: 12px 14px; cursor: pointer; transition: border-color 0.15s; position: relative; z-index: 2; }
+.arq-tbl:hover { border-color: var(--primary-border); }
+.arq-tbl.active { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-soft); }
+.arq-tbl:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.arq-tbl.arq-parent { border-color: var(--primary-border); }
+.arq-tbl.arq-dashed { border-style: dashed; }
+.arq-name { font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.arq-name .bi { color: var(--primary); }
+.arq-cnt { font-size: 11px; color: var(--muted); font-weight: 400; }
+.arq-role { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+.arq-relwrap { position: relative; height: 44px; display: flex; align-items: center; justify-content: center; }
+.arq-vline { position: absolute; left: 50%; top: 0; bottom: 0; width: 1.5px; background: var(--line); transform: translateX(-50%); z-index: 1; }
+.arq-rel { background: transparent; border: 1px dashed var(--primary-border); color: var(--primary); font-size: 11px; padding: 3px 12px; border-radius: 20px; cursor: pointer; z-index: 2; white-space: nowrap; transition: background 0.15s; font-family: inherit; }
+.arq-rel:hover { background: var(--primary-soft); }
+.arq-rel.active { background: var(--primary); color: #06210f; border-style: solid; }
+.arq-gap { height: 8px; }
+
+.arq-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 16px; font-size: 11px; color: var(--muted); }
+.arq-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.arq-dot { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+.arq-dot-pk { background: #fbbf24; }
+.arq-dot-fk { background: #60a5fa; }
+.arq-dot-calc { background: #c084fc; }
+.arq-dot-legacy { background: #6b7280; }
+
+/* --- Panel info --- */
+.arq-panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; min-height: 280px; }
+.arq-panel h3 { font-size: 16px; font-weight: 600; margin: 0 0 2px; color: var(--text); }
+.arq-ptype { font-size: 12px; color: var(--primary); margin: 0 0 14px; }
+.arq-empty { color: var(--muted); font-size: 13px; text-align: center; padding: 60px 10px; }
+.arq-empty .bi { font-size: 30px; display: block; margin-bottom: 10px; opacity: 0.4; }
+
+.arq-field { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.arq-field:last-child { border-bottom: none; }
+.arq-fname { flex: 1; font-weight: 500; color: var(--text); }
+.arq-ftype { color: var(--muted); font-size: 11px; }
+.arq-badge { font-size: 9.5px; font-weight: 700; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.4px; }
+.arq-b-pk { background: rgba(251, 191, 36, 0.18); color: #fbbf24; }
+.arq-b-fk { background: rgba(96, 165, 250, 0.18); color: #60a5fa; }
+.arq-b-calc { background: rgba(192, 132, 252, 0.18); color: #c084fc; }
+.arq-b-legacy { background: rgba(107, 114, 128, 0.22); color: #b8bcc6; }
+
+.arq-relrow { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.arq-relrow:last-child { border-bottom: none; }
+.arq-relrow .k { color: var(--muted); }
+.arq-relrow .v { font-weight: 600; color: var(--text); text-align: right; }
+.arq-relrow .v.on { color: var(--primary); }
+.arq-relrow .v.off { color: var(--danger); }
+.arq-match { font-size: 11px; }
+.arq-note { margin-top: 14px; font-size: 12px; color: var(--muted); background: var(--soft); border-radius: 8px; padding: 10px 12px; line-height: 1.55; }

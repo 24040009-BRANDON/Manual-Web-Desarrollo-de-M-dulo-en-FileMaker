@@ -2,6 +2,7 @@ import { initTabs } from "./tabs.js";
 import { renderDatabase } from "./renderDatabase.js";
 import { renderScripts } from "./renderScripts.js";
 import { renderLayout } from "./renderLayout.js";
+import { renderArquitectura } from "./renderArquitectura.js";
 import { renderMeta } from "./renderMeta.js";
 import { renderAbout } from "./renderAbout.js";
 
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await runRenderer(renderDatabase, "renderDatabase");
     await runRenderer(renderScripts, "renderScripts");
     await runRenderer(renderLayout, "renderLayout");
+    await runRenderer(renderArquitectura, "renderArquitectura");
     await runRenderer(renderMeta, "renderMeta");
     await runRenderer(renderAbout, "renderAbout");
   } catch (error) {

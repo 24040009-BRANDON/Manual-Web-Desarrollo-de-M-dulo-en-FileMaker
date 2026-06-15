@@ -441,13 +441,22 @@ function createLayoutShell() {
 
                       <div class="lm-card-b">
                         <div class="lm-grid">
-                          <div class="lm-full lm-clickable" data-el="titulo">
-                            <div class="lm-label">Título interno *</div>
+                          <div class="lm-clickable" data-el="titulo" style="grid-column:1 / span 2">
+                            <div class="lm-label">Título de la publicación *</div>
                             <div class="lm-input">Promo mayo — descuento FileMaker 20%</div>
                           </div>
 
+                          <div class="lm-clickable" data-el="plat-facebook">
+                            <div class="lm-label">Plataforma de destino *</div>
+                            <div class="lm-plat">
+                              <button class="lm-pbtn fb lm-clickable" data-el="plat-facebook" type="button">Facebook</button>
+                              <button class="lm-pbtn lm-clickable" data-el="plat-instagram" type="button">Instagram</button>
+                              <button class="lm-pbtn lm-clickable" data-el="plat-ambas" type="button">Ambas</button>
+                            </div>
+                          </div>
+
                           <div class="lm-full lm-clickable" data-el="contenido">
-                            <div class="lm-label">Contenido del post *</div>
+                            <div class="lm-label">Contenido de la publicación *</div>
                             <div class="lm-textarea">
                               ¡Aprovecha nuestra promoción de mayo! 🎉<br>
                               Capacitación en FileMaker con 20% de descuento este mes.<br>
@@ -465,42 +474,47 @@ function createLayoutShell() {
                               <span class="lm-tag-fm">#Saltillo</span>
                             </div>
                           </div>
+                        </div>
 
-                          <div class="lm-full">
-                            <div class="lm-label">Plataforma de destino *</div>
-                            <div class="lm-plat">
-                              <button class="lm-pbtn fb lm-clickable" data-el="plat-facebook" type="button">Facebook</button>
-                              <button class="lm-pbtn lm-clickable" data-el="plat-instagram" type="button">Instagram</button>
-                              <button class="lm-pbtn lm-clickable" data-el="plat-ambas" type="button">Ambas</button>
-                            </div>
+                        <div class="lm-sep">Imágenes (hasta 4 · carrusel)</div>
+
+                        <div class="lm-clickable" data-el="imagen">
+                          <div class="lm-label">Previsualización (4 recuadros · Web Viewer con object-fit)</div>
+                          <div class="lm-img4">
+                            <div class="lm-img4box"><span>img 1</span></div>
+                            <div class="lm-img4box"><span>img 2</span></div>
+                            <div class="lm-img4box"><span>img 3</span></div>
+                            <div class="lm-img4box"><span>img 4</span></div>
                           </div>
                         </div>
 
-                        <div class="lm-sep">Imagen</div>
-
-                        <div class="lm-grid">
-                          <div class="lm-clickable" data-el="imagen">
-                            <div class="lm-label">Imagen (previsualización)</div>
-                            <div class="lm-imgbox">
-                              <div>
-                                <strong>promo-mayo-2026.jpg</strong><br>
-                                <small>Container · 842 KB</small>
-                              </div>
-                            </div>
+                        <div class="lm-clickable" data-el="url" style="margin-top:8px">
+                          <div class="lm-label">URL pública × 4</div>
+                          <div class="lm-url4">
+                            <div class="lm-input">https://dt-informatica.com.mx/Imagenes/1.jpg</div>
+                            <div class="lm-input">https://dt-informatica.com.mx/Imagenes/2.jpg</div>
+                            <div class="lm-input">https://dt-informatica.com.mx/Imagenes/3.jpg</div>
+                            <div class="lm-input">https://dt-informatica.com.mx/Imagenes/4.jpg</div>
                           </div>
+                          <div class="lm-ok">✓ URLs públicas — accesibles por Meta API</div>
+                        </div>
 
-                          <div class="lm-clickable" data-el="url">
-                            <div class="lm-label">URL pública *</div>
-                            <div class="lm-input">https://dtinformatica.com/img/promo-mayo-2026.jpg</div>
-                            <div class="lm-ok">✓ URL válida — accesible por Meta API</div>
+                        <div class="lm-clickable" data-el="navegador-dt" style="margin-top:8px">
+                          <div class="lm-label">Navegador del servidor de DT (arrastra el enlace a una URL)</div>
+                          <div class="lm-dtnav">
+                            <strong>Index of /Imagenes</strong> — dt-informatica.com.mx
+                            <div class="lm-dtnav-row">📁 Parent Directory</div>
+                            <div class="lm-dtnav-row">🖼 claris.png &nbsp;<small>30K</small></div>
+                            <div class="lm-dtnav-row">🖼 logoch.jpg &nbsp;<small>67K</small></div>
+                            <div class="lm-dtnav-row">🖼 stps.png</div>
                           </div>
                         </div>
 
-                        <div class="lm-sep">Programación</div>
+                        <div class="lm-sep">Estado y programación</div>
 
                         <div class="lm-grid">
                           <div class="lm-full lm-clickable" data-el="estado">
-                            <div class="lm-label">Estado *</div>
+                            <div class="lm-label">Estado * <span style="color:#BA7517;font-weight:400">(semáforo de colores — pendiente de implementar en FileMaker)</span></div>
                             <div class="lm-status">
                               <span class="lm-sbtn s-borrador">Borrador</span>
                               <span class="lm-sbtn s-programado">Programado ✓</span>
@@ -521,28 +535,9 @@ function createLayoutShell() {
                           </div>
                         </div>
 
-                        <div class="lm-sep">Resultado de publicación</div>
-
-                        <div class="lm-grid lm-clickable" data-el="resultado">
-                          <div>
-                            <div class="lm-label">Post ID (API)</div>
-                            <div class="lm-input">—</div>
-                          </div>
-
-                          <div>
-                            <div class="lm-label">Fecha publicación real</div>
-                            <div class="lm-input">—</div>
-                          </div>
-
-                          <div class="lm-full">
-                            <div class="lm-label">Respuesta API (JSON)</div>
-                            <div class="lm-api-pend">Pendiente — aún no se ha ejecutado la publicación</div>
-                          </div>
-                        </div>
-
                         <hr style="border:none;border-top:1px solid #f0f0f8;margin:12px 0">
 
-                        <div class="lm-clickable lm-actions" data-el="actions" style="text-align:right">
+                        <div class="lm-clickable lm-actions" data-el="actions" style="text-align:center">
                           <button class="lm-btn secondary lm-clickable" data-el="btn-cancelar" type="button">Cancelar</button>
                           <button class="lm-btn secondary lm-clickable" data-el="btn-guardar-borrador" type="button">Guardar borrador</button>
                           <button class="lm-btn green lm-clickable" data-el="btn-publicar-ahora" type="button">Publicar ahora</button>
@@ -553,52 +548,41 @@ function createLayoutShell() {
                   </div>
 
                   <div class="lm-stack">
-                    <div class="lm-card lm-clickable" data-el="metadatos">
-                      <div class="lm-card-h">Metadatos del registro</div>
+                    <div class="lm-card lm-clickable" data-el="web-viewer">
+                      <div class="lm-card-h">Vista del post publicado (Web Viewer)</div>
                       <div class="lm-side-card">
-                        <div class="lm-mini-label">ID publicación</div>
-                        <div class="lm-mini-val lm-code-fm">PUB-003</div>
+                        <div class="lm-imgbox" style="height:150px;border-style:solid;border-color:#d8def0;color:#9aa3b8">
+                          <div>plugins/post.php?href=<br>Publicaciones::Permalink_URL</div>
+                        </div>
+                        <div class="lm-mini-label" style="margin-top:6px">Nota</div>
+                        <div class="lm-mini-val">Solo embebe posts públicos. Para verlo siempre, botón "Abrir publicación".</div>
+                      </div>
+                    </div>
 
-                        <div class="lm-mini-label">Creado por</div>
-                        <div class="lm-mini-val">brandon.arreola · 15/05/2026 09:23</div>
+                    <div class="lm-card lm-clickable" data-el="metadatos">
+                      <div class="lm-card-h">Datos técnicos (solo lectura)</div>
+                      <div class="lm-side-card">
+                        <div class="lm-mini-label">Permalink_URL</div>
+                        <div class="lm-mini-val lm-code-fm">https://www.facebook.com/…/posts/…</div>
 
-                        <div class="lm-mini-label">Modificado por</div>
-                        <div class="lm-mini-val">brandon.arreola · 02/06/2026 16:47</div>
+                        <div class="lm-mini-label">Post_ID_API</div>
+                        <div class="lm-mini-val lm-code-fm">&lt;PAGE_ID&gt;_&lt;POST_ID&gt;</div>
 
-                        <div class="lm-mini-label">Estado actual</div>
-                        <div class="lm-mini-val">Programado</div>
+                        <div class="lm-mini-label">Fecha publicación real</div>
+                        <div class="lm-mini-val">11/06/2026 14:22</div>
 
-                        <div class="lm-mini-label">Plataforma</div>
-                        <div class="lm-mini-val">Facebook</div>
+                        <div class="lm-mini-label">Respuesta API (JSON)</div>
+                        <div class="lm-mini-val lm-code-fm">{"id":"…","post_id":"…"}</div>
+
+                        <div class="lm-mini-label">Código / Detalle error</div>
+                        <div class="lm-mini-val">— / —</div>
                       </div>
                     </div>
 
                     <div class="lm-card lm-clickable" data-el="config">
-                      <div class="lm-card-h">Config. plataformas activas</div>
+                      <div class="lm-card-h">Config. plataformas (layout admin aparte)</div>
                       <div class="lm-side-card">
-                        <div class="lm-mini-label">Facebook</div>
-                        <div class="lm-mini-val">ID cuenta Meta</div>
-                        <div class="lm-mini-val lm-code-fm">102938475610293</div>
-
-                        <div class="lm-mini-label">TOKEN</div>
-                        <div class="lm-mini-val lm-code-fm">EAABsb...X789</div>
-
-                        <div class="lm-mini-label">VERSIÓN API</div>
-                        <div class="lm-mini-val">v25.0</div>
-
-                        <div class="lm-mini-label">EXPIRA</div>
-                        <div class="lm-mini-val">14/07/2026 — 42 días</div>
-                      </div>
-                    </div>
-
-                    <div class="lm-card lm-clickable" data-el="multimedia">
-                      <div class="lm-card-h">Multimedia adjunta</div>
-                      <div class="lm-side-card">
-                        <div class="lm-mini-label">Archivos en carrusel</div>
-                        <div class="lm-mini-val">3 / 10 imágenes</div>
-
-                        <div class="lm-mini-label">Gestión</div>
-                        <div class="lm-mini-val">Ver portal de archivos abajo ↓</div>
+                        <div class="lm-mini-val">Los campos de Config_Plataformas (token, ID cuenta, versión) NO están en este layout: se gestionan en un layout administrativo aparte. El script los lee en runtime.</div>
                       </div>
                     </div>
                   </div>

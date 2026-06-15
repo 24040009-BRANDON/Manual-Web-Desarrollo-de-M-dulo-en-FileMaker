@@ -797,6 +797,7 @@
       "Fecha_Publicacion_Real",
       "Post_ID_API",
       "Respuesta_API_JSON",
+      "Permalink_URL",
       "Codigo_Error",
       "Detalle_Error",
       "Creado_Por",
@@ -1182,31 +1183,34 @@
       "explain": "Asigna Ambas como plataforma destino para ejecutar publicación en Facebook e Instagram."
     },
     "imagen": {
-      "title": "Campo Imagen previsualización",
-      "fm_object": "Field",
-      "object_name": "fld_imagen_container",
-      "table": "Publicaciones",
-      "field": "Imagen_Container",
-      "script": "N/A",
-      "explain": "Campo Container local para previsualizar la imagen dentro de FileMaker. NO se envía a Meta (Meta no acepta el binario del contenedor de forma simple). Para publicar la foto se usa su URL pública en el campo URL_Imagen.",
+      "title": "4 recuadros de previsualización (Web Viewers)",
+      "fm_object": "4 × Web Viewer",
+      "object_name": "wv_preview_1 … wv_preview_4",
+      "table": "Publicaciones / Publicacion_Multimedia",
+      "field": "URL de cada imagen",
+      "script": "N/A (solo previsualización)",
+      "explain": "Cuatro Web Viewers en fila que previsualizan las imágenes desde su URL pública. Cada uno carga un HTML con object-fit:contain para que la imagen se ajuste al recuadro sin deformarse: \"data:text/html,<html><body style='margin:0;padding:0;'><img src='\" & URL & \"' style='width:100%;height:100%;object-fit:contain;'/></body></html>\".",
+      "section": "izquierda",
       "notes": [
-        "Solo previsualización en FileMaker; no se sube directo a Meta.",
-        "El flujo de publicación usa URL_Imagen (URL pública), no este contenedor.",
-        "Idea futura: arrastras la imagen aquí, un script la sube al servidor de DT y rellena URL_Imagen automáticamente."
+        "REEMPLAZA al antiguo campo Container 'Imagen_Container': ya no se usa un contenedor, porque la imagen se publica por URL pública (Meta la descarga desde ahí).",
+        "object-fit:contain ajusta la imagen al recuadro manteniendo proporción (sin esto la imagen salía enorme).",
+        "Las URLs se llenan arrastrando el enlace desde el navegador del servidor de DT, o pegándolas a mano.",
+        "Modelo recomendado: las 4 URLs viven en Publicacion_Multimedia (una fila por imagen, campo URL_Publica, con Orden), y cada Web Viewer lee una fila."
       ]
     },
     "url": {
-      "title": "Campo URL pública",
-      "fm_object": "Field",
-      "object_name": "fld_url_imagen",
-      "table": "Publicaciones",
-      "field": "URL_Imagen",
-      "script": "22. Publicar Facebook / 20. Validar / 23. Publicar Instagram",
-      "explain": "URL pública HTTPS de la imagen. Si tiene valor, el script 22 publica con foto vía /photos (caption + url); si está vacío, publica solo texto vía /feed. También requerida para Instagram. Meta descarga la imagen desde esta URL, por eso debe ser pública (DT usa su propio dominio).",
+      "title": "4 campos URL pública",
+      "fm_object": "4 × Field",
+      "object_name": "fld_url_1 … fld_url_4",
+      "table": "Publicaciones / Publicacion_Multimedia",
+      "field": "URL_Imagen / Publicacion_Multimedia::URL_Publica",
+      "script": "22. Publicar Facebook / 23. Publicar Instagram",
+      "explain": "Campos donde se captura la URL pública de cada imagen. Si hay URL, la publicación se envía con foto (/photos); si están vacíos, solo texto (/feed). Se llenan arrastrando el enlace desde el navegador del servidor de DT.",
+      "section": "izquierda",
       "notes": [
-        "Entrada del flujo de imagen: su presencia decide /photos vs /feed en el script 22.",
-        "Debe ser URL pública HTTPS (ej. https://dt-informatica.com.mx/Imagenes/foto.jpg).",
-        "Pendiente: automatizar la subida del Imagen_Container al servidor de DT para llenar este campo sin pegar la URL a mano."
+        "Una URL por recuadro de preview. Debe ser pública HTTPS (Meta la descarga).",
+        "Modelo recomendado: estas URLs viven en Publicacion_Multimedia (relacional), no como campos sueltos en Publicaciones.",
+        "Se llenan por arrastre desde el navegador del servidor de DT o pegando la URL."
       ]
     },
     "estado": {
@@ -1392,7 +1396,24 @@
         "El embed SOLO funciona con posts PÚBLICOS. Si el post es privado o la página no está publicada, Facebook muestra 'Esta publicación ya no está disponible'. No es un error del módulo, es una restricción de Facebook.",
         "El Web Viewer de FileMaker no tiene sesión de Facebook, por lo que ve el post como visitante anónimo.",
         "Para ver el post de forma CONFIABLE se usa el botón 'Abrir publicación' (Open URL), que abre el navegador real con sesión. El Web Viewer queda como previsualización opcional.",
-        "Si el permalink está vacío (borrador/programada/error), el visor queda en blanco."
+        "Si el permalink está vacío (borrador/programada/error), el visor queda en blanco.",
+        "Es distinto de los 4 Web Viewers de preview (izquierda) y del navegador del servidor de DT: este (derecha) muestra el POST ya publicado vía el plugin de Facebook con Permalink_URL."
+      ]
+    },
+    "navegador-dt": {
+      "title": "Navegador del servidor de DT (Web Viewer)",
+      "fm_object": "Web Viewer",
+      "object_name": "wv_catalogo_dt",
+      "table": "Publicaciones",
+      "field": "N/A",
+      "script": "N/A",
+      "explain": "Web Viewer que muestra el índice de imágenes del servidor de DT (https://dt-informatica.com.mx/Imagenes/). Desde aquí se arrastra el enlace de una imagen a cualquiera de los 4 campos URL pública. En Windows, al arrastrar un enlace desde un Web Viewer se inserta la URL (no el binario), justo lo que se necesita.",
+      "section": "izquierda",
+      "notes": [
+        "Muestra el listado real de archivos del dominio de DT (Index of /Imagenes).",
+        "Flujo: arrastrar el enlace .jpg/.png → cae en un campo URL pública → el recuadro de preview carga la imagen.",
+        "Aprovecha la infraestructura propia de DT como alojamiento de imágenes (no se usan servicios externos).",
+        "Mejora futura: automatizar la subida del archivo desde FileMaker al servidor (FTP o script PHP) para no depender de que la imagen ya esté en el dominio."
       ]
     }
   }

@@ -50,7 +50,7 @@
           "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override during data entry</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Strict data type</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value  <div class=\"cb\"></div> Existing value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n<div class=\"note\"><b>Flujo controlado:</b> no marcar <b>Not empty</b> a nivel de campo. Un borrador puede quedar incompleto mientras se captura. El título se vuelve obligatorio en el script <b>20. Validar publicación antes de enviar</b>, justo antes de publicar o programar.</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b>  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n<div class=\"note\">Minimal para soportar búsquedas por título sin indexar innecesariamente.</div>\n",
           "valueList": "",
-          "validationKey": "Opcional para Borrador · obligatorio por script 20 antes de publicar",
+          "validationKey": "Opcional en Manage Database · obligatorio por el script 20 al publicar",
           "relatedScripts": [
             {
               "name": "Buscar publicaciones",
@@ -68,7 +68,8 @@
           "notes": [
             "Sin auto-enter. El usuario escribe el título manualmente.",
             "Para evitar alertas técnicas de FileMaker al crear un borrador, no se debe validar Not empty en Manage Database.",
-            "El script 20. Validar publicación antes de enviar es el responsable de exigir título cuando el usuario intenta publicar."
+            "El script 20. Validar publicación antes de enviar es el responsable de exigir título cuando el usuario intenta publicar.",
+            "Las validaciones 'Not empty' se quitaron de Manage Database para que no aparezcan alertas en inglés al moverse por el layout. La obligatoriedad ahora la impone el script 20 (en español, solo al publicar)."
           ],
           "warnings": [
             "Si marcas Not empty aquí, FileMaker mostrará alertas al crear registros nuevos vacíos con el botón Nueva."
@@ -89,7 +90,7 @@
           "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Unique value  <div class=\"cb\"></div> Existing value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Member of value list</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Validated by calculation</b> — <span style=\"font-size:11px\">Length(Contenido_Texto) ≤ 63206</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Maximum number of characters</div>\n\n<div class=\"note\"><b>Flujo controlado:</b> el contenido no debe tener Not empty en Manage Database. Debe validarse en el script 20 antes de publicar. Se conserva la validación de longitud máxima para evitar exceder límites operativos.</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b>  <div class=\"rb\"></div> Minimal  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n<div class=\"note\">None: texto largo no necesita indexado. Ahorra espacio.</div>\n",
           "valueList": "",
-          "validationKey": "Opcional para Borrador · longitud validada · obligatorio por script 20 antes de publicar",
+          "validationKey": "Opcional en Manage Database · obligatorio por el script 20 al publicar",
           "relatedScripts": [
             {
               "name": "Buscar publicaciones",
@@ -119,7 +120,8 @@
           "notes": [
             "Sin auto-enter. El usuario escribe el contenido del post.",
             "No marcar Not empty a nivel de campo para permitir borradores incompletos.",
-            "La obligatoriedad del contenido se valida en el script 20 antes de publicar."
+            "La obligatoriedad del contenido se valida en el script 20 antes de publicar.",
+            "Las validaciones 'Not empty' se quitaron de Manage Database para que no aparezcan alertas en inglés al moverse por el layout. La obligatoriedad ahora la impone el script 20 (en español, solo al publicar)."
           ],
           "warnings": [
             "Si Not empty queda activo, el botón Nueva puede provocar alertas antes de que el usuario capture el contenido."
@@ -210,10 +212,10 @@
           ],
           "description": "Sin definir / Facebook / Instagram / Ambas",
           "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Data:</b> <span class=\"fm-input\" style=\"margin-left:6px\">Sin definir</span></div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Data \"Sin definir\" obliga al usuario a elegir explícitamente la plataforma antes de publicar. El script 20 · Validar antes de enviar bloquea la publicación si el valor sigue en \"Sin definir\".</div>\n",
-          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Not empty</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Member of value list:</b> Plataformas_Destino ▾</div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Sin definir · Facebook · Instagram · Ambas</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Member of value list:</b> Plataformas_Destino ▾</div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">Sin definir · Facebook · Instagram · Ambas</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Validated by calculation</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb\"></div> None  <div class=\"rb checked\"></div> <b>Minimal</b>  <div class=\"rb\"></div> All</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
           "valueList": "Plataformas_Destino",
-          "validationKey": "Not empty · Member of value list · Validated by calculation",
+          "validationKey": "Obligatorio por el script 20 al publicar (no debe ser \"Sin definir\") · Member of value list",
           "relatedScripts": [
             {
               "name": "Nueva publicación",
@@ -242,7 +244,8 @@
           ],
           "notes": [
             "Data \"Sin definir\" obliga al usuario a elegir explícitamente la plataforma antes de publicar. El script 20 · Validar antes de enviar bloquea la publicación si el valor sigue en \"Sin definir\".",
-            "Lista correcta Plataformas_Destino: Sin definir · Facebook · Instagram · Ambas. Debe coincidir con los scripts 01, 08, 20 y 21."
+            "Lista correcta Plataformas_Destino: Sin definir · Facebook · Instagram · Ambas. Debe coincidir con los scripts 01, 08, 20 y 21.",
+            "Las validaciones 'Not empty' se quitaron de Manage Database para que no aparezcan alertas en inglés al moverse por el layout. La obligatoriedad ahora la impone el script 20 (en español, solo al publicar)."
           ],
           "warnings": [],
           "consistencyStatus": "Alineado"
@@ -321,12 +324,13 @@
           "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Strict data type:</b> 4-digit year ▾</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty</div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Validated by calculation</b></div>\n<div class=\"fm-row indent\" style=\"font-size:11px;color:var(--color-text-secondary)\">IsEmpty ( Fecha_Programada ) or Fecha_Programada ≥ Get ( CurrentDate )</div>\n<div class=\"note\">Puede quedar vacía en Borrador. Si se captura una fecha, no debe estar en el pasado. Si el estado es Programado, el script 20 debe exigir Fecha_Programada.</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
           "valueList": "",
-          "validationKey": "Opcional para Borrador · si tiene valor no debe estar en el pasado · requerida por script 20 al programar",
+          "validationKey": "Opcional · NO usar Not empty · no se valida al publicar (fecha/hora son opcionales)",
           "relatedScripts": [],
           "notes": [
             "El usuario elige la fecha. No se auto-llena.",
             "No marcar Not empty en Manage Database para evitar alertas al crear borradores.",
-            "El script 20 exige Fecha_Programada cuando el flujo sea Programado."
+            "El script 20 exige Fecha_Programada cuando el flujo sea Programado.",
+            "Las validaciones 'Not empty' se quitaron de Manage Database para que no aparezcan alertas en inglés al moverse por el layout. La obligatoriedad ahora la impone el script 20 (en español, solo al publicar)."
           ],
           "warnings": [],
           "consistencyStatus": "Alineado al flujo controlado"
@@ -345,11 +349,12 @@
           "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> In range</div>\n<div class=\"note\">Sin validación especial. El tipo Time ya restringe el formato.</div>\n",
           "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"fm-row\">Default language: Spanish (Modern) ▾</div>\n",
           "valueList": "",
-          "validationKey": "Opcional para Borrador · requerida por script 20 al programar",
+          "validationKey": "Opcional · NO usar Not empty · no se valida al publicar (fecha/hora son opcionales)",
           "relatedScripts": [],
           "notes": [
             "Sin validación especial. El tipo Time ya restringe el formato.",
-            "No marcar Not empty en Manage Database; se exige por script cuando el estado sea Programado."
+            "No marcar Not empty en Manage Database; se exige por script cuando el estado sea Programado.",
+            "Las validaciones 'Not empty' se quitaron de Manage Database para que no aparezcan alertas en inglés al moverse por el layout. La obligatoriedad ahora la impone el script 20 (en español, solo al publicar)."
           ],
           "warnings": [],
           "consistencyStatus": "Alineado al flujo controlado"
@@ -433,6 +438,39 @@
           "consistencyStatus": "Alineado al flujo controlado"
         },
         {
+          "id": "publicaciones-respuesta_api_json",
+          "table": "Publicaciones",
+          "name": "Respuesta_API_JSON",
+          "rawName": "Respuesta_API_JSON",
+          "type": "Text",
+          "role": [
+            "API",
+            "VALIDACIÓN"
+          ],
+          "description": "JSON completo de respuesta Meta",
+          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Exclusivamente script. Nunca editar a mano.</div>\n",
+          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"note\">Sin validación. Puede estar vacío si no hubo respuesta aún.</div>\n",
+          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"note\">None. JSON largo nunca necesita indexado.</div>\n",
+          "valueList": "",
+          "validationKey": "Opcional · no usar Not empty en Manage Database",
+          "relatedScripts": [
+            {
+              "name": "Publicar ahora Meta",
+              "id": "api-publicar-meta",
+              "category": "API",
+              "does": "Valida y decide si publica Facebook, Instagram o ambos."
+            }
+          ],
+          "notes": [
+            "JSON de respuesta. Puede estar vacío mientras no exista intento de publicación.",
+            "Exclusivamente script. Nunca editar a mano.",
+            "Sin validación. Puede estar vacío si no hubo respuesta aún.",
+            "None. JSON largo nunca necesita indexado."
+          ],
+          "warnings": [],
+          "consistencyStatus": "Alineado al flujo controlado"
+        },
+        {
           "id": "publicaciones-permalink_url",
           "table": "Publicaciones",
           "name": "Permalink_URL",
@@ -471,40 +509,7 @@
           "warnings": [
             "No marcar Not empty en la validación: provoca error 509 al guardar borradores."
           ],
-          "consistencyStatus": "Implementado y probado en producción (página Bazar)"
-        },
-        {
-          "id": "publicaciones-respuesta_api_json",
-          "table": "Publicaciones",
-          "name": "Respuesta_API_JSON",
-          "rawName": "Respuesta_API_JSON",
-          "type": "Text",
-          "role": [
-            "API",
-            "VALIDACIÓN"
-          ],
-          "description": "JSON completo de respuesta Meta",
-          "autoEnter": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Creation</div><div class=\"fm-row\"><div class=\"cb\"></div> Modification</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Serial number</div><div class=\"fm-row\"><div class=\"cb\"></div> Data:</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Calculated value</div><div class=\"fm-row\"><div class=\"cb\"></div> Looked-up value</div>\n<div class=\"fm-row\"><div class=\"cb\"></div> Prohibit modification</div>\n<div class=\"note\">Exclusivamente script. Nunca editar a mano.</div>\n",
-          "validation": "\n<div class=\"fm-row\"><div class=\"rb\"></div> Always  <div class=\"rb checked\"></div> <b>Only during data entry</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Allow user to override</b></div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-row\"><div class=\"cb\"></div> Not empty  <div class=\"cb\"></div> Unique value</div>\n<div class=\"note\">Sin validación. Puede estar vacío si no hubo respuesta aún.</div>\n",
-          "storage": "\n<div class=\"fm-row\"><div class=\"cb\"></div> Use global storage</div>\n<hr class=\"fm-sep\"/>\n<div class=\"fm-label\">Indexing:</div>\n<div class=\"fm-row\"><div class=\"rb checked\"></div> <b>None</b></div>\n<div class=\"fm-row\"><div class=\"cb checked\"></div> <b>Automatically create indexes as needed</b></div>\n<div class=\"note\">None. JSON largo nunca necesita indexado.</div>\n",
-          "valueList": "",
-          "validationKey": "Opcional · no usar Not empty en Manage Database",
-          "relatedScripts": [
-            {
-              "name": "Publicar ahora Meta",
-              "id": "api-publicar-meta",
-              "category": "API",
-              "does": "Valida y decide si publica Facebook, Instagram o ambos."
-            }
-          ],
-          "notes": [
-            "JSON de respuesta. Puede estar vacío mientras no exista intento de publicación.",
-            "Exclusivamente script. Nunca editar a mano.",
-            "Sin validación. Puede estar vacío si no hubo respuesta aún.",
-            "None. JSON largo nunca necesita indexado."
-          ],
-          "warnings": [],
-          "consistencyStatus": "Alineado al flujo controlado"
+          "consistencyStatus": "Implementado y probado en producción (página de prueba de DT Informática)"
         },
         {
           "id": "publicaciones-codigo_error",
@@ -1769,7 +1774,7 @@
       "type": "Text",
       "role": "VALIDACIÓN",
       "scripts": "Buscar publicaciones, Validar publicación antes de enviar",
-      "validation": "Opcional para Borrador · obligatorio por script 20 antes de publicar",
+      "validation": "Opcional en Manage DB · obligatorio por script 20",
       "result": "Nombre interno del post. Puede quedar vacío en borrador; obligatorio antes de publicar."
     },
     {
@@ -1778,7 +1783,7 @@
       "type": "Text",
       "role": "VALIDACIÓN",
       "scripts": "Buscar publicaciones, Validar publicación antes de enviar, Publicar Facebook, Publicar Instagram",
-      "validation": "Opcional para Borrador · longitud validada · obligatorio por script 20 antes de publicar",
+      "validation": "Opcional en Manage DB · obligatorio por script 20",
       "result": "Cuerpo del post. Puede estar vacío en borrador; obligatorio al publicar."
     },
     {
@@ -1805,7 +1810,7 @@
       "type": "Text",
       "role": "API, VALIDACIÓN",
       "scripts": "Nueva publicación, Seleccionar plataforma destino, Validar publicación antes de enviar, Publicar ahora Meta",
-      "validation": "Not empty · Member of value list · Validated by calculation",
+      "validation": "Obligatorio por script 20 (no \"Sin definir\")",
       "result": "Define Sin definir, Facebook, Instagram o Ambas."
     },
     {
@@ -1823,7 +1828,7 @@
       "type": "Date",
       "role": "VALIDACIÓN",
       "scripts": "No directo / técnico",
-      "validation": "Opcional para Borrador · si tiene valor no debe estar en el pasado · requerida por script 20 al programar",
+      "validation": "Opcional · NO Not empty · no se valida al publicar",
       "result": "Día de publicación programada. Opcional para borrador; requerido al programar."
     },
     {
@@ -1832,7 +1837,7 @@
       "type": "Time",
       "role": "VALIDACIÓN",
       "scripts": "No directo / técnico",
-      "validation": "Opcional para Borrador · requerida por script 20 al programar",
+      "validation": "Opcional · NO Not empty · no se valida al publicar",
       "result": "Hora exacta de publicación. Opcional para borrador; requerida al programar."
     },
     {
@@ -1855,21 +1860,21 @@
     },
     {
       "table": "Publicaciones",
-      "field": "Permalink_URL",
-      "type": "Text",
-      "role": "API, VALIDACIÓN",
-      "scripts": "No directo / técnico",
-      "validation": "Opcional · no usar Not empty en Manage Database",
-      "result": "Enlace público del post; lo usan el Web Viewer y el botón Ver publicación"
-    },
-    {
-      "table": "Publicaciones",
       "field": "Respuesta_API_JSON",
       "type": "Text",
       "role": "API, VALIDACIÓN",
       "scripts": "Publicar ahora Meta",
       "validation": "Opcional · no usar Not empty en Manage Database",
       "result": "JSON completo de respuesta Meta"
+    },
+    {
+      "table": "Publicaciones",
+      "field": "Permalink_URL",
+      "type": "Text",
+      "role": "API, VALIDACIÓN",
+      "scripts": "No directo / técnico",
+      "validation": "Opcional · no usar Not empty en Manage Database",
+      "result": "Enlace público del post; lo usan el Web Viewer y el botón Ver publicación"
     },
     {
       "table": "Publicaciones",
@@ -2361,7 +2366,7 @@
         "layout-elements.json"
       ],
       "resolvedAt": "2026-06-03",
-      "evidence": "POST /102111959623495/feed → {id: '102111959623495_848391164980909'} | GET /{id}?fields=permalink_url → {permalink_url: 'https://www.facebook.com/...'}",
+      "evidence": "POST /<PAGE_ID>/feed → {id: '<PAGE_ID>_<POST_ID>'} | GET /{id}?fields=permalink_url → {permalink_url: 'https://www.facebook.com/...'} (ejemplo, no es real)",
       "detail": "Prueba real con Meta Graph API Explorer confirmó que la URL pública del post (permalink_url) requiere una segunda petición GET después del POST inicial. Se agrega el campo Permalink_URL en Publicaciones_Log para almacenar este dato por intento.",
       "status": "IMPLEMENTADO"
     },

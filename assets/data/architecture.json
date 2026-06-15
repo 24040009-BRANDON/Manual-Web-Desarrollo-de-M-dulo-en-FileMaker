@@ -1,0 +1,121 @@
+{
+  "source": "DDR 13/06/2026 19:24 · Publicaciones.fmp12 · 4 tablas, 2 relaciones",
+  "tables": [
+    {
+      "id": "Publicaciones",
+      "icon": "bi-table",
+      "count": 27,
+      "role": "Tabla central · registros de cada publicación",
+      "isParent": true,
+      "fields": [
+        { "name": "ID_Publicacion", "type": "Number", "key": "pk" },
+        { "name": "Titulo", "type": "Text" },
+        { "name": "Contenido_Texto", "type": "Text" },
+        { "name": "URL_Imagen", "type": "Text", "key": "legacy" },
+        { "name": "Imagen_Container", "type": "Binary", "key": "legacy" },
+        { "name": "Plataforma_Destino", "type": "Text" },
+        { "name": "Estado", "type": "Text" },
+        { "name": "Fecha_Programada", "type": "Date" },
+        { "name": "Hora_Programada", "type": "Time" },
+        { "name": "Fecha_Publicacion_Real", "type": "Timestamp" },
+        { "name": "Post_ID_API", "type": "Text" },
+        { "name": "Respuesta_API_JSON", "type": "Text" },
+        { "name": "Permalink_URL", "type": "Text" },
+        { "name": "Codigo_Error", "type": "Text" },
+        { "name": "Detalle_Error", "type": "Text" },
+        { "name": "Hashtags", "type": "Text" },
+        { "name": "Creado_Por", "type": "Text" },
+        { "name": "Fecha_Creacion", "type": "Timestamp" },
+        { "name": "Modificado_Por", "type": "Text" },
+        { "name": "Modificado_En", "type": "Timestamp" },
+        { "name": "c_Total_Publicaciones", "type": "Number", "key": "calc" },
+        { "name": "c_Total_Programadas", "type": "Number", "key": "calc" },
+        { "name": "c_Total_Publicadas", "type": "Number", "key": "calc" },
+        { "name": "c_Total_Error", "type": "Number", "key": "calc" },
+        { "name": "c_Total_Borradores", "type": "Number", "key": "calc" },
+        { "name": "Fecha_Eliminacion", "type": "Timestamp" },
+        { "name": "Eliminado_Por", "type": "Text" }
+      ]
+    },
+    {
+      "id": "Publicaciones_Log",
+      "icon": "bi-clock-history",
+      "count": 11,
+      "role": "Historial de intentos (auditoría)",
+      "fields": [
+        { "name": "ID_Log", "type": "Number", "key": "pk" },
+        { "name": "ID_Publicacion", "type": "Number", "key": "fk" },
+        { "name": "Plataforma", "type": "Text" },
+        { "name": "Fecha_Intento", "type": "Timestamp" },
+        { "name": "Resultado", "type": "Text" },
+        { "name": "Post_ID_Retornado", "type": "Text" },
+        { "name": "Permalink_URL", "type": "Text" },
+        { "name": "HTTP_Status_Code", "type": "Number" },
+        { "name": "JSON_Completo", "type": "Text" },
+        { "name": "Token_Usado", "type": "Text" },
+        { "name": "Notas_Internas", "type": "Text" }
+      ]
+    },
+    {
+      "id": "Publicacion_Multimedia",
+      "icon": "bi-images",
+      "count": 7,
+      "role": "Imágenes del carrusel (portal)",
+      "fields": [
+        { "name": "ID_Media", "type": "Number", "key": "pk" },
+        { "name": "ID_Publicacion", "type": "Number", "key": "fk" },
+        { "name": "Tipo_Media", "type": "Text" },
+        { "name": "Archivo_Container", "type": "Binary", "key": "legacy" },
+        { "name": "URL_Publica", "type": "Text" },
+        { "name": "Orden", "type": "Number" },
+        { "name": "Estado_Subida", "type": "Text" }
+      ]
+    },
+    {
+      "id": "Config_Plataformas",
+      "icon": "bi-gear",
+      "count": 7,
+      "role": "Sin relación física · se consulta por Find (token, versión)",
+      "dashed": true,
+      "fields": [
+        { "name": "ID_Config", "type": "Number", "key": "pk" },
+        { "name": "Nombre_Plataforma", "type": "Text" },
+        { "name": "ID_Cuenta_Meta", "type": "Text" },
+        { "name": "Access_Token", "type": "Text" },
+        { "name": "Token_Expiracion", "type": "Date" },
+        { "name": "API_Version", "type": "Text" },
+        { "name": "Activo", "type": "Number" }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "id": "log",
+      "title": "Publicaciones → Publicaciones_Log",
+      "from": "Publicaciones_Log",
+      "match": "Publicaciones::ID_Publicacion = Publicaciones_Log::ID_Publicacion",
+      "cardinality": "1 : N",
+      "create": "On",
+      "delete": "Off",
+      "sort": "Off",
+      "note": "El borrado es lógico (soft delete). Delete related = Off para que el historial NUNCA se borre en cascada y se preserve la auditoría."
+    },
+    {
+      "id": "media",
+      "title": "Publicaciones → Publicacion_Multimedia",
+      "from": "Publicacion_Multimedia",
+      "match": "Publicaciones::ID_Publicacion = Publicacion_Multimedia::ID_Publicacion",
+      "cardinality": "1 : N",
+      "create": "On",
+      "delete": "Off",
+      "sort": "por Orden (asc)",
+      "note": "Allow creation = On: el portal crea las imágenes. Sort por Orden para el carrusel. Delete related = Off: las imágenes no se borran en cascada."
+    }
+  ],
+  "legend": [
+    { "k": "pk", "label": "PK (serial)" },
+    { "k": "fk", "label": "FK" },
+    { "k": "calc", "label": "Calculado" },
+    { "k": "legacy", "label": "Legacy" }
+  ]
+}
