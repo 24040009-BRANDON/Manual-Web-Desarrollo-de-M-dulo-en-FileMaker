@@ -72,3 +72,25 @@ code {
   color: var(--muted);
   line-height: 1.6;
 }
+/* ============================================================
+   PROFUNDIDAD DE ICONOGRAFÍA (Bootstrap Icons)
+   B global: sombra sutil en todos los iconos.
+   .ico-chip: contenedor con relieve para cabeceras destacadas.
+   ============================================================ */
+.bi {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+}
+
+/* Chip con relieve para iconos protagonistas (cabeceras de módulo/sección).
+   Se aplica a un <span class="ico-chip"><i class="bi ..."></i></span> */
+.ico-chip {
+  width: 46px; height: 46px; border-radius: 12px;
+  display: inline-grid; place-items: center; flex: 0 0 auto;
+  background: linear-gradient(145deg, var(--soft), var(--panel));
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line);
+}
+.ico-chip .bi {
+  font-size: 22px;
+  filter: none; /* el relieve lo da el chip, no el icono */
+}

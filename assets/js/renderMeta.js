@@ -1,4 +1,4 @@
-import { escapeHTML, heroBackgroundHTML } from "./utils.js";
+import { escapeHTML, heroHTML } from "./utils.js";
 
 /* ============================================================
    MÓDULO META GRAPH API — manual interactivo
@@ -266,17 +266,15 @@ function wireSimulator(root) {
 function createMetaShell(data) {
   return `
     <div class="meta">
-      <header class="meta-hero has-hero-bg">
-        ${heroBackgroundHTML()}
-        <div class="meta-hero-inner">
-          <span class="meta-eyebrow"><i class="bi bi-plug-fill"></i> Integración · ${escapeHTML(data.version)}</span>
-          <h1>Enlazamiento con <span class="meta-grad">Meta Graph API</span></h1>
-          <p>Cómo se conecta el módulo de FileMaker con Facebook e Instagram: permisos, tokens, endpoints y publicación automatizada. Incluye un simulador para probar las llamadas.</p>
-          <div class="meta-hero-chips">
-            ${chip("Meta for Developers")}${chip("Graph API Explorer")}${chip("Page Access Token")}${chip("Facebook + Instagram")}
-          </div>
-        </div>
-      </header>
+      ${heroHTML({
+        containerClass: "meta-hero",
+        icon: "bi-plug-fill",
+        eyebrow: `Integración · ${escapeHTML(data.version)}`,
+        title: "Enlazamiento con",
+        titleAccent: "Meta Graph API",
+        desc: "Cómo se conecta el módulo de FileMaker con Facebook e Instagram: permisos, tokens, endpoints y publicación automatizada. Incluye un simulador para probar las llamadas.",
+        chips: ["Meta for Developers", "Graph API Explorer", "Page Access Token", "Facebook + Instagram"]
+      })}
 
       <!-- Conceptos base -->
       <section class="meta-block">

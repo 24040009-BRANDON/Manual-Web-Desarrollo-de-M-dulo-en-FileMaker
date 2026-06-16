@@ -8,33 +8,122 @@
       "role": "Tabla central · registros de cada publicación",
       "isParent": true,
       "fields": [
-        { "name": "ID_Publicacion", "type": "Number", "key": "pk" },
-        { "name": "Titulo", "type": "Text" },
-        { "name": "Contenido_Texto", "type": "Text" },
-        { "name": "URL_Imagen", "type": "Text", "key": "legacy" },
-        { "name": "Imagen_Container", "type": "Binary", "key": "legacy" },
-        { "name": "Plataforma_Destino", "type": "Text" },
-        { "name": "Estado", "type": "Text" },
-        { "name": "Fecha_Programada", "type": "Date" },
-        { "name": "Hora_Programada", "type": "Time" },
-        { "name": "Fecha_Publicacion_Real", "type": "Timestamp" },
-        { "name": "Post_ID_API", "type": "Text" },
-        { "name": "Respuesta_API_JSON", "type": "Text" },
-        { "name": "Permalink_URL", "type": "Text" },
-        { "name": "Codigo_Error", "type": "Text" },
-        { "name": "Detalle_Error", "type": "Text" },
-        { "name": "Hashtags", "type": "Text" },
-        { "name": "Creado_Por", "type": "Text" },
-        { "name": "Fecha_Creacion", "type": "Timestamp" },
-        { "name": "Modificado_Por", "type": "Text" },
-        { "name": "Modificado_En", "type": "Timestamp" },
-        { "name": "c_Total_Publicaciones", "type": "Number", "key": "calc" },
-        { "name": "c_Total_Programadas", "type": "Number", "key": "calc" },
-        { "name": "c_Total_Publicadas", "type": "Number", "key": "calc" },
-        { "name": "c_Total_Error", "type": "Number", "key": "calc" },
-        { "name": "c_Total_Borradores", "type": "Number", "key": "calc" },
-        { "name": "Fecha_Eliminacion", "type": "Timestamp" },
-        { "name": "Eliminado_Por", "type": "Text" }
+        {
+          "name": "ID_Publicacion",
+          "type": "Number",
+          "key": "pk"
+        },
+        {
+          "name": "Titulo",
+          "type": "Text"
+        },
+        {
+          "name": "Contenido_Texto",
+          "type": "Text"
+        },
+        {
+          "name": "URL_Imagen",
+          "type": "Text",
+          "key": "legacy"
+        },
+        {
+          "name": "Imagen_Container",
+          "type": "Binary",
+          "key": "legacy"
+        },
+        {
+          "name": "Plataforma_Destino",
+          "type": "Text"
+        },
+        {
+          "name": "Estado",
+          "type": "Text"
+        },
+        {
+          "name": "Fecha_Programada",
+          "type": "Date"
+        },
+        {
+          "name": "Hora_Programada",
+          "type": "Time"
+        },
+        {
+          "name": "Fecha_Publicacion_Real",
+          "type": "Timestamp"
+        },
+        {
+          "name": "Post_ID_API",
+          "type": "Text"
+        },
+        {
+          "name": "Respuesta_API_JSON",
+          "type": "Text"
+        },
+        {
+          "name": "Permalink_URL",
+          "type": "Text"
+        },
+        {
+          "name": "Codigo_Error",
+          "type": "Text"
+        },
+        {
+          "name": "Detalle_Error",
+          "type": "Text"
+        },
+        {
+          "name": "Hashtags",
+          "type": "Text"
+        },
+        {
+          "name": "Creado_Por",
+          "type": "Text"
+        },
+        {
+          "name": "Fecha_Creacion",
+          "type": "Timestamp"
+        },
+        {
+          "name": "Modificado_Por",
+          "type": "Text"
+        },
+        {
+          "name": "Modificado_En",
+          "type": "Timestamp"
+        },
+        {
+          "name": "c_Total_Publicaciones",
+          "type": "Number",
+          "key": "calc"
+        },
+        {
+          "name": "c_Total_Programadas",
+          "type": "Number",
+          "key": "calc"
+        },
+        {
+          "name": "c_Total_Publicadas",
+          "type": "Number",
+          "key": "calc"
+        },
+        {
+          "name": "c_Total_Error",
+          "type": "Number",
+          "key": "calc"
+        },
+        {
+          "name": "c_Total_Borradores",
+          "type": "Number",
+          "key": "calc"
+        },
+        {
+          "name": "Fecha_Eliminacion",
+          "type": "Timestamp"
+        },
+        {
+          "name": "Eliminado_Por",
+          "type": "Text"
+        }
       ]
     },
     {
@@ -43,17 +132,52 @@
       "count": 11,
       "role": "Historial de intentos (auditoría)",
       "fields": [
-        { "name": "ID_Log", "type": "Number", "key": "pk" },
-        { "name": "ID_Publicacion", "type": "Number", "key": "fk" },
-        { "name": "Plataforma", "type": "Text" },
-        { "name": "Fecha_Intento", "type": "Timestamp" },
-        { "name": "Resultado", "type": "Text" },
-        { "name": "Post_ID_Retornado", "type": "Text" },
-        { "name": "Permalink_URL", "type": "Text" },
-        { "name": "HTTP_Status_Code", "type": "Number" },
-        { "name": "JSON_Completo", "type": "Text" },
-        { "name": "Token_Usado", "type": "Text" },
-        { "name": "Notas_Internas", "type": "Text" }
+        {
+          "name": "ID_Log",
+          "type": "Number",
+          "key": "pk"
+        },
+        {
+          "name": "ID_Publicacion",
+          "type": "Number",
+          "key": "fk"
+        },
+        {
+          "name": "Plataforma",
+          "type": "Text"
+        },
+        {
+          "name": "Fecha_Intento",
+          "type": "Timestamp"
+        },
+        {
+          "name": "Resultado",
+          "type": "Text"
+        },
+        {
+          "name": "Post_ID_Retornado",
+          "type": "Text"
+        },
+        {
+          "name": "Permalink_URL",
+          "type": "Text"
+        },
+        {
+          "name": "HTTP_Status_Code",
+          "type": "Number"
+        },
+        {
+          "name": "JSON_Completo",
+          "type": "Text"
+        },
+        {
+          "name": "Token_Usado",
+          "type": "Text"
+        },
+        {
+          "name": "Notas_Internas",
+          "type": "Text"
+        }
       ]
     },
     {
@@ -62,13 +186,37 @@
       "count": 7,
       "role": "Imágenes del carrusel (portal)",
       "fields": [
-        { "name": "ID_Media", "type": "Number", "key": "pk" },
-        { "name": "ID_Publicacion", "type": "Number", "key": "fk" },
-        { "name": "Tipo_Media", "type": "Text" },
-        { "name": "Archivo_Container", "type": "Binary", "key": "legacy" },
-        { "name": "URL_Publica", "type": "Text" },
-        { "name": "Orden", "type": "Number" },
-        { "name": "Estado_Subida", "type": "Text" }
+        {
+          "name": "ID_Media",
+          "type": "Number",
+          "key": "pk"
+        },
+        {
+          "name": "ID_Publicacion",
+          "type": "Number",
+          "key": "fk"
+        },
+        {
+          "name": "Tipo_Media",
+          "type": "Text"
+        },
+        {
+          "name": "Archivo_Container",
+          "type": "Binary",
+          "key": "legacy"
+        },
+        {
+          "name": "URL_Publica",
+          "type": "Text"
+        },
+        {
+          "name": "Orden",
+          "type": "Number"
+        },
+        {
+          "name": "Estado_Subida",
+          "type": "Text"
+        }
       ]
     },
     {
@@ -78,13 +226,35 @@
       "role": "Sin relación física · se consulta por Find (token, versión)",
       "dashed": true,
       "fields": [
-        { "name": "ID_Config", "type": "Number", "key": "pk" },
-        { "name": "Nombre_Plataforma", "type": "Text" },
-        { "name": "ID_Cuenta_Meta", "type": "Text" },
-        { "name": "Access_Token", "type": "Text" },
-        { "name": "Token_Expiracion", "type": "Date" },
-        { "name": "API_Version", "type": "Text" },
-        { "name": "Activo", "type": "Number" }
+        {
+          "name": "ID_Config",
+          "type": "Number",
+          "key": "pk"
+        },
+        {
+          "name": "Nombre_Plataforma",
+          "type": "Text"
+        },
+        {
+          "name": "ID_Cuenta_Meta",
+          "type": "Text"
+        },
+        {
+          "name": "Access_Token",
+          "type": "Text"
+        },
+        {
+          "name": "Token_Expiracion",
+          "type": "Date"
+        },
+        {
+          "name": "API_Version",
+          "type": "Text"
+        },
+        {
+          "name": "Activo",
+          "type": "Number"
+        }
       ]
     }
   ],
@@ -113,9 +283,131 @@
     }
   ],
   "legend": [
-    { "k": "pk", "label": "PK (serial)" },
-    { "k": "fk", "label": "FK" },
-    { "k": "calc", "label": "Calculado" },
-    { "k": "legacy", "label": "Legacy" }
-  ]
+    {
+      "k": "pk",
+      "label": "PK (serial)"
+    },
+    {
+      "k": "fk",
+      "label": "FK"
+    },
+    {
+      "k": "calc",
+      "label": "Calculado"
+    },
+    {
+      "k": "legacy",
+      "label": "Legacy"
+    }
+  ],
+  "valueLists": [
+    {
+      "name": "Estados_Post",
+      "values": [
+        "Borrador",
+        "Programado",
+        "Publicado",
+        "Error",
+        "Cancelado",
+        "Eliminado"
+      ],
+      "usedIn": "Publicaciones::Estado",
+      "note": "Ciclo de vida de la publicación. Borrador es el valor inicial. Eliminado es borrado lógico (soft delete): el registro se conserva para auditoría."
+    },
+    {
+      "name": "Plataformas_Destino",
+      "values": [
+        "Sin definir",
+        "Facebook",
+        "Instagram",
+        "Ambas"
+      ],
+      "usedIn": "Publicaciones::Plataforma_Destino",
+      "note": "Destino de la publicación. Sin definir es el valor inicial (no Facebook). Ambas genera dos registros de Log, uno por plataforma."
+    },
+    {
+      "name": "Plataformas_Log",
+      "values": [
+        "Facebook",
+        "Instagram"
+      ],
+      "usedIn": "Publicaciones_Log::Plataforma",
+      "note": "Plataforma concreta de cada intento registrado en el historial. No incluye Ambas: cada intento es de una sola plataforma."
+    },
+    {
+      "name": "Resultados_Log",
+      "values": [
+        "Exitoso",
+        "Fallido"
+      ],
+      "usedIn": "Publicaciones_Log::Resultado",
+      "note": "Resultado de cada intento. Binario: no existe Pendiente. Un intento o fue exitoso o falló."
+    },
+    {
+      "name": "Tipos_Media",
+      "values": [
+        "Imagen",
+        "Video",
+        "Carrusel"
+      ],
+      "usedIn": "Publicacion_Multimedia::Tipo_Media",
+      "note": "Tipo de archivo multimedia asociado a la publicación."
+    },
+    {
+      "name": "Plataformas_Config",
+      "values": [
+        "Facebook",
+        "Instagram"
+      ],
+      "usedIn": "Config_Plataformas::Nombre_Plataforma",
+      "note": "Plataformas configurables con credenciales propias (token, versión de API, cuenta Meta)."
+    }
+  ],
+  "calcFields": [
+    {
+      "name": "c_Total_Publicaciones",
+      "table": "Publicaciones",
+      "type": "Number (calc, no almacenado)",
+      "formula": "ExecuteSQL ( \"SELECT COUNT(*) FROM Publicaciones\" ; \"\" ; \"\" )",
+      "desc": "Total de publicaciones registradas. Alimenta el contador \"Total\" del dashboard."
+    },
+    {
+      "name": "c_Total_Programadas",
+      "table": "Publicaciones",
+      "type": "Number (calc, no almacenado)",
+      "formula": "ExecuteSQL ( \"SELECT COUNT(*) FROM Publicaciones WHERE Estado = ?\" ; \"\" ; \"\" ; \"Programado\" )",
+      "desc": "Publicaciones en estado Programado. Contador \"Programadas\"."
+    },
+    {
+      "name": "c_Total_Publicadas",
+      "table": "Publicaciones",
+      "type": "Number (calc, no almacenado)",
+      "formula": "ExecuteSQL ( \"SELECT COUNT(*) FROM Publicaciones WHERE Estado = ?\" ; \"\" ; \"\" ; \"Publicado\" )",
+      "desc": "Publicaciones en estado Publicado. Contador \"Publicadas\"."
+    },
+    {
+      "name": "c_Total_Error",
+      "table": "Publicaciones",
+      "type": "Number (calc, no almacenado)",
+      "formula": "ExecuteSQL ( \"SELECT COUNT(*) FROM Publicaciones WHERE Estado = ?\" ; \"\" ; \"\" ; \"Error\" )",
+      "desc": "Publicaciones en estado Error. Contador \"Con error\"."
+    },
+    {
+      "name": "c_Total_Borradores",
+      "table": "Publicaciones",
+      "type": "Number (calc, no almacenado)",
+      "formula": "ExecuteSQL ( \"SELECT COUNT(*) FROM Publicaciones WHERE Estado = ?\" ; \"\" ; \"\" ; \"Borrador\" )",
+      "desc": "Publicaciones en estado Borrador. Contador \"Borradores\"."
+    }
+  ],
+  "calcNote": "Los cinco contadores del dashboard usan ExecuteSQL en lugar de relaciones de resumen. Ventaja: una sola consulta SQL por contador, sin necesidad de table occurrences adicionales ni campos de enlace. Son campos no almacenados (se recalculan al mostrarse).",
+  "triggers": [
+    {
+      "event": "OnLayoutEnter",
+      "scope": "Layout: Publicaciones",
+      "script": "0. Inicializar módulo Publicaciones",
+      "desc": "Al entrar al layout de Publicaciones se ejecuta el Script 0, que deja el módulo en modo consulta/controlado (estado inicial seguro)."
+    }
+  ],
+  "triggerNote": "El módulo se auto-inicializa por disparador (script trigger), no manualmente. Los disparadores a nivel archivo (OnFirstWindowOpen, OnLastWindowClose) están en Off."
 }

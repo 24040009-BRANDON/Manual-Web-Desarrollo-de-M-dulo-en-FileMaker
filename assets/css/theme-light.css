@@ -623,6 +623,11 @@ html:not([data-theme="light"]) .lm-mock-title strong { color: #0f172a; }
   box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
 }
 [data-theme="light"] .meta-hero p { color: #475569; }
+[data-theme="light"] .arq-hero {
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+}
+[data-theme="light"] .arq-hero p { color: #475569; }
 [data-theme="light"] .meta-concept:hover,
 [data-theme="light"] .meta-perm:hover,
 [data-theme="light"] .meta-token:hover,
@@ -645,3 +650,11 @@ html:not([data-theme="light"]) .lm-mock-title strong { color: #0f172a; }
 [data-theme="light"] .meta-field input[type="text"],
 [data-theme="light"] .meta-seg-btn { background: #f8fafc; color: #0f172a; }
 [data-theme="light"] .meta-sim-console { background: #16161a; }   /* terminal oscura siempre */
+/* Iconografía: sombra más suave en modo claro (la negra fuerte se ve dura sobre fondo claro) */
+[data-theme="light"] .bi {
+  filter: drop-shadow(0 1px 1.5px rgba(15, 23, 42, 0.18));
+}
+[data-theme="light"] .ico-chip {
+  background: linear-gradient(145deg, #ffffff, #f1f3f7);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}

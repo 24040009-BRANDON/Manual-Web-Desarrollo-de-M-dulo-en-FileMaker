@@ -37,3 +37,37 @@ export function heroBackgroundHTML() {
       <div class="hero-shape hero-shape-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 18a4 4 0 0 1 1-7.87A5 5 0 0 1 17 9a3.5 3.5 0 0 1 0 9H6z"/></svg></div>
     </div>`;
 }
+
+/**
+ * Helper unificado para los heroes de los módulos.
+ * Genera la MISMA estructura para todos; cada módulo pasa su contenido
+ * y su clase contenedora (para conservar su CSS actual).
+ *
+ * @param {Object} o
+ * @param {string} o.containerClass  Clase del <header> (ej. "arq-hero", "meta-hero", "dbm-hero")
+ * @param {string} [o.id]            id opcional del header
+ * @param {string} o.icon           Clase del icono Bootstrap (ej. "bi-diagram-3-fill")
+ * @param {string} o.eyebrow        Texto del eyebrow (ya escapado o seguro)
+ * @param {string} o.title          Título (parte sin acento)
+ * @param {string} [o.titleAccent]  Parte del título con color de acento
+ * @param {string} o.desc           Descripción (puede contener HTML seguro como <strong>)
+ * @param {string[]} [o.chips]      Lista de textos para los chips
+ */
+export function heroHTML({ containerClass, id = "", icon = "", eyebrow = "", title = "", titleAccent = "", desc = "", chips = [] }) {
+  const idAttr = id ? ` id="${id}"` : "";
+  const iconHTML = icon ? `<i class="bi ${icon}"></i> ` : "";
+  const accentHTML = titleAccent ? ` <span class="hero-grad">${titleAccent}</span>` : "";
+  const chipsHTML = chips.length
+    ? `<div class="hero-chips">${chips.map((c) => `<span class="hero-chip">${c}</span>`).join("")}</div>`
+    : "";
+  return `
+    <header class="${containerClass} has-hero-bg"${idAttr}>
+      ${heroBackgroundHTML()}
+      <div class="hero-std">
+        <span class="hero-eyebrow">${iconHTML}${eyebrow}</span>
+        <h1 class="hero-title">${title}${accentHTML}</h1>
+        <p class="hero-desc">${desc}</p>
+        ${chipsHTML}
+      </div>
+    </header>`;
+}

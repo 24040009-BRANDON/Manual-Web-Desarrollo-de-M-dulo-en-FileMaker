@@ -21,25 +21,22 @@ function renderScriptCard(script, index, combined, visual) {
 
   return `
     <article class="script-card sc-collapsible" data-script-card data-category="${escapeHTML(script.category)}" data-sc-collapsed="true">
-      <div class="script-head" data-sc-accordion role="button" tabindex="0" aria-expanded="false">
-        <div class="d-flex flex-wrap justify-content-between gap-3">
-          <div>
-            <div class="d-flex flex-wrap gap-2 mb-2">
-              <span class="cat cat-${escapeHTML(script.category)}">${escapeHTML(script.category)}</span>
-              <span class="pill">${escapeHTML(script.status)}</span>
-              <span class="pill">${escapeHTML(script.level)}</span>
-            </div>
-
-            <h3 class="h4 fw-bold mb-2">${escapeHTML(script.number ?? index + 1)}. ${escapeHTML(script.name)}</h3>
-            <p class="muted mb-0">${escapeHTML(script.does)}</p>
+      <div class="script-head sc-head-compact" data-sc-accordion role="button" tabindex="0" aria-expanded="false">
+        <div class="sc-head-main">
+          <div class="sc-titlerow">
+            <span class="cat cat-${escapeHTML(script.category)}">${escapeHTML(script.category)}</span>
+            <h3 class="sc-title">${escapeHTML(script.number ?? index + 1)}. ${escapeHTML(script.name)}</h3>
+            <span class="pill">${escapeHTML(script.status)}</span>
+            <span class="pill">${escapeHTML(script.level)}</span>
           </div>
+          <p class="sc-does muted">${escapeHTML(script.does)}</p>
+        </div>
 
-          <div class="d-flex align-items-center gap-2">
-            <button class="script-copy-main btn btn-outline-primary rounded-4" data-copy="${codeId}" type="button">
-              Copiar script
-            </button>
-            <span class="sc-accordion-icon" aria-hidden="true">⌄</span>
-          </div>
+        <div class="sc-head-actions">
+          <button class="script-copy-main btn btn-outline-primary rounded-4" data-copy="${codeId}" type="button">
+            Copiar script
+          </button>
+          <span class="sc-accordion-icon" aria-hidden="true">⌄</span>
         </div>
       </div>
 
@@ -244,26 +241,80 @@ function renderMetrics(container, scripts = []) {
     ["Críticos", scripts.filter((script) => ["Crítico", "Validación", "Principal"].includes(script.level)).length, "text-warning"]
   ];
 
-  container.innerHTML = metrics.map((metric) => `
-    <div class="col-6 col-xl-3">
-      <div class="metric">
-        <div class="muted small fw-bold">${escapeHTML(metric[0])}</div>
-        <div class="num ${escapeHTML(metric[2])}">${escapeHTML(metric[1])}</div>
-      </div>
-    </div>
-  `).join("");
+  container.innerHTML = `
+    <div class="scripts-stat-strip">
+      ${metrics
+        .map(
+          (metric) => `
+        <div class="ss-cell">
+          <span class="ss-num ${escapeHTML(metric[2])}">${escapeHTML(metric[1])}</span>
+          <span class="ss-lbl">${escapeHTML(metric[0])}</span>
+        </div>`
+        )
+        .join("")}
+    </div>`;
 }
 
 function renderFlow(container, flow = []) {
-  container.innerHTML = flow.map((item, index) => `
-    <div class="col-md-6 col-xl-3">
-      <div class="flow">
-        <div class="fnum">${index + 1}</div>
-        <h3 class="h6 fw-bold">${escapeHTML(item[0])}</h3>
-        <p class="small muted mb-0">${escapeHTML(item[1])}</p>
+  if (!flow.length) {
+    container.innerHTML = "";
+    return;
+  }
+  let current = 0;
+
+  const draw = () => {
+    const steps = flow
+      .map((item, i) => {
+        const active = i === current ? " is-active" : "";
+        const done = i < current ? " is-done" : "";
+        const connector =
+          i < flow.length - 1
+            ? `<span class="flow-connector${i < current ? " is-done" : ""}"></span>`
+            : "";
+        return `
+          <div class="flow-step">
+            <button class="flow-step-btn${active}" type="button" data-flow-step="${i}" aria-label="Paso ${i + 1}: ${escapeHTML(item[0])}">
+              <span class="flow-num${done}">${i + 1}</span>
+              <span class="flow-label">${escapeHTML(item[0])}</span>
+            </button>
+            ${connector}
+          </div>`;
+      })
+      .join("");
+
+    container.innerHTML = `
+      <div class="flow-stepper" role="tablist">${steps}</div>
+      <div class="flow-detail">
+        <div class="flow-detail-num">${current + 1}</div>
+        <div class="flow-detail-body">
+          <h3 class="flow-detail-title">${escapeHTML(flow[current][0])}</h3>
+          <p class="flow-detail-desc">${escapeHTML(flow[current][1])}</p>
+        </div>
       </div>
-    </div>
-  `).join("");
+      <p class="flow-hint">Toca cualquier paso para ver su detalle · usa <kbd>1</kbd>–<kbd>${flow.length}</kbd></p>`;
+
+    container.querySelectorAll("[data-flow-step]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        current = Number(btn.dataset.flowStep);
+        draw();
+      });
+    });
+  };
+
+  // navegación por teclado (solo cuando la sección de scripts está visible)
+  const onKey = (e) => {
+    const scriptsSection = document.getElementById("scripts");
+    if (!scriptsSection || scriptsSection.offsetParent === null) return;
+    const n = parseInt(e.key, 10);
+    if (n >= 1 && n <= flow.length) {
+      current = n - 1;
+      draw();
+    }
+  };
+  document.removeEventListener("keydown", onKey);
+  document.addEventListener("keydown", onKey);
+
+  draw();
 }
 
 function renderErrors(container, errors = []) {
@@ -327,11 +378,9 @@ export async function renderScripts() {
           </div>
         </section>
 
-        <section class="row g-3 mb-4" id="scripts-metrics"></section>
-
         <section class="card-soft mb-4" id="scripts-flujo">
           <h2 class="section-title h3 mb-3">Mapa visual de flujo</h2>
-          <div class="row g-3" id="scripts-flow"></div>
+          <div id="scripts-flow"></div>
         </section>
 
         <section class="card-soft mb-4" id="scripts-matrizWrap">
@@ -359,6 +408,7 @@ export async function renderScripts() {
         </section>
 
         <section class="mb-4" id="scripts-catalogo">
+          <section class="mb-3" id="scripts-metrics"></section>
           <div class="card-soft mb-3">
             <div class="row g-3 align-items-end">
               <div class="col-lg-7">

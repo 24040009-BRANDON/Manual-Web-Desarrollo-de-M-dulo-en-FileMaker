@@ -91,14 +91,17 @@
 /* ---------- PERMISOS ---------- */
 .meta-perms { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
 .meta-perm {
-  display: flex; gap: 14px; background: var(--m-panel); border: 1px solid var(--m-line);
-  border-left: 4px solid var(--m-accent); border-radius: 14px; padding: 16px;
-  transition: transform .2s, box-shadow .2s;
+  display: flex; gap: 14px; background: var(--m-panel); border: 1px solid rgba(74,222,128,.45);
+  border-radius: 14px; padding: 16px;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
 }
-.meta-perm:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,.3); }
-.meta-perm-blue { border-left-color: var(--m-blue); }
-.meta-perm-green { border-left-color: var(--m-accent); }
-.meta-perm-pink { border-left-color: var(--m-pink); }
+.meta-perm:hover { transform: translateY(-3px); border-color: var(--m-accent); box-shadow: 0 12px 28px rgba(0,0,0,.3); }
+.meta-perm-blue { border-color: rgba(96,165,250,.45); }
+.meta-perm-blue:hover { border-color: var(--m-blue); }
+.meta-perm-green { border-color: rgba(74,222,128,.45); }
+.meta-perm-green:hover { border-color: var(--m-accent); }
+.meta-perm-pink { border-color: rgba(244,114,182,.45); }
+.meta-perm-pink:hover { border-color: var(--m-pink); }
 .meta-perm-ico {
   flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px;
   display: grid; place-items: center; font-size: 20px;
@@ -264,7 +267,8 @@
 .meta-err-fix { color: var(--m-accent); }
 
 /* ---------- NOTA ---------- */
-.meta-note { display: flex; gap: 14px; background: linear-gradient(135deg, rgba(96,165,250,.10), var(--m-panel)); border: 1px solid var(--m-line); border-left: 4px solid var(--m-blue); border-radius: 14px; padding: 18px; }
+.meta-note { display: flex; gap: 14px; background: linear-gradient(135deg, rgba(96,165,250,.10), var(--m-panel)); border: 1px solid rgba(96,165,250,.45); border-radius: 14px; padding: 18px; transition: border-color .18s, box-shadow .18s; }
+.meta-note:hover { border-color: var(--m-blue); box-shadow: 0 0 0 3px rgba(96,165,250,.14); }
 .meta-note > i { font-size: 24px; color: var(--m-blue); }
 .meta-note strong { font-size: 15px; }
 .meta-note p { margin: 6px 0 0; font-size: 13px; color: var(--m-muted); line-height: 1.6; }
