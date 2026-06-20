@@ -1,0 +1,205 @@
+{
+  "heroEyebrow": "Trabajo adicional en DT Informática",
+  "heroTitle": "Extras",
+  "heroTitleAccent": "Sistema de Transporte y Web",
+  "heroDesc": "Documentación complementaria del trabajo realizado en DT Informática fuera del módulo de Publicaciones: el sistema de seguimiento de transporte (PHP + FileMaker Data API), el manejo de evidencias fotográficas y la integración de un canal de WhatsApp en el sitio corporativo. Incluye un muestrario de las estructuras de código más relevantes con su explicación.",
+  "heroChips": ["PHP", "FileMaker Data API v1", "JavaScript", "WordPress", "Geolocalización", "Base64"],
+
+  "intro": {
+    "title": "Contexto",
+    "text": "Además del módulo principal de Publicaciones, durante la estadía se desarrollaron sistemas complementarios para DT Informática. El más extenso es un módulo de seguimiento de transporte construido en PHP y conectado a la base de datos en FileMaker mediante la Data API, que permite a los operadores registrar el estado de sus cargas y subir evidencias desde el celular mediante una URL personalizada por factura. Esta sección documenta su arquitectura, las decisiones técnicas y un muestrario de código representativo. Todos los datos sensibles (credenciales, host, identificadores reales) fueron reemplazados por ejemplos genéricos."
+  },
+
+  "architecture": {
+    "title": "Arquitectura general",
+    "text": "El sistema se comunica con FileMaker mediante la Data API siguiendo un flujo de tres etapas en cada operación: autenticación (PHP solicita un token temporal con una cuenta de servicio), operación (con el token activo se localiza el registro por su UUID y se lee o escribe) y cierre de sesión (se libera el token con una petición DELETE para no dejar sesiones abiertas).",
+    "flow": "PHP → Autenticación → Token → Consulta / Actualización → Cierre de sesión",
+    "note": "Cada factura se identifica por su UUID de timbrado combinado con el filtro de estado vigente, porque un mismo número de carga puede repetirse entre facturas vigentes y canceladas. El UUID es único por factura y el filtro garantiza tomar siempre la versión correcta, evitando colisiones."
+  },
+
+  "considerations": {
+    "title": "Consideraciones técnicas de la conexión",
+    "items": [
+      { "label": "Versión de protocolo HTTP", "text": "Se fuerza HTTP/1.1 en todas las funciones cURL, ya que el servidor presentaba conflictos con HTTP/2 que generaban errores de cabecera." },
+      { "label": "Nombres exactos de campos", "text": "La Data API distingue mayúsculas, minúsculas y cada carácter de los nombres internos de los campos. Un solo carácter distinto genera el error 102 (Field is missing)." },
+      { "label": "Campos en el layout", "text": "La Data API solo lee y escribe campos que estén físicamente colocados en el layout consultado. Crear el campo en la tabla no basta: debe arrastrarse al layout." },
+      { "label": "Zona horaria", "text": "Se establece America/Mexico_City al inicio de cada script para que las marcas de tiempo coincidan con la hora local, ya que el servidor operaba en UTC." }
+    ]
+  },
+
+  "modules": [
+    {
+      "name": "Módulo de seguimiento (loads.php)",
+      "desc": "Permite al chofer registrar los hitos del viaje mediante botones grandes optimizados para celular. Cada botón captura la geolocalización y la fecha y hora del momento.",
+      "points": [
+        "Cuatro hitos: llegada, carga, entrega y descarga.",
+        "Al presionar un botón, JavaScript obtiene las coordenadas y recarga la página enviando la acción y la ubicación por la URL (método GET).",
+        "Cada botón se deshabilita una vez registrado su hito, leyendo si el campo de marca temporal ya tiene valor, evitando duplicados.",
+        "Incluye un formulario adicional (método POST) para litros, monto y kilometraje, mostrados pre-llenados con el valor actual de FileMaker."
+      ]
+    },
+    {
+      "name": "Módulo de evidencias (loads2.php)",
+      "desc": "Diseñado para los casos en que el chofer no puede completar la entrega de forma estándar y necesita dejar constancia con una fotografía y datos asociados.",
+      "points": [
+        "La fotografía se sube por un formulario multipart y se convierte a una cadena Base64 almacenable en un campo de texto.",
+        "Se diseñó un empaquetado de datos: extensión + pleca + Base64 (ej. jpg|/9j/4AAQ...), para que FileMaker conserve el tipo de archivo y pueda reconstruir la imagen con Base64Decode.",
+        "La geolocalización se captura de forma asíncrona antes de enviar el formulario, garantizando que la ubicación viaje junto con la foto.",
+        "Si el GPS falla o no está disponible, el formulario se envía igual con una nota de ubicación no registrada, sin bloquear al usuario."
+      ]
+    }
+  ],
+
+  "incidents": {
+    "title": "Diagnóstico y corrección de incidencias",
+    "items": [
+      { "label": "Error 102 en el monto", "text": "El campo Monto no aparecía en las respuestas de la Data API. La causa fue que el campo existía en la tabla pero no estaba colocado en el layout. Se resolvió agregándolo al layout." },
+      { "label": "Campo de litros vacío", "text": "Los litros se guardaban en blanco. El diagnóstico, inspeccionando el contenido real de la petición POST, reveló un desajuste entre el nombre del campo en el formulario HTML y la variable leída en PHP. Al alinearlos, el dato se transmitió correctamente." },
+      { "label": "Validación de respuesta", "text": "Se incorporó una verificación explícita de la respuesta de FileMaker tras cada actualización. Antes el sistema confirmaba éxito con solo comprobar que cURL no fallara; ahora valida el mensaje real y, si hay rechazo, muestra el código y la descripción exactos del error." }
+    ],
+    "method": "La metodología aplicada consistió en inspeccionar el dato real en cada etapa del flujo (qué llega del formulario, qué se envía a FileMaker, qué responde FileMaker) en lugar de asumir el origen del problema, lo que permitió localizar las causas con precisión."
+  },
+
+  "whatsapp": {
+    "title": "Canal de comunicación vía WhatsApp (WordPress)",
+    "problem": "Se requirió habilitar un botón flotante de contacto vía WhatsApp en el sitio web corporativo, minimizando el impacto en el rendimiento y evitando instalar plugins comerciales redundantes.",
+    "solution": [
+      "En lugar de instalar un plugin dedicado, se aprovechó el plugin ya activo Insert PHP Code Snippet para inyectar el código de forma global.",
+      "El código original estaba en JavaScript; como el plugin procesa PHP, se encapsuló el bloque dentro de una instrucción echo con sus etiquetas script, evitando errores de sintaxis.",
+      "Se eliminaron funciones de prueba (alert) que interrumpían la experiencia del usuario.",
+      "Se configuró el método de inserción para ejecutarse en el footer del front-end, renderizando el botón en todo el sitio sin insertar shortcodes página por página."
+    ],
+    "result": "El botón de WhatsApp se muestra de forma global en todas las páginas. Al cargarse desde el pie de página, no bloquea la carga de los elementos visuales principales, manteniendo el rendimiento del sitio intacto."
+  },
+
+  "samplesTitle": "Muestrario de estructuras de código",
+  "samplesIntro": "Fragmentos representativos del sistema. Los valores sensibles fueron reemplazados por ejemplos genéricos marcados como tales. El objetivo es documentar la lógica y las decisiones de diseño.",
+  "samples": [
+    {
+      "id": "config",
+      "title": "1. Configuración inicial y conexión",
+      "lang": "php",
+      "code": "<?php\ndate_default_timezone_set('America/Mexico_City');\n\n$username    = 'usuario_ejemplo';      // ejemplo, no es real\n$password    = 'password_ejemplo';     // ejemplo, no es real\n$host_file   = 'https://servidor-ejemplo/fmi/data/v1/databases/BaseDatos/'; // ejemplo\n$layoutLoads = 'Loads';",
+      "vars": [
+        { "name": "$username / $password", "desc": "Credenciales de una cuenta de servicio dedicada (no la de un usuario humano), creada para que el PHP se conecte a FileMaker." },
+        { "name": "$host_file", "desc": "Dirección base del archivo (la base de datos) en el servidor. Todas las peticiones se construyen a partir de esta URL." },
+        { "name": "$layoutLoads", "desc": "Layout de FileMaker sobre el que se trabaja. El nombre lo describe explícitamente para evitar confusiones." }
+      ],
+      "logic": "date_default_timezone_set se coloca al inicio absoluto porque debe afectar a todas las marcas de tiempo del script. Sin esta línea, PHP usaría la hora del servidor (UTC), generando un desfase de varias horas.",
+      "result": "Deja listas las variables de conexión y la zona horaria para todo el script."
+    },
+    {
+      "id": "auth",
+      "title": "2. Autenticación (obtención del token)",
+      "lang": "php",
+      "code": "function authenticate() {\n    global $username, $password, $host_file;\n    $URL = $host_file . 'sessions';\n\n    $ch = curl_init();\n    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);\n    curl_setopt($ch, CURLOPT_URL, $URL);\n    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);\n    curl_setopt($ch, CURLOPT_HTTPHEADER, array(\"Content-Type: application/json\"));\n    curl_setopt($ch, CURLOPT_USERPWD, \"$username:$password\");\n    curl_setopt($ch, CURLOPT_POST, 1);\n    curl_setopt($ch, CURLOPT_POSTFIELDS, '{}');\n    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);\n    $result = curl_exec($ch);\n    if ($result === FALSE) die('Error CURL: ' . curl_error($ch));\n    curl_close($ch);\n\n    $response = json_decode($result, true);\n    if ($response['messages'][0]['message'] === 'OK') {\n        return $response['response']['token'];\n    } else {\n        die('Error en autenticacion: ' . $response['messages'][0]['message']);\n    }\n}",
+      "vars": [
+        { "name": "$ch", "desc": "cURL handle (manejador cURL). Es la conexión que se va configurando paso a paso antes de ejecutarse." },
+        { "name": "$result", "desc": "Respuesta cruda del servidor, en texto." },
+        { "name": "$response", "desc": "Esa respuesta ya convertida de texto JSON a un arreglo PHP manejable, mediante json_decode." }
+      ],
+      "logic": "Arma una petición POST al endpoint sessions enviando las credenciales. La línea CURLOPT_HTTP_VERSION fuerza HTTP/1.1, resolviendo conflictos de cabecera con HTTP/2. Antes de devolver el token verifica que el mensaje sea OK; si falla, detiene el script con un mensaje claro.",
+      "result": "Devuelve un token de sesión temporal que autoriza todas las operaciones posteriores."
+    },
+    {
+      "id": "find",
+      "title": "3. Búsqueda de un registro por criterios",
+      "lang": "php",
+      "code": "function findRecordByFields($token, $layout, $criterios, $sort = []) {\n    global $host_file;\n    $URL = $host_file . 'layouts/' . urlencode($layout) . '/_find?portal=false';\n\n    $data = ['query' => [ $criterios ]];\n    if (!empty($sort)) {\n        $data['sort'] = $sort;\n    }\n    $jsonData = json_encode($data);\n\n    $ch = curl_init();\n    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);\n    curl_setopt($ch, CURLOPT_URL, $URL);\n    curl_setopt($ch, CURLOPT_HTTPHEADER, array(\n        \"Content-Type: application/json\",\n        \"Authorization: Bearer $token\"\n    ));\n    curl_setopt($ch, CURLOPT_POST, 1);\n    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);\n    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);\n    $result = curl_exec($ch);\n    if ($result === FALSE) die('Error en busqueda: ' . curl_error($ch));\n    curl_close($ch);\n    return json_decode($result, true);\n}",
+      "vars": [
+        { "name": "$criterios", "desc": "Arreglo con los campos y valores a buscar. En plural porque puede contener varios criterios a la vez." },
+        { "name": "$sort", "desc": "Opcional (valor por defecto vacío). Define el orden de los resultados; si no se pasa, no se aplica ordenamiento." },
+        { "name": "$data / $jsonData", "desc": "La estructura que la Data API espera para una búsqueda (clave query), y esa misma estructura convertida a texto JSON lista para enviarse." }
+      ],
+      "logic": "La búsqueda se hace contra el endpoint _find del layout. La cabecera Authorization: Bearer incluye el token, demostrando que la petición está autorizada. El parámetro portal=false indica que no se necesitan datos de portales relacionados, aligerando la respuesta.",
+      "result": "Devuelve los registros que coinciden con los criterios, en forma de arreglo."
+    },
+    {
+      "id": "uuid",
+      "title": "4. Identificación inequívoca del registro",
+      "lang": "php",
+      "code": "$uuid = $_GET['uuid'] ?? '';\n\n$criteriosUUID = [\n    'Timbrado_UUID'     => $uuid,\n    'estadoComprobante' => '1'   // 1 = vigente\n];\n$uuidData = findRecordByFields($token, $layoutLoads, $criteriosUUID);\n$primer   = $uuidData['response']['data'][0] ?? null;\n\nif (!$primer) {\n    echo \"No se encontro la factura vigente para ese UUID.\";\n    exit();\n}\n\n$registro = $primer['fieldData'];\n$recordId = $primer['recordId'];",
+      "vars": [
+        { "name": "$uuid", "desc": "Identificador único de la factura, recibido desde la URL. El ?? '' evita un error si no viene en la URL." },
+        { "name": "$primer", "desc": "El primer (y único esperado) registro encontrado. El ?? null evita un error si la búsqueda no devolvió nada." },
+        { "name": "$registro / $recordId", "desc": "Los datos de los campos del registro (fieldData) y el identificador interno que FileMaker asigna, necesario para actualizarlo después." }
+      ],
+      "logic": "Decisión de diseño clave: se busca por UUID combinado con estado vigente porque un mismo número de carga puede repetirse entre una factura cancelada y una vigente. El UUID es único por factura y el filtro de estado garantiza tomar siempre la versión correcta.",
+      "result": "Se obtiene el registro exacto y su recordId, o se detiene el proceso con un mensaje claro si no existe."
+    },
+    {
+      "id": "update",
+      "title": "5. Actualización de un registro",
+      "lang": "php",
+      "code": "function actualizarRegistro($token, $layout, $recordId, $campos) {\n    global $host_file;\n    $URL = $host_file . 'layouts/' . urlencode($layout) . '/records/' . $recordId;\n\n    $data = ['fieldData' => $campos];\n    $jsonData = json_encode($data);\n\n    $ch = curl_init();\n    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);\n    curl_setopt($ch, CURLOPT_URL, $URL);\n    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');\n    curl_setopt($ch, CURLOPT_HTTPHEADER, array(\n        \"Content-Type: application/json\",\n        \"Authorization: Bearer $token\"\n    ));\n    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);\n    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);\n    $result = curl_exec($ch);\n    if ($result === FALSE) die('Error al actualizar: ' . curl_error($ch));\n    curl_close($ch);\n    return json_decode($result, true);\n}",
+      "vars": [
+        { "name": "$campos", "desc": "Arreglo asociativo donde cada clave es el nombre exacto del campo en FileMaker y cada valor es el dato a guardar." },
+        { "name": "$recordId", "desc": "Se recibe como parámetro porque la actualización necesita saber exactamente qué registro modificar." }
+      ],
+      "logic": "Se usa el método HTTP PATCH porque actualiza solo los campos enviados, sin tocar el resto del registro. Los datos se envían bajo la clave fieldData. Punto crítico: las claves de $campos deben coincidir carácter por carácter con los nombres internos en FileMaker, y esos campos deben estar en el layout, o se obtiene el error 102.",
+      "result": "Devuelve la respuesta de FileMaker, que indica si la actualización fue aceptada."
+    },
+    {
+      "id": "validate",
+      "title": "6. Validación de la respuesta de FileMaker",
+      "lang": "php",
+      "code": "$respuesta = actualizarRegistro($token, $layoutLoads, $recordId, $camposAActualizar);\n\nif ($respuesta['messages'][0]['message'] === 'OK') {\n    $mensaje = \"Datos guardados correctamente.\";\n} else {\n    $mensaje = \"FileMaker rechazo: \" . $respuesta['messages'][0]['message']\n             . \" (codigo \" . $respuesta['messages'][0]['code'] . \")\";\n}",
+      "vars": [
+        { "name": "$respuesta", "desc": "Lo que FileMaker devolvió tras intentar guardar." },
+        { "name": "$mensaje", "desc": "El texto que se mostrará al usuario, indicando éxito o el error específico." }
+      ],
+      "logic": "Corrige una debilidad importante. Antes el sistema asumía éxito con solo comprobar que cURL no fallara, pero eso no garantiza que FileMaker haya aceptado los datos. Ahora revisa el mensaje real: si no es OK, muestra el código y la descripción exactos. Convierte un fallo silencioso en un diagnóstico inmediato.",
+      "result": "El usuario y el desarrollador saben con certeza si los datos se guardaron, y por qué no en caso de fallo."
+    },
+    {
+      "id": "base64",
+      "title": "7. Conversión de imagen a Base64 con empaquetado de tipo",
+      "lang": "php",
+      "code": "// Extraemos la extension del archivo y la normalizamos a minusculas\n$extension = strtolower(pathinfo($foto['name'], PATHINFO_EXTENSION));\n\n// Leemos el contenido binario y lo convertimos a texto Base64\n$contenido = file_get_contents($foto['tmp_name']);\n$base64    = base64_encode($contenido);\n\n// Empaquetamos: extension + pleca + base64\n$imagenpaq = $extension . '|' . $base64;   // ejemplo: jpg|/9j/4AAQ...",
+      "vars": [
+        { "name": "$extension", "desc": "El tipo de archivo (jpg, png, etc.), extraído del nombre original." },
+        { "name": "$contenido", "desc": "Los bytes crudos de la imagen leídos del archivo temporal." },
+        { "name": "$base64", "desc": "Esa imagen convertida a texto, formato que un campo de texto de FileMaker puede almacenar." },
+        { "name": "$imagenpaq", "desc": "Imagen empaquetada: combina la extensión y el Base64 en una sola cadena." }
+      ],
+      "logic": "El Base64 puro guarda la imagen pero no indica su tipo, dato necesario para reconstruirla. Anteponiendo la extensión y un separador (la pleca), FileMaker recibe una cadena predecible: con funciones de texto separa la extensión del contenido y con Base64Decode reconstruye la imagen con su tipo correcto. strtolower normaliza la extensión para evitar inconsistencias entre JPG y jpg.",
+      "result": "Una cadena autodescriptiva que conserva tanto la imagen como su formato, lista para guardarse y reconstruirse sin ambigüedad."
+    },
+    {
+      "id": "monto",
+      "title": "8. Limpieza de un campo numérico",
+      "lang": "php",
+      "code": "$monto = $_POST['monto'] ?? '';\n$monto = preg_replace('/[^0-9.]/', '', $monto);   // deja solo numeros y punto",
+      "vars": [
+        { "name": "$monto", "desc": "Guarda el costo capturado por el usuario." }
+      ],
+      "logic": "El campo Monto en FileMaker es de tipo numérico y rechaza símbolos como $, comas o letras. La expresión regular [^0-9.] significa todo lo que NO sea un dígito o un punto, y preg_replace lo elimina. Así, si el usuario escribe $850.50 pesos, el valor se convierte en 850.50.",
+      "result": "Un número limpio que el campo numérico acepta sin error, sin importar cómo lo haya escrito el usuario."
+    },
+    {
+      "id": "geo",
+      "title": "9. Captura de geolocalización antes de enviar un formulario",
+      "lang": "javascript",
+      "code": "document.getElementById(\"formEvidencia\").addEventListener(\"submit\", function (e) {\n    var campoUbicacion = document.getElementById(\"ubicacion\");\n\n    // Si ya hay ubicacion, se envia normal\n    if (campoUbicacion.value !== \"\") {\n        return true;\n    }\n\n    // Si no, detenemos el envio y pedimos el GPS primero\n    e.preventDefault();\n    var formulario = this;\n\n    navigator.geolocation.getCurrentPosition(\n        function (posicion) {\n            var lat = posicion.coords.latitude;\n            var lon = posicion.coords.longitude;\n            campoUbicacion.value = lat + \",\" + lon;\n            formulario.submit();   // ahora si, ya con la ubicacion\n        },\n        function (error) {\n            formulario.submit();   // si falla el GPS, se envia igual\n        }\n    );\n});",
+      "vars": [
+        { "name": "campoUbicacion", "desc": "Referencia el campo oculto del formulario donde se guardará la coordenada." },
+        { "name": "formulario", "desc": "Guarda la referencia al formulario para poder enviarlo una vez obtenida la ubicación." },
+        { "name": "posicion", "desc": "Contiene las coordenadas que entrega el navegador." }
+      ],
+      "logic": "Resuelve un problema de sincronización. La foto viaja por POST, pero la geolocalización es asíncrona (tarda en responder). Si se enviara el formulario de inmediato, la ubicación llegaría vacía. La solución: preventDefault detiene el envío, se pide el GPS y solo cuando llegan las coordenadas se colocan en el campo oculto y se hace submit. Si el GPS falla, se envía igual para no bloquear al usuario.",
+      "result": "La evidencia siempre viaja con su ubicación cuando el dispositivo lo permite, sin pasos adicionales para el usuario."
+    }
+  ],
+
+  "closing": {
+    "title": "Resultados obtenidos",
+    "items": [
+      "Módulo de seguimiento de transporte funcional, accesible desde el celular mediante URL personalizada por factura.",
+      "Captura de hitos de viaje (llegada, carga, entrega, descarga) con geolocalización y marca temporal automática.",
+      "Sistema de evidencias fotográficas con empaquetado de tipo de archivo, geolocalización y datos de combustible.",
+      "Buenas prácticas de integración PHP–FileMaker Data API establecidas y documentadas.",
+      "Incidencias detectadas y resueltas mediante diagnóstico basado en evidencia.",
+      "Canal de comunicación vía WhatsApp habilitado en el sitio corporativo con impacto mínimo en el rendimiento."
+    ]
+  }
+}

@@ -5,6 +5,7 @@ import { renderLayout } from "./renderLayout.js";
 import { renderArquitectura } from "./renderArquitectura.js";
 import { renderMeta } from "./renderMeta.js";
 import { renderAbout } from "./renderAbout.js";
+import { renderExtras } from "./renderExtras.js";
 
 async function runRenderer(renderer, name) {
   if (typeof renderer !== "function") {
@@ -30,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await runRenderer(renderArquitectura, "renderArquitectura");
     await runRenderer(renderMeta, "renderMeta");
     await runRenderer(renderAbout, "renderAbout");
+    await runRenderer(renderExtras, "renderExtras");
   } catch (error) {
     console.error("Error al inicializar la página:", error);
   }

@@ -1,0 +1,235 @@
+/* ==========================================================================
+   EXTRAS — Sistema de transporte, evidencias y WhatsApp
+   CSS aislado con prefijo .ex- y .extras-manual para no afectar otras secciones.
+   Usa los tokens globales (tokens.css) para respetar tema claro y oscuro.
+   ========================================================================== */
+
+.extras-manual {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Flujo de arquitectura (cadena de pasos) */
+.ex-flow {
+  font-family: var(--font-code);
+  font-size: 13.5px;
+  color: var(--primary);
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin: 14px 0;
+  text-align: center;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Listas etiqueta + texto */
+.ex-labeled-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ex-labeled {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-left: 3px solid var(--primary-border);
+  padding-left: 12px;
+}
+
+.ex-labeled-tag {
+  font-weight: 700;
+  color: var(--text-strong);
+  font-size: 13.5px;
+}
+
+.ex-labeled-text {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Encabezados de bloque */
+.ex-h2 {
+  font-family: "Oswald", sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 36px 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.ex-samples-intro {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 18px;
+}
+
+/* Tarjetas de módulos */
+.ex-modules {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+.ex-module-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ex-module-name {
+  font-family: var(--font-code);
+  font-size: 15px;
+  color: var(--primary);
+  margin: 0 0 8px;
+}
+
+.ex-module-desc {
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.ex-module-points {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.ex-module-points li { margin-bottom: 5px; }
+
+/* Bloque WhatsApp */
+.ex-whatsapp .ex-sample-subtitle { margin-top: 14px; }
+
+/* ==========================================================================
+   Muestrario de código
+   ========================================================================== */
+
+.ex-samples {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.ex-sample {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.ex-sample-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  background: var(--soft);
+}
+
+.ex-sample-title {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--text-strong);
+  margin: 0;
+}
+
+.ex-sample-lang {
+  flex-shrink: 0;
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+}
+
+/* Bloque de código */
+.ex-code {
+  background: #0e0e11;
+  overflow-x: auto;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.ex-code pre {
+  margin: 0;
+  font-family: var(--font-code);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #e4e4e7;
+  white-space: pre;
+}
+
+.ex-code code { background: none; color: inherit; padding: 0; }
+
+/* Explicaciones */
+.ex-sample-vars,
+.ex-sample-block {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.ex-sample-result { border-bottom: none; }
+
+.ex-sample-subtitle {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  margin: 0 0 8px;
+}
+
+.ex-sample-vars ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.ex-sample-vars li { margin-bottom: 6px; }
+
+.ex-sample-block p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+/* Variable inline dentro de explicaciones */
+.ex-var {
+  font-family: var(--font-code);
+  font-size: 12px;
+  color: var(--primary);
+  background: var(--primary-soft);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .ex-modules { grid-template-columns: 1fr; }
+  .ex-h2 { font-size: 22px; }
+  .ex-flow { font-size: 12px; }
+}
