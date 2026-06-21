@@ -84,3 +84,37 @@
 .scripts-manual .sc-does{margin:0;color:var(--sm-muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .scripts-manual .sc-head-actions{display:flex;align-items:center;gap:10px;flex:0 0 auto}
 @media(max-width:640px){.scripts-manual .sc-does{white-space:normal}.scripts-manual .sc-head-compact{flex-wrap:wrap}}
+/* ==========================================================================
+   Resaltado de sintaxis FileMaker Script (como el Script Workspace real)
+   ========================================================================== */
+.code pre .fmh-comment { color: #2e9e5b; font-style: italic; }   /* verde comentarios */
+.code pre .fmh-string  { color: #c0392b; }                       /* rojo/granate strings */
+.code pre .fmh-var     { color: #8e44ad; font-weight: 600; }     /* morado variables $ */
+.code pre .fmh-field   { color: #1f6feb; }                       /* azul campos Tabla::Campo */
+.code pre .fmh-step    { color: #b35900; font-weight: 600; }     /* naranja script steps */
+.code pre .fmh-fn      { color: #0a8f8f; }                       /* teal funciones */
+.code pre .fmh-num     { color: #2266cc; }                       /* azul números */
+
+/* Ajustes para modo oscuro: tonos más brillantes para contraste */
+[data-theme="dark"] .code pre .fmh-comment { color: #6cc28a; }
+[data-theme="dark"] .code pre .fmh-string  { color: #e88; }
+[data-theme="dark"] .code pre .fmh-var     { color: #c792ea; }
+[data-theme="dark"] .code pre .fmh-field   { color: #6cb6ff; }
+[data-theme="dark"] .code pre .fmh-step    { color: #ffb86c; }
+[data-theme="dark"] .code pre .fmh-fn      { color: #4ec9b0; }
+[data-theme="dark"] .code pre .fmh-num     { color: #79c0ff; }
+
+/* ==========================================================================
+   Contraste — textos que se veían demasiado apagados en modo oscuro
+   ========================================================================== */
+.scripts-manual .combined-note { color: #fcd34d; }              /* era #966b00, ilegible */
+.scripts-manual .step-comment { opacity: 1; }
+.scripts-manual .step-comment .step-code pre { color: #b8c2cc; }  /* era #94a3b8 */
+.scripts-manual .step-comment .step-number { color: #a1a1aa; }    /* era #71717a */
+.scripts-manual .sm-hl-muted { color: #d4d4d8; }                  /* era #cbd5e1, sube un poco */
+
+/* En modo claro, devolver tonos legibles sobre fondo blanco */
+[data-theme="light"] .scripts-manual .combined-note { color: #92600a; }
+[data-theme="light"] .scripts-manual .step-comment .step-code pre { color: #64748b; }
+[data-theme="light"] .scripts-manual .step-comment .step-number { color: #64748b; }
+[data-theme="light"] .scripts-manual .sm-hl-muted { color: #475569; }

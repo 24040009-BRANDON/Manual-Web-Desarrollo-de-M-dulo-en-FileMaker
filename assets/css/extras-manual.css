@@ -163,9 +163,10 @@
   padding: 3px 10px;
 }
 
-/* Bloque de código */
+/* Bloque de código — el fondo se define por tema con la variable --ex-code-bg.
+   En oscuro es casi negro; en claro, un gris/azulado suave (no negro). */
 .ex-code {
-  background: #0e0e11;
+  background: var(--ex-code-bg, #0e0e11);
   overflow-x: auto;
   padding: 16px 18px;
   border-bottom: 1px solid var(--line);
@@ -176,11 +177,20 @@
   font-family: var(--font-code);
   font-size: 12.5px;
   line-height: 1.6;
-  color: #e4e4e7;
+  color: var(--ex-code-text, #e4e4e7);
   white-space: pre;
 }
 
 .ex-code code { background: none; color: inherit; padding: 0; }
+
+/* ---- Resaltado de sintaxis (tema oscuro por defecto) ---- */
+.ex-code .tok-php     { color: #ff7b72; font-weight: 600; }  /* <?php ?> */
+.ex-code .tok-kw      { color: #c792ea; }                    /* palabras clave */
+.ex-code .tok-fn      { color: #82aaff; }                    /* funciones */
+.ex-code .tok-var     { color: #4ade80; }                    /* variables $ */
+.ex-code .tok-string  { color: #ecc48d; }                    /* cadenas */
+.ex-code .tok-comment { color: #6b7280; font-style: italic; }/* comentarios */
+.ex-code .tok-num     { color: #f78c6c; }                    /* números */
 
 /* Explicaciones */
 .ex-sample-vars,
@@ -217,19 +227,92 @@
   line-height: 1.65;
 }
 
-/* Variable inline dentro de explicaciones */
-.ex-var {
+/* Referencia inline en "Por qué de cada variable".
+   El color lo da la clase de token (tok-var / tok-fn), igual que en el código.
+   Solo aporta la tipografía mono y el fondo tenue. */
+.ex-ref {
   font-family: var(--font-code);
   font-size: 12px;
-  color: var(--primary);
-  background: var(--primary-soft);
+  background: rgba(148, 163, 184, 0.14);
   border-radius: 5px;
   padding: 1px 6px;
 }
+.ex-ref.tok-var { color: #4ade80; }
+.ex-ref.tok-fn  { color: #82aaff; }
 
 /* Responsive */
 @media (max-width: 640px) {
   .ex-modules { grid-template-columns: 1fr; }
   .ex-h2 { font-size: 22px; }
   .ex-flow { font-size: 12px; }
+}
+
+/* ==========================================================================
+   TEMA CLARO — el editor de código deja de ser negro y pasa a un panel
+   claro (gris azulado). Los tokens usan tonos oscuros y saturados para
+   mantener buen contraste (legibilidad AA) sobre fondo claro.
+   ========================================================================== */
+[data-theme="light"] .ex-code {
+  --ex-code-bg: #f4f7fb;
+  --ex-code-text: #1e293b;
+  border: 1px solid var(--line);
+}
+
+[data-theme="light"] .ex-code .tok-php     { color: #b91c1c; }  /* rojo oscuro */
+[data-theme="light"] .ex-code .tok-kw      { color: #7c3aed; }  /* violeta */
+[data-theme="light"] .ex-code .tok-fn      { color: #1d4ed8; }  /* azul */
+[data-theme="light"] .ex-code .tok-var     { color: #15803d; }  /* verde oscuro */
+[data-theme="light"] .ex-code .tok-string  { color: #b45309; }  /* ámbar oscuro */
+[data-theme="light"] .ex-code .tok-comment { color: #64748b; }  /* gris */
+[data-theme="light"] .ex-code .tok-num     { color: #c2410c; }  /* naranja oscuro */
+
+/* Referencias inline en modo claro: mismos tonos que el código */
+[data-theme="light"] .ex-ref { background: rgba(100, 116, 139, 0.12); }
+[data-theme="light"] .ex-ref.tok-var { color: #15803d; }
+[data-theme="light"] .ex-ref.tok-fn  { color: #1d4ed8; }
+/* ==========================================================================
+   RECREACIÓN — Celular del chofer (loads.php) en estilo VANILLA
+   El loads.php real no tiene CSS. Para mostrarlo fiel, el contenido usa
+   all:revert (estilos por defecto del navegador): fuente serif del sistema,
+   botones grises nativos, texto negro. El marco simula la pantalla.
+   ========================================================================== */
+.ex-phone-wrap { margin: 28px 0 8px; }
+
+.ex-phone-caption {
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 0 auto 18px;
+  text-align: center;
+}
+
+/* Marco neutro tipo pantalla de navegador (no es parte del estilo vanilla,
+   solo delimita el área; por eso es gris muy simple) */
+.ex-vanilla-frame {
+  max-width: 320px;
+  margin: 0 auto;
+  border: 1px solid #bbb;
+  background: #fff;
+  padding: 0;
+}
+
+/* Reset total: estilos por defecto del navegador */
+.ex-vanilla,
+.ex-vanilla * {
+  all: revert;
+}
+.ex-vanilla {
+  display: block;
+  padding: 12px;
+  background: #fff;
+  color: #000;
+  font-family: "Times New Roman", Times, serif;
+}
+.ex-vanilla button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  font-size: 16px;
 }

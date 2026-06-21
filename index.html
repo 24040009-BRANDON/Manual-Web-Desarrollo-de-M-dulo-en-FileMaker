@@ -53,6 +53,11 @@
     </div>
 
     <nav class="header-tabs" aria-label="Navegación principal del manual">
+      <button class="nav-burger" id="navBurger" type="button" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-tabs-group" id="navTabsGroup">
       <button class="nav-tab active" data-section="home" type="button">
         Inicio
       </button>
@@ -84,6 +89,7 @@
       <button class="nav-tab" data-section="extras" type="button">
         Extras
       </button>
+      </div>
 
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar tema">
         <span class="theme-toggle-label" id="themeToggleLabel">Light</span>
@@ -272,8 +278,47 @@
   </main>
 
   <footer class="site-footer">
-    <p class="site-footer-main">Universidad Tecnológica de Coahuila · 2026</p>
-    <p class="site-footer-sub">Brandon Arreola Cortés · Saltillo, Coahuila · DT Informática</p>
+    <div class="ft-main">
+      <div class="ft-col ft-brand-col">
+        <div class="ft-brand">
+          <div class="ft-logo">D&amp;T</div>
+          <b>D&amp;T Informática</b>
+        </div>
+        <p class="ft-about">Manual técnico del módulo de gestión y publicación de contenido en redes sociales mediante FileMaker y Meta Graph API.</p>
+      </div>
+
+      <div class="ft-col">
+        <h4>Documentación</h4>
+        <ul>
+          <li><button class="ft-link" data-goto="database" type="button">Base de datos</button></li>
+          <li><button class="ft-link" data-goto="scripts" type="button">Scripts</button></li>
+          <li><button class="ft-link" data-goto="layout" type="button">Layout</button></li>
+          <li><button class="ft-link" data-goto="meta" type="button">Meta Graph API</button></li>
+        </ul>
+      </div>
+
+      <div class="ft-col">
+        <h4>Tecnologías</h4>
+        <div class="ft-chips">
+          <span class="ft-chip">FileMaker 18</span>
+          <span class="ft-chip">PHP</span>
+          <span class="ft-chip">Data API</span>
+          <span class="ft-chip">JavaScript</span>
+          <span class="ft-chip">Meta API</span>
+        </div>
+      </div>
+
+      <div class="ft-col">
+        <h4>Proyecto</h4>
+        <ul class="ft-info">
+          <li>Brandon Arreola Cortés</li>
+          <li>UT de Coahuila</li>
+          <li>Saltillo, Coahuila</li>
+          <li>2026</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-legal">© 2026 · Estadía profesional · Universidad Tecnológica de Coahuila · DT Informática</div>
   </footer>
 
   <script type="module" src="assets/js/main.js"></script>

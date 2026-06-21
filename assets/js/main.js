@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     initTabs();
     initThemeToggle();
+    initBurger();
 
     await runRenderer(renderDatabase, "renderDatabase");
     await runRenderer(renderScripts, "renderScripts");
@@ -65,5 +66,27 @@ function initThemeToggle() {
   btn.addEventListener("click", () => {
     current = current === "light" ? "dark" : "light";
     apply(current);
+  });
+}
+
+/**
+ * Menú hamburguesa para pantallas estrechas: abre/cierra el grupo de tabs.
+ * Al elegir una sección, el menú se cierra automáticamente.
+ */
+function initBurger() {
+  const burger = document.getElementById("navBurger");
+  const group = document.getElementById("navTabsGroup");
+  if (!burger || !group) return;
+
+  burger.addEventListener("click", () => {
+    const open = group.classList.toggle("open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+
+  group.querySelectorAll(".nav-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      group.classList.remove("open");
+      burger.setAttribute("aria-expanded", "false");
+    });
   });
 }

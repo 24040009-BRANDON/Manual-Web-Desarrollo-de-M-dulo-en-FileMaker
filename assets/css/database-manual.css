@@ -1509,3 +1509,13 @@
 .tab-content #database {
   padding-top: 0 !important;
 }
+/* Métricas en texto plano (antes eran tarjetas que ocupaban mucho espacio) */
+.dbm-metrics-row { display: block; }
+.dbm-metrics-line {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+  margin: 0 0 8px;
+  line-height: 1.8;
+}
+.dbm-metrics-line strong { color: var(--primary); font-weight: 700; }

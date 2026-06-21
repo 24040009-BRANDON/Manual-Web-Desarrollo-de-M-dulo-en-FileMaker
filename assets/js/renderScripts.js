@@ -1,5 +1,76 @@
 import { escapeHTML, heroBackgroundHTML } from "./utils.js";
 
+/* Resaltado de sintaxis para FileMaker Script (estilo Script Workspace).
+   Colorea: comentarios (#), strings, variables $ y $$, campos Tabla::Campo,
+   script steps (Set Variable, If, etc.), funciones y números.
+   Usa marcadores de control para no pisar tokens ya resaltados, y
+   escapa el HTML al final. El copiado usa innerText, así que no se afecta. */
+function highlightFM(code = "") {
+  const OPEN = "\u0001";
+  const CLOSE = "\u0002";
+  const SEP = "\u0003";
+  const wrap = (cls, txt) => `${OPEN}${cls}${SEP}${txt}${CLOSE}`;
+
+  const steps = [
+    "Set Variable", "Set Field", "Go to Layout", "Insert from URL", "Perform Script",
+    "Exit Script", "Commit Records/Requests", "If", "Else If", "Else", "End If",
+    "Loop", "End Loop", "Exit Loop If", "New Record/Request", "Go to Record/Request/Page",
+    "Show Custom Dialog", "Refresh Window", "Freeze Window", "Allow User Abort",
+    "Set Error Capture", "Go to Field", "Enter Find Mode", "Perform Find",
+    "Pause/Resume Script", "Delete Record/Request", "Open URL", "Comment"
+  ];
+  const funcs = [
+    "JSONGetElement", "IsEmpty", "Get", "Quote", "Left", "Right", "Middle", "Length",
+    "Substitute", "Trim", "Upper", "Lower", "GetAsText", "GetAsNumber", "Position",
+    "Char", "Code", "Abs", "Round", "Int", "Mod", "Case", "Let", "Evaluate",
+    "GetValue", "ValueCount", "List", "ExecuteSQL", "Timestamp", "Date", "Time"
+  ];
+
+  // 1) Comentarios de línea completa que empiezan con #
+  let out = code.split("\n").map((line) => {
+    const m = line.match(/^(\s*)(#.*)$/);
+    if (m) return m[1] + wrap("fmh-comment", m[2]);
+    return line;
+  }).join("\n");
+
+  // 2) Strings entre comillas dobles
+  out = out.replace(/"[^"\n]*"/g, (s) => wrap("fmh-string", s));
+
+  // 3) Variables $$ y $
+  out = out.replace(/\$\$?[A-Za-z_][A-Za-z0-9_]*/g, (s) => wrap("fmh-var", s));
+
+  // 4) Campos Tabla::Campo
+  out = out.replace(/\b[A-Za-z_][A-Za-z0-9_]*::[A-Za-z_][A-Za-z0-9_]*\b/g, (s) => wrap("fmh-field", s));
+
+  // 5) Script steps (al inicio de línea, tras posible indent)
+  steps.sort((a, b) => b.length - a.length).forEach((step) => {
+    const re = new RegExp("(^|\\n)(\\s*)(" + step.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&") + ")\\b", "g");
+    out = out.replace(re, (full, pre, ind, s) => pre + ind + wrap("fmh-step", s));
+  });
+
+  // 6) Funciones seguidas de (
+  funcs.sort((a, b) => b.length - a.length).forEach((fn) => {
+    const re = new RegExp("\\b(" + fn + ")(\\s*\\()", "g");
+    out = out.replace(re, (full, name, paren) => wrap("fmh-fn", name) + paren);
+  });
+
+  // 7) Números sueltos
+  out = out.replace(/\b\d+\b/g, (s) => wrap("fmh-num", s));
+
+  // 8) Escapar HTML y convertir marcadores en <span>
+  const reMark = new RegExp(OPEN + "(.+?)" + SEP + "([\\s\\S]*?)" + CLOSE, "g");
+  let result = "";
+  let last = 0;
+  let match;
+  while ((match = reMark.exec(out)) !== null) {
+    result += escapeHTML(out.slice(last, match.index));
+    result += `<span class="${match[1]}">${escapeHTML(match[2])}</span>`;
+    last = match.index + match[0].length;
+  }
+  result += escapeHTML(out.slice(last));
+  return result;
+}
+
 function ensureScriptsManualCSS() {
   const href = "assets/css/scripts-manual.css";
   if (document.querySelector(`link[href="${href}"]`)) return;
@@ -112,7 +183,7 @@ function renderScriptCard(script, index, combined, visual) {
               <div class="accordion-body">
                 <div class="code">
                   <button class="copy" data-copy="${codeId}" type="button">Copiar script</button>
-                  <pre id="${codeId}">${escapeHTML(script.code)}</pre>
+                  <pre id="${codeId}">${highlightFM(script.code)}</pre>
                 </div>
               </div>
             </div>

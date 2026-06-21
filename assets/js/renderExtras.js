@@ -1,5 +1,80 @@
 import { escapeHTML, heroBackgroundHTML } from "./utils.js";
 
+/* --------------------------------------------------------------------------
+   Resaltado de sintaxis ligero para PHP y JavaScript.
+   Trabaja sobre el código YA escapado (entidades HTML) y envuelve cada
+   categoría léxica en un <span class="tok-..."> que el CSS colorea por tema.
+   Se usa un marcador temporal (\u0000N\u0000) para "congelar" comentarios y
+   cadenas antes de tokenizar palabras clave, evitando colorear dentro de
+   ellos. Es un resaltador didáctico, no un parser completo.
+   -------------------------------------------------------------------------- */
+function highlightCode(rawCode, lang = "php") {
+  let code = escapeHTML(rawCode);
+
+  const frozen = [];
+  const freeze = (cls, text) => {
+    const idx = frozen.length;
+    frozen.push(`<span class="tok-${cls}">${text}</span>`);
+    // Marcador con caracteres de control no alfanuméricos: \u0001 + dígitos como
+    // secuencia de \u0002..\u000B (uno por dígito) + \u0001. Así ni \w ni \d ni
+    // \b lo capturan, y los pasos de keyword/función/número no lo alteran.
+    const mark = String(idx)
+      .split("")
+      .map((d) => String.fromCharCode(2 + Number(d)))
+      .join("");
+    return `\u0001${mark}\u0001`;
+  };
+
+  // 1) Cadenas primero (ya escapadas): '...' se vuelve &#39;...&#39; y "..." se vuelve &quot;...&quot;
+  code = code.replace(/(&#39;(?:(?!&#39;).)*&#39;)/g, (m) => freeze("string", m));
+  code = code.replace(/(&quot;(?:(?!&quot;).)*&quot;)/g, (m) => freeze("string", m));
+
+  // 2) Comentarios de línea. El # se exige que NO forme parte de una entidad (&#..)
+  //    usando un lookbehind negativo; // se captura normal.
+  code = code.replace(/(\/\/[^\n]*)/g, (m) => freeze("comment", m));
+  code = code.replace(/(?<!&)(#[^\n]*)/g, (m) => freeze("comment", m));
+
+  // 3) Variables PHP ($algo)
+  if (lang === "php") {
+    code = code.replace(/(\$[A-Za-z_]\w*)/g, (m) => freeze("var", m));
+  }
+
+  // 4) Llamadas a función: nombre seguido de '('
+  code = code.replace(/\b([A-Za-z_]\w*)(?=\s*\()/g, (m) => freeze("fn", m));
+
+  // 5) Palabras clave
+  const keywords =
+    lang === "php"
+      ? ["function", "global", "return", "if", "else", "elseif", "die", "echo", "exit", "isset", "empty", "array", "true", "false", "null", "foreach", "as", "new"]
+      : ["function", "return", "if", "else", "var", "let", "const", "new", "this", "true", "false", "null", "document", "navigator"];
+  const kwRe = new RegExp(`\\b(${keywords.join("|")})\\b`, "g");
+  code = code.replace(kwRe, (m) => freeze("kw", m));
+
+  // 6) Apertura/cierre PHP y números
+  code = code.replace(/(&lt;\?php|\?&gt;)/g, (m) => freeze("php", m));
+  code = code.replace(/\b(\d+\.?\d*)\b/g, (m) => freeze("num", m));
+
+  // 7) Restaurar los marcadores congelados
+  code = code.replace(/\u0001([\u0002-\u000B]+)\u0001/g, (_, mark) => {
+    const idx = Number(
+      mark.split("").map((c) => c.charCodeAt(0) - 2).join("")
+    );
+    return frozen[idx];
+  });
+
+  return code;
+}
+
+/* Asigna la clase de color (igual que en el código) a cada referencia de la
+   lista "Por qué de cada variable", para que el color coincida con el bloque.
+   Una referencia puede traer varios nombres separados por " / ". */
+function varTokenClass(name = "") {
+  const first = String(name).trim().split("/")[0].trim();
+  if (first.startsWith("$")) return "ex-ref tok-var";       // variable PHP
+  if (/^[a-z][A-Za-z]+$/.test(first)) return "ex-ref tok-fn"; // identificador/objeto JS
+  return "ex-ref tok-var";
+}
+
 /* Lista simple <li> a partir de un arreglo de textos */
 function createList(items = []) {
   if (!Array.isArray(items) || items.length === 0) {
@@ -30,6 +105,30 @@ function createLabeledList(items = []) {
     .join("");
 }
 
+/* Recreación del celular del chofer (loads.php) en estilo VANILLA:
+   sin estilos del manual, apariencia HTML por defecto del navegador.
+   El loads.php real no tiene CSS; solo botones grandes. Por eso se usa
+   all:revert dentro de un contenedor aislado para mostrar exactamente eso. */
+function phoneMockupHTML() {
+  return `
+    <section class="ex-phone-wrap">
+      <p class="ex-phone-caption">Así ve el chofer la pantalla de seguimiento en su celular (loads.php). La página real no tiene estilos: son los controles HTML por defecto del navegador.</p>
+      <div class="ex-vanilla-frame">
+        <div class="ex-vanilla">
+          <h3>FACTURA: A-000</h3>
+          <p>LOAD: LD0000000 - CLIENTE: Ejemplo S.A.</p>
+          <hr>
+          <button type="button" disabled>Ya llegué &#10003;</button>
+          <p>Llegada: 06/17/2026 16:14</p>
+          <button type="button" disabled>Ya me cargaron &#10003;</button>
+          <p>Carga: 06/17/2026 15:43</p>
+          <button type="button">Ya entregué</button>
+          <button type="button">Ya me descargaron</button>
+        </div>
+      </div>
+    </section>`;
+}
+
 /* Tarjetas de módulos (loads.php / loads2.php) */
 function createModules(modules = []) {
   if (!Array.isArray(modules) || modules.length === 0) return "";
@@ -56,7 +155,7 @@ function createSamples(samples = []) {
              <ul>${s.vars
                .map(
                  (v) =>
-                   `<li><code class="ex-var">${escapeHTML(v.name)}</code> — ${escapeHTML(v.desc)}</li>`
+                   `<li><code class="${varTokenClass(v.name)}">${escapeHTML(v.name)}</code> — ${escapeHTML(v.desc)}</li>`
                )
                .join("")}</ul>
            </div>`
@@ -83,7 +182,7 @@ function createSamples(samples = []) {
           <span class="ex-sample-lang">${escapeHTML(s.lang || "code")}</span>
         </header>
         <div class="ex-code">
-          <pre><code>${escapeHTML(s.code)}</code></pre>
+          <pre><code>${highlightCode(s.code, s.lang)}</code></pre>
         </div>
         ${varsHTML}
         ${logicHTML}
@@ -164,6 +263,8 @@ export async function renderExtras() {
 
         <h2 class="ex-h2">Módulos del sistema de transporte</h2>
         <div class="ex-modules">${createModules(data.modules)}</div>
+
+        ${phoneMockupHTML()}
 
         <article class="info-card full ex-whatsapp">
           <h3>${escapeHTML(data.whatsapp?.title || "WhatsApp (WordPress)")}</h3>

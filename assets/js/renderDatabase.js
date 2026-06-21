@@ -1,4 +1,5 @@
 import { escapeHTML, heroBackgroundHTML } from "./utils.js";
+import { fileMakerWindowHTML, initFileMakerWindow } from "./fmWindow.js";
 
 function normalizeText(value = "") {
   return String(value)
@@ -25,6 +26,14 @@ function ensureDatabaseManualStyles() {
   link.rel = "stylesheet";
   link.href = "assets/css/database-manual.css";
   document.head.appendChild(link);
+
+  if (!document.getElementById("fm-window-css")) {
+    const fmLink = document.createElement("link");
+    fmLink.id = "fm-window-css";
+    fmLink.rel = "stylesheet";
+    fmLink.href = "assets/css/fm-window.css";
+    document.head.appendChild(fmLink);
+  }
 }
 
 function convertOriginalMarkup(html = "") {
@@ -254,12 +263,14 @@ function renderMetrics(root, database, allFields) {
   const logFields = allFields.filter((field) => field.role?.includes("LOG")).length;
 
   metrics.innerHTML = `
-    <div class="dbm-metric"><div class="dbm-num dbm-text-primary">${totalTables}</div><p class="dbm-muted dbm-mb-0">Tablas</p></div>
-    <div class="dbm-metric"><div class="dbm-num dbm-text-success">${totalFields}</div><p class="dbm-muted dbm-mb-0">Campos</p></div>
-    <div class="dbm-metric"><div class="dbm-num dbm-text-info">${apiFields}</div><p class="dbm-muted dbm-mb-0">Campos API</p></div>
-    <div class="dbm-metric"><div class="dbm-num dbm-text-warning">${validationFields}</div><p class="dbm-muted dbm-mb-0">Validaciones</p></div>
-    <div class="dbm-metric"><div class="dbm-num dbm-text-primary">${calcFields}</div><p class="dbm-muted dbm-mb-0">Cálculos</p></div>
-    <div class="dbm-metric"><div class="dbm-num dbm-text-danger">${logFields}</div><p class="dbm-muted dbm-mb-0">Log</p></div>
+    <p class="dbm-metrics-line">
+      <strong>${totalTables}</strong> tablas ·
+      <strong>${totalFields}</strong> campos ·
+      <strong>${apiFields}</strong> campos API ·
+      <strong>${validationFields}</strong> validaciones ·
+      <strong>${calcFields}</strong> cálculos ·
+      <strong>${logFields}</strong> de log
+    </p>
   `;
 }
 
@@ -429,6 +440,8 @@ function createDatabaseShell() {
               </div>
             </div>
           </section>
+
+          ${fileMakerWindowHTML()}
 
           <section class="dbm-metrics-row dbm-mb-4" data-db-metrics></section>
 
@@ -746,6 +759,14 @@ export async function renderDatabase() {
 
     databaseSection.innerHTML = createDatabaseShell();
     wireDatabaseInteractions(databaseSection, database, allFields);
+
+    initFileMakerWindow(() => {
+      const arqTab = document.querySelector('.nav-tab[data-section="arquitectura"]');
+      if (arqTab) {
+        arqTab.click();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
   } catch (error) {
     console.error("Error en renderDatabase:", error);
     renderDatabaseError(databaseSection);
