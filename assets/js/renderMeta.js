@@ -69,6 +69,66 @@ function errorCard(e) {
     </div>`;
 }
 
+/* ---------- FLUJO DE PUBLICACIÓN ---------- */
+
+function pubPasoCard(p) {
+  return `
+    <div class="meta-step meta-step-ok">
+      <div class="meta-step-head">
+        <span class="meta-verb meta-verb-post">${escapeHTML(p.metodo)}</span>
+        <code>${escapeHTML(p.endpoint)}</code>
+        <span class="meta-step-badge">paso ${p.n}</span>
+      </div>
+      <div class="meta-step-note"><b>Parámetros:</b> <code>${escapeHTML(p.params)}</code></div>
+      <div class="meta-step-note"><b>Devuelve:</b> <code>${escapeHTML(p.devuelve)}</code></div>
+      <div class="meta-step-note">${escapeHTML(p.nota)}</div>
+    </div>`;
+}
+
+function pubCasoCard(c) {
+  return `
+    <div class="meta-concept">
+      <i class="bi ${escapeHTML(c.icon)}"></i>
+      <h4>${escapeHTML(c.caso)} <span class="meta-chip">${c.peticiones} ${c.peticiones === 1 ? "petición" : "peticiones"}</span></h4>
+      <div class="meta-flow">${c.pasos.map(pubPasoCard).join("")}</div>
+    </div>`;
+}
+
+/* ---------- MODOS DE LA APP ---------- */
+
+function modoCard(m) {
+  return `
+    <div class="meta-token">
+      <div class="meta-token-head"><i class="bi ${escapeHTML(m.icon)}"></i> <strong>${escapeHTML(m.modo)}</strong></div>
+      <p><span class="meta-err-lbl">Revisión:</span> ${escapeHTML(m.revision)}</p>
+      <p><span class="meta-err-lbl">Visibilidad:</span> ${escapeHTML(m.visibilidad)}</p>
+      <p><span class="meta-err-lbl">Uso:</span> ${escapeHTML(m.uso)}</p>
+    </div>`;
+}
+
+function requisitoStep(r, last) {
+  return `
+    <div class="meta-flow-step${last ? " meta-flow-last" : ""}">
+      <div class="meta-flow-n">${r.n}</div>
+      <div class="meta-flow-body">
+        <strong><i class="bi ${escapeHTML(r.icon)}"></i> ${escapeHTML(r.titulo)}</strong>
+        <p>${escapeHTML(r.detalle)}</p>
+        <span class="meta-chip">Responsable: ${escapeHTML(r.responsable)}</span>
+      </div>
+    </div>`;
+}
+
+/* ---------- PERMALINK ---------- */
+
+function permalinkCard(p) {
+  return `
+    <div class="meta-concept">
+      <i class="bi ${escapeHTML(p.icon)}"></i>
+      <h4>${escapeHTML(p.titulo)}</h4>
+      <p>${escapeHTML(p.detalle)}</p>
+    </div>`;
+}
+
 /* ---------- SIMULADOR ---------- */
 
 function simulatorHTML() {
@@ -161,15 +221,39 @@ function simulateCall({ plat, msg, img, usePageToken }) {
 
   if (plat === "facebook") {
     const postId = `<PAGE_ID>_${fakeId()}`;
-    steps.push({
-      ok: true, method: "POST", url: "/<PAGE_ID>/feed",
-      note: "Fase 1 — crear la publicación",
-      params: { message: msg || "(vacío)", access_token: "<PAGE_ACCESS_TOKEN>" },
-      json: { id: postId }
-    });
+
+    if (img) {
+      // CON IMAGEN: flujo de dos fases (published=false + attached_media)
+      const photoId = fakeId();
+      steps.push({
+        ok: true, method: "POST", url: "/<PAGE_ID>/photos",
+        note: "Fase 1 — subir la foto SIN publicar (published=false)",
+        params: { url: img, published: "false", access_token: "<PAGE_ACCESS_TOKEN>" },
+        json: { id: photoId }
+      });
+      steps.push({
+        ok: true, method: "POST", url: "/<PAGE_ID>/feed",
+        note: "Fase 2 — publicar la historia en el muro con la foto adjunta",
+        params: {
+          message: msg || "(vacío)",
+          "attached_media[0]": `{"media_fbid":"${photoId}"}`,
+          access_token: "<PAGE_ACCESS_TOKEN>"
+        },
+        json: { id: postId }
+      });
+    } else {
+      // SOLO TEXTO: una sola llamada
+      steps.push({
+        ok: true, method: "POST", url: "/<PAGE_ID>/feed",
+        note: "Fase 1 — crear la publicación (solo texto)",
+        params: { message: msg || "(vacío)", access_token: "<PAGE_ACCESS_TOKEN>" },
+        json: { id: postId }
+      });
+    }
+
     steps.push({
       ok: true, method: "GET", url: `/${postId}?fields=permalink_url`,
-      note: "Fase 2 — obtener el enlace público",
+      note: "Fase final — obtener el enlace permanente",
       json: { permalink_url: "https://www.facebook.com/<PAGE>/posts/<POST_ID>", id: postId }
     });
   } else {
@@ -316,6 +400,50 @@ function createMetaShell(data) {
       <section class="meta-block">
         <h2 class="meta-h2"><i class="bi bi-signpost-split-fill"></i> Cómo se genera el Page Token que no expira</h2>
         <div class="meta-flow">${data.flujoToken.map((s, i) => flujoStep(s, i === data.flujoToken.length - 1)).join("")}</div>
+      </section>
+
+      <!-- Flujo de publicación -->
+      <section class="meta-block">
+        <h2 class="meta-h2"><i class="bi bi-send-fill"></i> Cómo se publica: texto vs. imagen</h2>
+        <p class="meta-lead">${escapeHTML(data.flujoPublicacion.intro)}</p>
+        <div class="meta-concepts">${data.flujoPublicacion.casos.map(pubCasoCard).join("")}</div>
+        <div class="meta-note">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <div>
+            <strong>Error frecuente: la foto acaba en el álbum, no en el muro</strong>
+            <p><span class="meta-err-lbl">Síntoma:</span> ${escapeHTML(data.flujoPublicacion.errorComun.sintoma)}</p>
+            <p><span class="meta-err-lbl">Causa:</span> ${escapeHTML(data.flujoPublicacion.errorComun.causa)}</p>
+            <p><span class="meta-err-lbl meta-err-fix">Solución:</span> ${escapeHTML(data.flujoPublicacion.errorComun.fix)}</p>
+          </div>
+        </div>
+        <p class="meta-lead">${escapeHTML(data.flujoPublicacion.nota)}</p>
+      </section>
+
+      <!-- Modos de la app -->
+      <section class="meta-block">
+        <h2 class="meta-h2"><i class="bi bi-toggles"></i> Modo desarrollo vs. producción</h2>
+        <p class="meta-lead">${escapeHTML(data.modosApp.intro)}</p>
+        <div class="meta-tokens">${data.modosApp.modos.map(modoCard).join("")}</div>
+        <h2 class="meta-h2" style="margin-top:28px"><i class="bi bi-list-ol"></i> Requisitos para pasar a producción</h2>
+        <div class="meta-flow">${data.modosApp.requisitos.map((r, i) => requisitoStep(r, i === data.modosApp.requisitos.length - 1)).join("")}</div>
+        <div class="meta-note">
+          <i class="bi bi-info-circle-fill"></i>
+          <div><p>${escapeHTML(data.modosApp.nota)}</p></div>
+        </div>
+      </section>
+
+      <!-- Permalink -->
+      <section class="meta-block">
+        <h2 class="meta-h2"><i class="bi bi-link-45deg"></i> El enlace permanente (permalink)</h2>
+        <p class="meta-lead">${escapeHTML(data.permalink.intro)}</p>
+        <div class="meta-concepts">${data.permalink.puntos.map(permalinkCard).join("")}</div>
+        <div class="meta-note">
+          <i class="bi bi-search"></i>
+          <div>
+            <strong>${escapeHTML(data.permalink.diagnostico.titulo)}</strong>
+            ${data.permalink.diagnostico.pasos.map((s) => `<p>· ${escapeHTML(s)}</p>`).join("")}
+          </div>
+        </div>
       </section>
 
       <!-- SIMULADOR -->

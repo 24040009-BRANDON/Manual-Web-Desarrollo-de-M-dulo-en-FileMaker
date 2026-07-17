@@ -914,8 +914,8 @@
       "steps": "Set Variable [ $$modoEdicion ; 1 ]\nOpen Record/Request\nGo to Field [ Publicaciones::Titulo ]\nRefresh Window []"
     },
     "Confirmar eliminar publicación": {
-      "purpose": "Solicita confirmación antes de eliminar el registro.",
-      "steps": "Show Custom Dialog [ \"Confirmar eliminación\" ]\nIf [ Get ( LastMessageChoice ) = 1 ]\nDelete Record/Request [ With dialog: Off ]\nEnd If\nRefresh Window []"
+      "purpose": "Elimina el post en Facebook vía DELETE de Graph API y marca el registro como Eliminado en FileMaker (borrado lógico: el registro nunca se borra físicamente).",
+      "steps": "Show Custom Dialog [ \"Confirmar eliminación\" ]\nIf [ Get ( LastMessageChoice ) = 1 ]\n    Set Variable [ $post_id_fb ; Publicaciones::Post_ID_API ]\n    If [ not IsEmpty ( $post_id_fb ) ]\n        Go to Layout [ \"Config_Plataformas\" ]\n        Enter Find Mode [] / Set Field [ Nombre_Plataforma ; \"Facebook\" ] / Perform Find []\n        Insert from URL [ Select ; No dialog ; cURL: \"--request DELETE\" ]\n        Go to Layout [ \"Publicaciones\" ]\n    End If\n    Set Field [ Publicaciones::Estado ; \"Eliminado\" ]\n    Set Field [ Publicaciones::Fecha_Eliminacion ; Get ( CurrentTimestamp ) ]\n    Set Field [ Publicaciones::Eliminado_Por ; Get ( AccountName ) ]\n    Commit Records/Requests [ No dialog ]\nEnd If\nRefresh Window []"
     },
     "Seleccionar plataforma destino": {
       "purpose": "Asigna Facebook, Instagram o Ambas al campo Plataforma_Destino.",
@@ -1008,6 +1008,22 @@
       "purpose": "Elimina un archivo del carrusel. Aquí el borrado SÍ es real (no lógico) porque los archivos son borradores previos a la publicación. Tras quitar, conviene reordenar el campo Orden de los restantes.",
       "steps": "Show Custom Dialog [ confirmar ]\nIf [ confirmado ]\n  Delete Portal Row\n  Commit\n  # reordenar Orden 1..N de los restantes\nEnd If\nRefresh Window",
       "code": "# Quitar archivo multimedia (borrado real — son borradores pre-publicación)\nShow Custom Dialog [ \"Quitar archivo\" ; \"¿Quitar este archivo de la publicación?\" ; Default Button: “Quitar” ; Button 2: “Cancelar” ]\nIf [ Get ( LastMessageChoice ) = 1 ]\n    Delete Portal Row [ With dialog: Off ]\n    Commit Records/Requests [ With dialog: Off ]\n    # Reordenar el campo Orden de los archivos restantes (1..N) mediante un loop por el portal\nEnd If\nRefresh Window []"
+    },
+    "Primer registro": {
+      "purpose": "Salta al primer registro del found set. Sustituye la flecha |◀ de la Status Toolbar oculta.",
+      "steps": "Go to Record/Request/Page [ First ]"
+    },
+    "Registro anterior": {
+      "purpose": "Retrocede un registro dentro del found set. Sustituye la flecha ◀ de la Status Toolbar oculta.",
+      "steps": "Go to Record/Request/Page [ Previous ; Exit after last: Off ]"
+    },
+    "Registro siguiente": {
+      "purpose": "Avanza un registro dentro del found set. Sustituye la flecha ▶ de la Status Toolbar oculta.",
+      "steps": "Go to Record/Request/Page [ Next ; Exit after last: Off ]"
+    },
+    "Último registro": {
+      "purpose": "Salta al último registro del found set. Sustituye la flecha ▶| de la Status Toolbar oculta.",
+      "steps": "Go to Record/Request/Page [ Last ]"
     }
   },
   "elements": {
@@ -1018,7 +1034,7 @@
       "table": "Publicaciones",
       "field": "N/A",
       "script": "05. Mostrar todas las publicaciones / 30. Ir a configuración de plataformas / 31. Ir a historial completo / 32. Ir a multimedia",
-      "explain": "Zona de navegación del módulo. Permite moverse entre panel principal, estados, configuración, historial y multimedia."
+      "explain": "NO SE USA EN ESTA VISTA: la navegación lateral se sustituyó por la barra superior de botones y las flechas de navegación entre registros. Zona de navegación del módulo. Permite moverse entre panel principal, estados, configuración, historial y multimedia."
     },
     "layout-publicaciones": {
       "title": "Layout Publicaciones",
@@ -1153,7 +1169,7 @@
       "table": "Publicaciones",
       "field": "Hashtags",
       "script": "02. Buscar publicaciones",
-      "explain": "Campo opcional para etiquetas. Puede participar en búsquedas."
+      "explain": "NO UTILIZADO ACTUALMENTE: el campo Hashtags existe en la tabla Publicaciones y el script 22 lo contempla — si tiene contenido, lo concatena al final del mensaje separado por dos saltos de línea. Sin embargo, el campo no está colocado en el layout: la funcionalidad quedó descartada por ahora y las etiquetas se escriben directamente dentro de Contenido_Texto. La lógica permanece en el script, de modo que basta con colocar el campo en el layout para reactivarla sin tocar código."
     },
     "plat-facebook": {
       "title": "Botón Plataforma Facebook",
@@ -1171,7 +1187,7 @@
       "table": "Publicaciones",
       "field": "Plataforma_Destino",
       "script": "08. Seleccionar plataforma destino",
-      "explain": "Asigna Instagram como plataforma destino mediante parámetro de script."
+      "explain": "NO SE USA: Instagram quedó fuera de alcance (DT Informática no dispone de cuenta de Instagram Business). El valor sigue existiendo en la value list Plataformas, pero el campo se muestra como desplegable y el flujo solo contempla Facebook. Asigna Instagram como plataforma destino mediante parámetro de script."
     },
     "plat-ambas": {
       "title": "Botón Plataforma Ambas",
@@ -1180,7 +1196,7 @@
       "table": "Publicaciones",
       "field": "Plataforma_Destino",
       "script": "08. Seleccionar plataforma destino",
-      "explain": "Asigna Ambas como plataforma destino para ejecutar publicación en Facebook e Instagram."
+      "explain": "NO SE USA: la opción \"Ambas\" implicaba publicar simultáneamente en Facebook e Instagram. Al quedar Instagram fuera de alcance, la opción permanece en la value list pero no tiene flujo asociado. Asigna Ambas como plataforma destino para ejecutar publicación en Facebook e Instagram."
     },
     "imagen": {
       "title": "4 recuadros de previsualización (Web Viewers)",
@@ -1220,7 +1236,7 @@
       "table": "Publicaciones",
       "field": "Estado",
       "script": "09. Cambiar estado publicación",
-      "explain": "Representa el estado operativo de la publicación: Borrador, Programado, Publicado, Error o Cancelado."
+      "explain": "SUSTITUIDO POR EL SEMÁFORO: el grupo de botones de estado (Borrador, Programado, Publicado, Error, Cancelado) se reemplazó por un único indicador con formato condicional, ubicado junto a Plataforma de destino. Ver el elemento \"Semáforo de estado\". El script 09 sigue existiendo para cambiar el estado. Representa el estado operativo de la publicación: Borrador, Programado, Publicado, Error o Eliminado."
     },
     "fecha": {
       "title": "Campo Fecha programada",
@@ -1247,7 +1263,7 @@
       "table": "Publicaciones",
       "field": "Post_ID_API / Fecha_Publicacion_Real / Respuesta_API_JSON",
       "script": "22. Publicar Facebook / 23. Publicar Instagram",
-      "explain": "Zona de respuesta técnica de API. Muestra ID devuelto, fecha real y JSON recibido."
+      "explain": "NO SE USA EN ESTA VISTA: los campos de resultado de la API se movieron fuera del layout principal junto con los datos técnicos. Zona de respuesta técnica de API. Muestra ID devuelto, fecha real y JSON recibido."
     },
     "actions": {
       "title": "Botones de acción",
@@ -1292,7 +1308,7 @@
       "table": "Publicaciones_Log",
       "field": "ID_Publicacion / Plataforma / Resultado / HTTP_Status_Code / Notas_Internas / Permalink_URL",
       "script": "50. Registrar intento en Log / 51. Abrir publicación en navegador",
-      "explain": "Muestra registros relacionados de Publicaciones_Log para auditar intentos de publicación. También permite abrir la URL pública de una publicación cuando el intento fue exitoso y existe Permalink_URL."
+      "explain": "MOVIDO A OTRO LAYOUT: el portal del historial de intentos (Publicaciones_Log) ya no se muestra en el layout Publicaciones; se consulta desde su propio layout. Los scripts siguen escribiendo en la tabla con normalidad. Muestra registros relacionados de Publicaciones_Log para auditar intentos de publicación. También permite abrir la URL pública de una publicación cuando el intento fue exitoso y existe Permalink_URL."
     },
     "metadatos": {
       "title": "Bloque de datos técnicos (zona derecha, bajo el Web Viewer)",
@@ -1301,7 +1317,7 @@
       "table": "Publicaciones",
       "field": "Permalink_URL / Post_ID_API / Fecha_Publicacion_Real / Respuesta_API_JSON / Codigo_Error / Detalle_Error",
       "script": "N/A (solo lectura)",
-      "explain": "Tras la reorganización del layout, los datos técnicos de solo lectura se agrupan en la zona DERECHA, debajo del Web Viewer. Muestran el resultado de la última publicación: permalink, Post ID de Meta, fecha real, respuesta JSON cruda y, si hubo fallo, código y detalle del error.",
+      "explain": "MOVIDO FUERA DEL LAYOUT PRINCIPAL: agrupa los campos de solo lectura que devuelve la API (Post_ID_API, Permalink_URL, Fecha_Publicacion_Real, Respuesta_API_JSON, Codigo_Error y Detalle_Error). Se retiró del layout Publicaciones para reducir la carga visual de la pantalla principal; los campos siguen existiendo en la tabla y los scripts los escriben con normalidad. Nota: la Data API solo lee y escribe campos colocados físicamente en un layout, así que si en el futuro se expone este módulo por Data API, estos campos deben estar presentes en el layout que se use como destino.",
       "section": "derecha",
       "notes": [
         "Reorganización: la zona izquierda concentra el flujo operativo (captura + botones de acción); la zona derecha el resultado (Web Viewer arriba, datos técnicos debajo).",
@@ -1316,7 +1332,7 @@
       "table": "Config_Plataformas",
       "field": "Nombre_Plataforma / ID_Cuenta_Meta / Access_Token / API_Version / Token_Expiracion / Activo",
       "script": "30. Ir a configuración de plataformas",
-      "explain": "Los campos de Config_Plataformas (Nombre_Plataforma, ID_Cuenta_Meta, Access_Token, API_Version, Token_Expiracion, Activo) NO van en el layout Publicaciones: son campos de otra tabla sin relación directa y, sueltos en este layout, se comportan como campos fantasma. Se gestionan en un layout administrativo aparte basado en la tabla Config_Plataformas.",
+      "explain": "EN LAYOUT ADMINISTRATIVO APARTE: los campos de Config_Plataformas (token, ID de cuenta, versión de API) se gestionan en su propio layout. El script 22 los lee en tiempo de ejecución mediante Go to Layout + Perform Find, sin necesidad de que estén presentes en el layout Publicaciones. Los campos de Config_Plataformas (Nombre_Plataforma, ID_Cuenta_Meta, Access_Token, API_Version, Token_Expiracion, Activo) NO van en el layout Publicaciones: son campos de otra tabla sin relación directa y, sueltos en este layout, se comportan como campos fantasma. Se gestionan en un layout administrativo aparte basado en la tabla Config_Plataformas.",
       "notes": [
         "Mantener estos campos fuera del layout operativo de Publicaciones.",
         "Crear/usar un layout administrativo basado en Config_Plataformas para editar el token y la configuración.",
@@ -1330,7 +1346,7 @@
       "table": "Publicacion_Multimedia",
       "field": "Archivo_Container / URL_Publica / Orden",
       "script": "32. Ir a multimedia",
-      "explain": "Resume los archivos multimedia asociados a la publicación."
+      "explain": "NO SE USA EN ESTA VISTA: pertenece al flujo de carrusel multi-imagen, pospuesto. Se conserva documentado como punto de extensión. Resume los archivos multimedia asociados a la publicación."
     },
     "btn-abrir-publicacion": {
       "title": "Botón Abrir publicación",
@@ -1354,7 +1370,7 @@
       "table": "Publicaciones",
       "field": "Publicaciones::Estado",
       "script": "13. Restaurar publicación eliminada",
-      "explain": "EXTENSIÓN: revierte una publicación con borrado lógico (Estado Eliminado) de vuelta a Borrador. Visible en la vista de papelera."
+      "explain": "EXTENSIÓN (script disponible, sin botón en el layout actual): revierte una publicación con borrado lógico (Estado Eliminado) de vuelta a Borrador. IMPORTANTE si se implementa: restaurar NO recupera el post en Facebook — el DELETE de Graph API es permanente y Meta no ofrece papelera. El soft delete conserva el trabajo (texto, imagen, configuración) para reutilizarlo, no la publicación en la red. El script debería validar que Estado = \"Eliminado\" antes de actuar; sin esa guarda, degradaría a Borrador una publicación viva en Facebook."
     },
     "portal-multimedia": {
       "title": "Portal Archivos multimedia (carrusel)",
@@ -1363,7 +1379,7 @@
       "table": "Publicacion_Multimedia",
       "field": "Archivo_Container / Tipo_Media / Orden / Estado_Subida",
       "script": "40. Agregar archivo multimedia / 41. Quitar archivo multimedia",
-      "explain": "EXTENSIÓN: portal basado en Publicacion_Multimedia (relación 1-a-muchos). Permite cargar hasta 10 archivos para un carrusel de Facebook. Requiere Allow creation of records via this relationship = ON. Cada fila es un archivo hijo."
+      "explain": "NO SE USA EN ESTA VISTA: el portal de Publicacion_Multimedia existe en el esquema, pero el layout trabaja con una sola imagen (campo URL_Imagen). El carrusel multi-foto quedó pospuesto; el bloque correspondiente permanece comentado en el script 22. EXTENSIÓN: portal basado en Publicacion_Multimedia (relación 1-a-muchos). Permite cargar hasta 10 archivos para un carrusel de Facebook. Requiere Allow creation of records via this relationship = ON. Cada fila es un archivo hijo."
     },
     "btn-media-agregar": {
       "title": "Botón + Agregar archivo",
@@ -1372,7 +1388,7 @@
       "table": "Publicacion_Multimedia",
       "field": "Publicacion_Multimedia::Archivo_Container",
       "script": "40. Agregar archivo multimedia",
-      "explain": "EXTENSIÓN: crea un archivo hijo en el portal (máx 10), asigna Orden e inserta el archivo."
+      "explain": "NO SE USA EN ESTA VISTA: pertenece al portal de multimedia del flujo de carrusel, pospuesto. EXTENSIÓN: crea un archivo hijo en el portal (máx 10), asigna Orden e inserta el archivo."
     },
     "btn-media-quitar": {
       "title": "Botón Quitar archivo",
@@ -1415,6 +1431,69 @@
         "Aprovecha la infraestructura propia de DT como alojamiento de imágenes (no se usan servicios externos).",
         "Mejora futura: automatizar la subida del archivo desde FileMaker al servidor (FTP o script PHP) para no depender de que la imagen ya esté en el dominio."
       ]
+    },
+    "semaforo-estado": {
+      "title": "Semáforo de estado (indicador visual)",
+      "fm_object": "Text object + Merge Field + Conditional Formatting",
+      "object_name": "txt_semaforo_estado",
+      "table": "Publicaciones",
+      "field": "Estado",
+      "script": "N/A — no ejecuta script, es puramente visual",
+      "explain": "Indicador visual del estado del registro, ubicado junto al campo Plataforma de destino en la fila de identidad. Sustituye al grupo de botones de estado que existía antes: es un único objeto que cambia de color según el valor del campo. Se construye con un campo de merge <<Publicaciones::Estado>> y formato condicional, con una regla por estado (Publicado verde, Borrador gris, Programado azul, Error rojo, Eliminado negro). El merge field se inserta con Insert ▸ Merge Field, no escribiendo el texto a mano, y las reglas se definen en Format ▸ Conditional con la opción 'Formula is'. Las fórmulas deben coincidir EXACTAMENTE con los valores de Estados_Post: FileMaker distingue mayúsculas en las comparaciones de texto."
+    },
+    "leyenda-eliminada": {
+      "title": "Leyenda PUBLICACIÓN ELIMINADA",
+      "fm_object": "Text object + Hide object when",
+      "object_name": "txt_leyenda_eliminada",
+      "table": "Publicaciones",
+      "field": "Estado",
+      "script": "7. Confirmar eliminar publicación (es quien fija el estado)",
+      "explain": "Rótulo de gran tamaño superpuesto al campo Contenido_Texto que advierte que el registro fue eliminado. Se controla con Inspector ▸ Datos ▸ Ocultar objeto cuando, con la fórmula Publicaciones::Estado ≠ \"Eliminado\": el objeto solo aparece cuando el registro está eliminado. Debe quedar al frente (Organizar ▸ Traer al frente) para que no lo tape ningún otro elemento."
+    },
+    "btn-nav-primero": {
+      "title": "Botón Primer registro",
+      "fm_object": "Button",
+      "object_name": "btn_nav_primero",
+      "table": "Publicaciones",
+      "field": "N/A",
+      "script": "60. Primer registro",
+      "explain": "Botón de navegación con etiqueta '|◀'. Lleva al primer registro del found set. Estos cuatro botones sustituyen las flechas de la Status Toolbar de FileMaker, que el módulo oculta para presentar una interfaz limpia. IMPORTANTE: recorren el FOUND SET, no la tabla completa — con un filtro activo se saltan los registros excluidos."
+    },
+    "btn-nav-anterior": {
+      "title": "Botón Registro anterior",
+      "fm_object": "Button",
+      "object_name": "btn_nav_anterior",
+      "table": "Publicaciones",
+      "field": "N/A",
+      "script": "61. Registro anterior",
+      "explain": "Botón de navegación con etiqueta '◀'. Lleva al anterior registro del found set. Estos cuatro botones sustituyen las flechas de la Status Toolbar de FileMaker, que el módulo oculta para presentar una interfaz limpia. IMPORTANTE: recorren el FOUND SET, no la tabla completa — con un filtro activo se saltan los registros excluidos."
+    },
+    "btn-nav-siguiente": {
+      "title": "Botón Registro siguiente",
+      "fm_object": "Button",
+      "object_name": "btn_nav_siguiente",
+      "table": "Publicaciones",
+      "field": "N/A",
+      "script": "62. Registro siguiente",
+      "explain": "Botón de navegación con etiqueta '▶'. Lleva al siguiente registro del found set. Estos cuatro botones sustituyen las flechas de la Status Toolbar de FileMaker, que el módulo oculta para presentar una interfaz limpia. IMPORTANTE: recorren el FOUND SET, no la tabla completa — con un filtro activo se saltan los registros excluidos."
+    },
+    "btn-nav-ultimo": {
+      "title": "Botón Último registro",
+      "fm_object": "Button",
+      "object_name": "btn_nav_ultimo",
+      "table": "Publicaciones",
+      "field": "N/A",
+      "script": "63. Último registro",
+      "explain": "Botón de navegación con etiqueta '▶|'. Lleva al último registro del found set. Estos cuatro botones sustituyen las flechas de la Status Toolbar de FileMaker, que el módulo oculta para presentar una interfaz limpia. IMPORTANTE: recorren el FOUND SET, no la tabla completa — con un filtro activo se saltan los registros excluidos."
+    },
+    "id-publicacion": {
+      "title": "Campo ID",
+      "fm_object": "Edit Box (solo lectura)",
+      "object_name": "fld_id_publicacion",
+      "table": "Publicaciones",
+      "field": "ID_Publicacion",
+      "script": "N/A — lo asigna el serial automático",
+      "explain": "Muestra el identificador único del registro. Es un serial automático de FileMaker (Auto-Enter Serial), no editable por el usuario. Su valor es la clave que los scripts 22 y 50 pasan como parámetro para registrar en Publicaciones_Log, donde el campo homónimo valida como \"Existing value\": por eso el ID debe corresponder siempre a un registro real de Publicaciones."
     }
   }
 }

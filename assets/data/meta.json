@@ -1,36 +1,299 @@
 {
   "version": "v25.0",
   "permisos": [
-    { "scope": "pages_show_list", "icon": "bi-list-ul", "desc": "Listar las Páginas que administra el usuario.", "endpoint": "GET /me/accounts", "color": "blue" },
-    { "scope": "pages_read_engagement", "icon": "bi-eye", "desc": "Leer contenido y metadatos de la Página.", "endpoint": "GET /{page-id}", "color": "blue" },
-    { "scope": "pages_manage_posts", "icon": "bi-pencil-square", "desc": "Crear, editar y borrar publicaciones en la Página.", "endpoint": "POST /{page-id}/feed", "color": "green" },
-    { "scope": "instagram_basic", "icon": "bi-instagram", "desc": "Leer perfil y media básica de la cuenta de Instagram.", "endpoint": "GET /{ig-user-id}", "color": "pink" },
-    { "scope": "instagram_content_publish", "icon": "bi-cloud-upload", "desc": "Publicar fotos, carruseles y reels en Instagram.", "endpoint": "POST /{ig-user-id}/media", "color": "pink" }
+    {
+      "scope": "pages_show_list",
+      "icon": "bi-list-ul",
+      "desc": "Listar las Páginas que administra el usuario.",
+      "endpoint": "GET /me/accounts",
+      "color": "blue"
+    },
+    {
+      "scope": "pages_read_engagement",
+      "icon": "bi-eye",
+      "desc": "Leer contenido y metadatos de la Página.",
+      "endpoint": "GET /{page-id}",
+      "color": "blue"
+    },
+    {
+      "scope": "pages_manage_posts",
+      "icon": "bi-pencil-square",
+      "desc": "Crear, editar y borrar publicaciones en la Página.",
+      "endpoint": "POST /{page-id}/feed",
+      "color": "green"
+    },
+    {
+      "scope": "instagram_basic",
+      "icon": "bi-instagram",
+      "desc": "Leer perfil y media básica de la cuenta de Instagram.",
+      "endpoint": "GET /{ig-user-id}",
+      "color": "pink"
+    },
+    {
+      "scope": "instagram_content_publish",
+      "icon": "bi-cloud-upload",
+      "desc": "Publicar fotos, carruseles y reels en Instagram.",
+      "endpoint": "POST /{ig-user-id}/media",
+      "color": "pink"
+    }
   ],
   "tasks": [
-    { "name": "MANAGE", "icon": "bi-gear-fill", "desc": "Control total: administrar la Página, roles y configuración." },
-    { "name": "CREATE_CONTENT", "icon": "bi-file-earmark-plus-fill", "desc": "Crear y publicar contenido. Indispensable para postear.", "critical": true },
-    { "name": "MODERATE", "icon": "bi-chat-left-text-fill", "desc": "Responder mensajes y comentarios, moderar." },
-    { "name": "ADVERTISE", "icon": "bi-megaphone-fill", "desc": "Crear y gestionar anuncios." },
-    { "name": "ANALYZE", "icon": "bi-graph-up", "desc": "Ver estadísticas e insights." },
-    { "name": "MESSAGING", "icon": "bi-envelope-fill", "desc": "Enviar y recibir mensajes como la Página." }
+    {
+      "name": "MANAGE",
+      "icon": "bi-gear-fill",
+      "desc": "Control total: administrar la Página, roles y configuración."
+    },
+    {
+      "name": "CREATE_CONTENT",
+      "icon": "bi-file-earmark-plus-fill",
+      "desc": "Crear y publicar contenido. Indispensable para postear.",
+      "critical": true
+    },
+    {
+      "name": "MODERATE",
+      "icon": "bi-chat-left-text-fill",
+      "desc": "Responder mensajes y comentarios, moderar."
+    },
+    {
+      "name": "ADVERTISE",
+      "icon": "bi-megaphone-fill",
+      "desc": "Crear y gestionar anuncios."
+    },
+    {
+      "name": "ANALYZE",
+      "icon": "bi-graph-up",
+      "desc": "Ver estadísticas e insights."
+    },
+    {
+      "name": "MESSAGING",
+      "icon": "bi-envelope-fill",
+      "desc": "Enviar y recibir mensajes como la Página."
+    }
   ],
   "tokens": [
-    { "tipo": "User Token (corto)", "icon": "bi-person", "rep": "Un usuario que inició sesión", "dur": "~1–2 horas", "uso": "Punto de partida." },
-    { "tipo": "User Token (largo)", "icon": "bi-person-check", "rep": "El mismo usuario", "dur": "~60 días", "uso": "Paso intermedio para el token de Página." },
-    { "tipo": "Page Access Token", "icon": "bi-flag-fill", "rep": "La Página (no la persona)", "dur": "No expira*", "uso": "El que usa FileMaker para publicar.", "destacado": true },
-    { "tipo": "App Token", "icon": "bi-box", "rep": "La app misma", "dur": "Permanente", "uso": "Operaciones a nivel de app." }
+    {
+      "tipo": "User Token (corto)",
+      "icon": "bi-person",
+      "rep": "Un usuario que inició sesión",
+      "dur": "~1–2 horas",
+      "uso": "Punto de partida."
+    },
+    {
+      "tipo": "User Token (largo)",
+      "icon": "bi-person-check",
+      "rep": "El mismo usuario",
+      "dur": "~60 días",
+      "uso": "Paso intermedio para el token de Página."
+    },
+    {
+      "tipo": "Page Access Token",
+      "icon": "bi-flag-fill",
+      "rep": "La Página (no la persona)",
+      "dur": "No expira*",
+      "uso": "El que usa FileMaker para publicar.",
+      "destacado": true
+    },
+    {
+      "tipo": "App Token",
+      "icon": "bi-box",
+      "rep": "La app misma",
+      "dur": "Permanente",
+      "uso": "Operaciones a nivel de app."
+    }
   ],
   "flujoToken": [
-    { "n": 1, "titulo": "User Token corto", "icon": "bi-key", "detalle": "Graph API Explorer → Generate Access Token con los permisos requeridos. Devuelve un token de usuario de ~1-2 h." },
-    { "n": 2, "titulo": "User Token largo", "icon": "bi-arrow-repeat", "detalle": "GET /oauth/access_token?grant_type=fb_exchange_token&client_id=<APP_ID>&client_secret=<APP_SECRET>&fb_exchange_token=<token-corto>. Devuelve ~60 días." },
-    { "n": 3, "titulo": "Page Token (no expira)", "icon": "bi-flag-fill", "detalle": "GET /me/accounts. Cada Página trae su access_token. Como se derivó de un user token largo, este Page Token NO EXPIRA." },
-    { "n": 4, "titulo": "Verificar", "icon": "bi-shield-check", "detalle": "Access Token Debugger → confirmar Type: Page, Expires: Never y los permisos correctos." }
+    {
+      "n": 1,
+      "titulo": "User Token corto",
+      "icon": "bi-key",
+      "detalle": "Graph API Explorer → Generate Access Token con los permisos requeridos. Devuelve un token de usuario de ~1-2 h."
+    },
+    {
+      "n": 2,
+      "titulo": "User Token largo",
+      "icon": "bi-arrow-repeat",
+      "detalle": "GET /oauth/access_token?grant_type=fb_exchange_token&client_id=<APP_ID>&client_secret=<APP_SECRET>&fb_exchange_token=<token-corto>. Devuelve ~60 días."
+    },
+    {
+      "n": 3,
+      "titulo": "Page Token (no expira)",
+      "icon": "bi-flag-fill",
+      "detalle": "GET /me/accounts. Cada Página trae su access_token. Como se derivó de un user token largo, este Page Token NO EXPIRA."
+    },
+    {
+      "n": 4,
+      "titulo": "Verificar",
+      "icon": "bi-shield-check",
+      "detalle": "Access Token Debugger → confirmar Type: Page, Expires: Never y los permisos correctos."
+    }
   ],
   "errores": [
-    { "code": "190", "titulo": "Token inválido o expirado", "causa": "El token caducó o se revocó.", "fix": "Regenerar el Page Token." },
-    { "code": "200", "titulo": "Permiso insuficiente", "causa": "Falta pages_manage_posts, o se usó un User Token en vez de Page Token.", "fix": "Usar el Page Token de /me/accounts y reautorizar." },
-    { "code": "100", "titulo": "Parámetro inválido", "causa": "Falta message/image_url, o la URL no es pública.", "fix": "Revisar parámetros y que la URL sea HTTPS accesible." },
-    { "code": "4 / 17 / 32", "titulo": "Límite de tasa (rate limit)", "causa": "Demasiadas llamadas en poco tiempo.", "fix": "Esperar y reintentar; máx. 25 posts/24 h en Instagram." }
-  ]
+    {
+      "code": "190",
+      "titulo": "Token inválido o expirado",
+      "causa": "El token caducó o se revocó.",
+      "fix": "Regenerar el Page Token."
+    },
+    {
+      "code": "200",
+      "titulo": "Permiso insuficiente",
+      "causa": "Falta pages_manage_posts, o se usó un User Token en vez de Page Token.",
+      "fix": "Usar el Page Token de /me/accounts y reautorizar."
+    },
+    {
+      "code": "100",
+      "titulo": "Parámetro inválido",
+      "causa": "Falta message/image_url, o la URL no es pública.",
+      "fix": "Revisar parámetros y que la URL sea HTTPS accesible."
+    },
+    {
+      "code": "4 / 17 / 32",
+      "titulo": "Límite de tasa (rate limit)",
+      "causa": "Demasiadas llamadas en poco tiempo.",
+      "fix": "Esperar y reintentar; máx. 25 posts/24 h en Instagram."
+    },
+    {
+      "code": "Sin error",
+      "titulo": "La foto se sube pero no aparece como publicación",
+      "causa": "POST directo a /photos: crea un objeto fotografía que se indexa en el álbum de la Página, no una historia del muro.",
+      "fix": "Usar el flujo de dos fases: /photos con published=false y luego /feed con attached_media."
+    },
+    {
+      "code": "Sin error",
+      "titulo": "La publicación existe pero solo la ve el administrador",
+      "causa": "La app está en modo desarrollo. Meta restringe la visibilidad a los usuarios con rol asignado en la aplicación.",
+      "fix": "Completar verificación de negocio y App Review para pasar la app a producción. No tiene solución por código."
+    }
+  ],
+  "flujoPublicacion": {
+    "intro": "Facebook trata las fotos y las historias como objetos distintos. Publicar una imagen directamente al endpoint /photos crea un objeto fotografía, que la Página indexa en su álbum en lugar de mostrarlo como historia en la biografía. Para que la imagen aparezca como una publicación real del muro, la documentación oficial de Meta prescribe un flujo de dos peticiones.",
+    "casos": [
+      {
+        "caso": "Solo texto",
+        "icon": "bi-fonts",
+        "peticiones": 1,
+        "color": "blue",
+        "pasos": [
+          {
+            "n": 1,
+            "metodo": "POST",
+            "endpoint": "/{page-id}/feed",
+            "params": "message, access_token",
+            "devuelve": "{\"id\":\"<PAGE_ID>_<POST_ID>\"}",
+            "nota": "Una sola petición. El id devuelto identifica la historia del muro."
+          }
+        ]
+      },
+      {
+        "caso": "Texto + imagen",
+        "icon": "bi-image",
+        "peticiones": 2,
+        "color": "green",
+        "pasos": [
+          {
+            "n": 1,
+            "metodo": "POST",
+            "endpoint": "/{page-id}/photos",
+            "params": "url, published=false, access_token",
+            "devuelve": "{\"id\":\"<PHOTO_ID>\"}",
+            "nota": "published=false sube la foto SIN crear historia. Queda en estado temporal (~24 h); si no se publica en ese lapso, Meta la elimina. El id devuelto es el media_fbid: no trae post_id porque todavía no hay publicación."
+          },
+          {
+            "n": 2,
+            "metodo": "POST",
+            "endpoint": "/{page-id}/feed",
+            "params": "message, attached_media[0]={\"media_fbid\":\"<PHOTO_ID>\"}, access_token",
+            "devuelve": "{\"id\":\"<PAGE_ID>_<POST_ID>\"}",
+            "nota": "Publica la historia en el muro con la foto adjunta. Es el mismo endpoint que el caso de solo texto: por eso el resultado es una publicación normal, no una entrada de álbum."
+          }
+        ]
+      }
+    ],
+    "errorComun": {
+      "sintoma": "La imagen se sube correctamente y aparece en la sección Fotos de la Página, pero no como publicación en la biografía.",
+      "causa": "Se está haciendo un POST directo a /photos con url + caption. Eso crea un objeto fotografía, no una historia.",
+      "fix": "Separar en dos peticiones: /photos con published=false para obtener el media_fbid, y /feed con attached_media para publicar la historia."
+    },
+    "nota": "Este mismo patrón escala a publicaciones multi-foto: se sube cada imagen con published=false y se adjuntan todas en el /feed con attached_media[0], attached_media[1], etc."
+  },
+  "modosApp": {
+    "intro": "Toda app de Meta nace en modo desarrollo. En ese modo la app tiene acceso a los permisos sin pasar revisión, pero solo puede operar sobre datos de usuarios con rol asignado en ella. Esa restricción es la causa más frecuente de que una publicación creada por API exista y sea correcta, pero no la vea nadie más.",
+    "modos": [
+      {
+        "modo": "Desarrollo",
+        "icon": "bi-code-slash",
+        "color": "amber",
+        "revision": "No requiere App Review",
+        "visibilidad": "Las publicaciones se crean correctamente, pero solo son visibles para usuarios con rol en la app: administrador, desarrollador, tester o analista.",
+        "uso": "Construir y probar la integración."
+      },
+      {
+        "modo": "Producción (Live)",
+        "icon": "bi-globe",
+        "color": "green",
+        "revision": "Requiere App Review aprobado",
+        "visibilidad": "Las publicaciones son visibles para cualquier persona, con o sin sesión iniciada.",
+        "uso": "Operación real de cara al público."
+      }
+    ],
+    "requisitos": [
+      {
+        "n": 1,
+        "titulo": "URL de política de privacidad",
+        "icon": "bi-file-earmark-text",
+        "detalle": "Una página pública HTTPS con la política de privacidad de la app. Se configura en Configuración de la app ▸ Básica.",
+        "responsable": "Técnico"
+      },
+      {
+        "n": 2,
+        "titulo": "Verificación del negocio",
+        "icon": "bi-building-check",
+        "detalle": "Meta exige un portfolio comercial (Business Manager) verificado con documentación legal de la empresa. Requiere que quien lo tramita tenga facultad para representarla.",
+        "responsable": "Empresa"
+      },
+      {
+        "n": 3,
+        "titulo": "Verificación de acceso",
+        "icon": "bi-shield-lock",
+        "detalle": "Verifica que el negocio sea proveedor de tecnología. Está BLOQUEADA hasta completar la verificación del negocio. Meta responde en un plazo aproximado de cinco días.",
+        "responsable": "Empresa"
+      },
+      {
+        "n": 4,
+        "titulo": "App Review del caso de uso",
+        "icon": "bi-clipboard-check",
+        "detalle": "Solicitar los permisos (pages_manage_posts, pages_read_engagement, pages_show_list) con justificación escrita de cada uno y un screencast del flujo completo. Detalle importante: durante la grabación la app debe seguir en modo desarrollo, para que la publicación sí se ejecute.",
+        "responsable": "Ambos"
+      }
+    ],
+    "nota": "La cadena es secuencial: sin verificación del negocio no hay verificación de acceso, y sin ambas no se aprueba el caso de uso. Los pasos 2 y 3 dependen de documentación legal de la empresa y quedan fuera del alcance técnico del módulo."
+  },
+  "permalink": {
+    "intro": "El módulo guarda el enlace permanente de cada publicación para poder abrirla desde FileMaker. Obtenerlo tiene un par de sutilezas que conviene documentar.",
+    "puntos": [
+      {
+        "titulo": "Dos identificadores para la misma Página",
+        "icon": "bi-fingerprint",
+        "detalle": "Meta migró las Páginas a un esquema de ID nuevo. El post_id que devuelve la API usa el ID clásico (<PAGE_ID>_<POST_ID>), mientras que el permalink_url que Meta genera usa el ID nuevo. Los números no coinciden, pero ambos apuntan a la misma publicación: no es un error."
+      },
+      {
+        "titulo": "Usar el permalink_url que devuelve Meta",
+        "icon": "bi-link-45deg",
+        "detalle": "La FASE 4 del script 22 hace un GET al post con ?fields=id,message,created_time,permalink_url y guarda ese valor. Es el enlace canónico. Construirlo a mano a partir del post_id (por ejemplo con permalink.php?story_fbid=…&id=…) produce enlaces que no resuelven."
+      },
+      {
+        "titulo": "El enlace no es el problema de visibilidad",
+        "icon": "bi-eye-slash",
+        "detalle": "Si el permalink abre con sesión iniciada pero no en una ventana de incógnito, el enlace está bien: lo que restringe el acceso es el modo desarrollo de la app. Ningún formato de URL evita ese gate, porque Meta bloquea el contenido en origen, no en la ruta."
+      }
+    ],
+    "diagnostico": {
+      "titulo": "Cómo distinguir un problema de enlace de uno de visibilidad",
+      "pasos": [
+        "Abrir la Página (no el post) en una ventana de incógnito. Si la Página no carga, hay restricción de edad o país en su configuración.",
+        "Si la Página carga pero el post no aparece en el feed, la causa es el modo desarrollo de la app.",
+        "El ícono de globo (público) en el post indica la audiencia declarada, no la visibilidad real: un post en modo desarrollo se marca como público y aun así queda restringido."
+      ]
+    }
+  }
 }

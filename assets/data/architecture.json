@@ -1,5 +1,5 @@
 {
-  "source": "DDR 13/06/2026 19:24 · Publicaciones.fmp12 · 4 tablas, 2 relaciones",
+  "source": "DDR 17/07/2026 · Publicaciones.fmp12 · 4 tablas, 52 campos, 2 relaciones, 29 scripts",
   "tables": [
     {
       "id": "Publicaciones",
@@ -308,11 +308,10 @@
         "Programado",
         "Publicado",
         "Error",
-        "Cancelado",
-        "Eliminado"
+        "Cancelado"
       ],
       "usedIn": "Publicaciones::Estado",
-      "note": "Ciclo de vida de la publicación. Borrador es el valor inicial. Eliminado es borrado lógico (soft delete): el registro se conserva para auditoría."
+      "note": "Ciclo de vida de la publicación. El campo Publicaciones::Estado valida contra esta lista (Validation: Only during data entry). IMPORTANTE — discrepancia documentada: el script 7 escribe el valor \"Eliminado\" mediante Set Field, paso que NO valida contra la value list, por lo que el borrado lógico funciona aunque \"Eliminado\" no figure aquí. La consecuencia es que ese estado no puede seleccionarse manualmente desde el desplegable, solo lo asigna el script. El semáforo del layout y las condiciones \"Ocultar objeto cuando\" comparan contra el texto \"Eliminado\" y funcionan con normalidad."
     },
     {
       "name": "Plataformas_Destino",
@@ -400,7 +399,7 @@
       "desc": "Publicaciones en estado Borrador. Contador \"Borradores\"."
     }
   ],
-  "calcNote": "Los cinco contadores del dashboard usan ExecuteSQL en lugar de relaciones de resumen. Ventaja: una sola consulta SQL por contador, sin necesidad de table occurrences adicionales ni campos de enlace. Son campos no almacenados (se recalculan al mostrarse).",
+  "calcNote": "Los cinco contadores del dashboard usan ExecuteSQL en lugar de relaciones de resumen. Ventaja: una sola consulta SQL por contador, sin necesidad de table occurrences adicionales ni campos de enlace. Deben marcarse como NO ALMACENADOS: una calculación con ExecuteSQL almacenada se evalúa una sola vez al crearse el registro y su valor queda congelado, porque FileMaker no rastrea dependencias hacia los registros que ExecuteSQL consulta por SQL. Almacenados, cada registro mostraría el conteo que existía cuando fue creado — el registro 1 marcaría 0, el registro 2 marcaría 1, y así. Sin almacenar, se recalculan cada vez que se muestran y reflejan la tabla completa en tiempo real.",
   "triggers": [
     {
       "event": "OnLayoutEnter",

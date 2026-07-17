@@ -5,7 +5,7 @@
       "number": "00",
       "name": "Inicializar módulo Publicaciones",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Flujo",
       "buttons": [
         "Al entrar al layout",
@@ -54,7 +54,7 @@
       "number": "01",
       "name": "Nueva publicación",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Base",
       "buttons": [
         "Nueva",
@@ -101,7 +101,7 @@
       "number": "02",
       "name": "Buscar publicaciones",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Interfaz",
       "buttons": [
         "Buscar"
@@ -141,7 +141,7 @@
       "number": "03",
       "name": "Filtrar publicaciones",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Interfaz",
       "buttons": [
         "Filtrar"
@@ -177,7 +177,7 @@
       "number": "04",
       "name": "Filtrar por estado",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Interfaz",
       "buttons": [
         "Programadas",
@@ -221,7 +221,7 @@
       "number": "05",
       "name": "Mostrar todas las publicaciones",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Interfaz",
       "buttons": [
         "Panel principal",
@@ -259,7 +259,7 @@
       "number": "06",
       "name": "Entrar modo edición",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Interfaz",
       "buttons": [
         "Editar"
@@ -299,7 +299,7 @@
       "number": "07",
       "name": "Confirmar eliminar publicación",
       "category": "UI",
-      "status": "Extensión propia",
+      "status": "Extensión propia — implementado y probado",
       "level": "Crítico",
       "buttons": [
         "Eliminar"
@@ -328,10 +328,15 @@
         "Registro actual en Publicaciones"
       ],
       "result": "Registro marcado como Eliminado con fecha y usuario; post borrado en Facebook si tenía Post_ID. El contenido se conserva en el sistema.",
-      "code": "# BORRADO LÓGICO (soft delete) + borrado real en Facebook\nShow Custom Dialog [\n    \"Confirmar eliminación\" ;\n    \"¿Eliminar esta publicación? Se marcará como Eliminado en el sistema (se conserva para auditoría) y se borrará el post en Facebook.\" ;\n    Default Button: “Eliminar” ;\n    Button 2: “Cancelar”\n]\n\nIf [ Get ( LastMessageChoice ) = 1 ]\n    # 1) Borrado real en Facebook SOLO si ya estaba publicado (tiene Post_ID_API)\n    If [ not IsEmpty ( Publicaciones::Post_ID_API ) ]\n        # Leer credenciales y versión desde la fuente única (Config_Plataformas)\n        Set Variable [ $$token ; Value: Config_Plataformas::Access_Token ]\n        Set Variable [ $$fb_version ; Value: Config_Plataformas::API_Version ]\n        Insert from URL [\n            Select ; No dialog ; Target: $respuesta ;\n            URL: \"https://graph.facebook.com/\" & $$fb_version & \"/\" & Publicaciones::Post_ID_API & \"?access_token=\" & $$token ;\n            cURL options: \"--request DELETE\"\n        ]\n    End If\n\n    # 2) Borrado lógico en FileMaker (el registro NUNCA se borra físicamente)\n    Set Field [ Publicaciones::Estado ; \"Eliminado\" ]\n    Set Field [ Publicaciones::Fecha_Eliminacion ; Get ( CurrentTimestamp ) ]\n    Set Field [ Publicaciones::Eliminado_Por ; Get ( AccountName ) ]\n    Commit Records/Requests [ With dialog: Off ]\nEnd If\n\nRefresh Window []",
+      "code": "# BORRADO LÓGICO (soft delete) + borrado real en Facebook\nShow Custom Dialog [\n    \"Confirmar eliminación\" ;\n    \"¿Eliminar esta publicación? Se marcará como Eliminado en el sistema (se conserva para auditoría) y, si ya estaba publicada, también se eliminará de Facebook.\" ;\n    Default Button: \"Eliminar\" ;\n    Button 2: \"Cancelar\"\n]\n\nIf [ Get ( LastMessageChoice ) = 1 ]\n    # ─── FASE 1: guardar el Post_ID ANTES de cambiar de layout ───\n    Set Variable [ $post_id_fb ; Value: Publicaciones::Post_ID_API ]\n\n    # ─── FASE 2: borrado real en Facebook (solo si ya estaba publicado) ───\n    If [ not IsEmpty ( $post_id_fb ) ]\n        # Leer credenciales igual que el script 22: hay que ENTRAR al layout y buscar\n        Go to Layout [ \"Config_Plataformas\" ]\n        Enter Find Mode [ Pause: Off ]\n        Set Field [ Config_Plataformas::Nombre_Plataforma ; \"Facebook\" ]\n        Set Field [ Config_Plataformas::Activo ; \"1\" ]\n        Set Error Capture [ On ]\n        Perform Find []\n\n        If [ Get ( FoundCount ) = 0 ]\n            Go to Layout [ \"Publicaciones\" ]\n            Show Custom Dialog [ \"Sin configuración\" ;\n                \"No existe configuración activa para Facebook, no se pudo eliminar de la red. El registro se marcará como eliminado solo en el sistema.\" ]\n            # No se aborta: continúa con el borrado lógico local\n        Else\n            Set Variable [ $$token ; Value: Config_Plataformas::Access_Token ]\n            Set Variable [ $$fb_version ; Value: Config_Plataformas::API_Version ]\n            Set Variable [ $url_del ; Value:\n                \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $post_id_fb & \"?access_token=\" & $$token ]\n            Insert from URL [\n                Select ; No dialog ; Target: $respuesta ; URL: $url_del ;\n                cURL options: \"--request DELETE\"\n            ]\n            Go to Layout [ \"Publicaciones\" ]\n        End If\n    End If\n\n    # ─── FASE 3: borrado lógico en FileMaker (el registro NUNCA se borra físicamente) ───\n    Set Field [ Publicaciones::Estado ; \"Eliminado\" ]\n    Set Field [ Publicaciones::Fecha_Eliminacion ; Get ( CurrentTimestamp ) ]\n    Set Field [ Publicaciones::Eliminado_Por ; Get ( AccountName ) ]\n    Commit Records/Requests [ With dialog: Off ]\nEnd If\n\nRefresh Window []",
       "notes": [
         "EXTENSIÓN PROPIA: convertido a borrado lógico (soft delete). El registro nunca se borra físicamente. El borrado en Facebook es una acción remota separada que sí elimina el post real.",
-        "Más adelante puedes bloquear eliminación de publicaciones ya publicadas."
+        "Más adelante puedes bloquear eliminación de publicaciones ya publicadas.",
+        "CREDENCIALES (bug corregido): no basta con leer Config_Plataformas::Access_Token estando en el layout Publicaciones — sin relación directa, el campo llega VACÍO y la URL queda \"...?access_token=\" sin token, así que Facebook rechaza el DELETE. Hay que replicar el patrón del script 22: Go to Layout [Config_Plataformas] + Enter Find Mode + Perform Find ANTES de leer el token.",
+        "PERFORM WITHOUT DIALOG (bug corregido): si el paso Insert from URL del DELETE no lleva marcada la casilla \"Perform without dialog\", FileMaker muestra el cuadro \"Insert from URL Options\" y luego \"Insert from URL has been canceled\", interrumpiendo el script a mitad del borrado.",
+        "ORDEN DE LECTURA: el Post_ID_API se guarda en $post_id_fb ANTES del Go to Layout, porque al salir del layout Publicaciones ya no se puede leer ese campo.",
+        "SIN CONFIGURACIÓN: si no hay config activa no se aborta el script — se avisa y de todos modos se marca el registro como Eliminado localmente, para que el botón siempre deje el registro en un estado coherente.",
+        "ALCANCE: el DELETE elimina el post en Facebook de forma permanente; Meta no ofrece papelera para posts borrados vía API. El registro en FileMaker se conserva (soft delete) para auditoría."
       ],
       "instructions": "SCRIPT: 07. Confirmar eliminar publicación (BORRADO LÓGICO + Facebook)\nEXTENSIÓN PROPIA: modificado de borrado físico a borrado lógico. No proviene de los manuales base.\nObjetivo: marcar la publicación como Eliminado (se conserva en el sistema) y, si ya estaba publicada, borrar el post real en Facebook.\n\n01. Abre el script 07. Confirmar eliminar publicación.\n02. Agrega Show Custom Dialog (dos botones: Eliminar / Cancelar). Mensaje que advierta que se conserva en auditoría y se borra en Facebook.\n03. Agrega If con Get ( LastMessageChoice ) = 1.\n04. Dentro, agrega otro If: not IsEmpty ( Publicaciones::Post_ID_API ). Esto detecta si el post ya existe en Facebook.\n05. Si tiene Post_ID, agrega Set Variable $$token = Config_Plataformas::Access_Token y Set Variable $$fb_version = Config_Plataformas::API_Version.\n06. Agrega Insert from URL (Select; No dialog) con cURL options \"--request DELETE\" al endpoint https://graph.facebook.com/{$$fb_version}/{Post_ID_API}?access_token={token}. La version se LEE de Config_Plataformas (nunca hardcodear v25.0). Esto BORRA el post real en Facebook (irreversible).\n07. Cierra ese If.\n08. Agrega Set Field Publicaciones::Estado = \"Eliminado\".\n09. Agrega Set Field Publicaciones::Fecha_Eliminacion = Get ( CurrentTimestamp ).\n10. Agrega Set Field Publicaciones::Eliminado_Por = Get ( AccountName ).\n11. Agrega Commit Records/Requests (With dialog: Off).\n12. Cierra el If principal y agrega Refresh Window.\nNUNCA uses Delete Record/Request: el registro debe conservarse para auditoría."
     },
@@ -340,7 +345,7 @@
       "number": "08",
       "name": "Seleccionar plataforma destino",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Base",
       "buttons": [
         "Facebook",
@@ -382,7 +387,7 @@
       "number": "09",
       "name": "Cambiar estado publicación",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Base",
       "buttons": [
         "Borrador",
@@ -427,7 +432,7 @@
       "number": "10",
       "name": "Cancelar cambios",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Interfaz",
       "buttons": [
         "Cancelar"
@@ -463,7 +468,7 @@
       "number": "11",
       "name": "Guardar borrador",
       "category": "UI",
-      "status": "Implementar ahora",
+      "status": "Implementado",
       "level": "Base",
       "buttons": [
         "Guardar borrador"
@@ -503,7 +508,7 @@
       "number": "12",
       "name": "Refrescar dashboard",
       "category": "UI",
-      "status": "Opcional",
+      "status": "Implementado",
       "level": "Auxiliar",
       "buttons": [
         "Refrescar",
@@ -679,7 +684,7 @@
       "number": "22",
       "name": "Publicar Facebook",
       "category": "API",
-      "status": "Implementado y probado (texto e imagen)",
+      "status": "Implementado y probado (texto e imagen con flujo de dos fases)",
       "level": "API",
       "buttons": [
         "Publicar ahora"
@@ -721,31 +726,33 @@
         "Para imagen: URL pública HTTPS en Publicaciones::URL_Imagen",
         "Estar parado en la publicación correcta antes de ejecutar"
       ],
-      "result": "PROBADO en producción: publica texto solo vía /feed y texto+imagen vía /photos, detectando automáticamente según URL_Imagen. Obtiene permalink, guarda Estado=Publicado y registra Exitoso en el Log. Ante error guarda Estado=Error y registra Fallido.",
-      "code": "# ═══════════════════════════════════════════════\n# CAPTURA INICIAL (antes de cualquier salto de layout)\n# ═══════════════════════════════════════════════\nSet Variable [ $$id_pub_actual ; Value: Publicaciones::ID_Publicacion ]\nSet Variable [ $$mensaje_actual ; Value:\n    Publicaciones::Contenido_Texto\n    & If ( not IsEmpty ( Publicaciones::Hashtags ) ; \" \" & Publicaciones::Hashtags ; \"\" )\n]\nSet Variable [ $$url_imagen_actual ; Value: Publicaciones::URL_Imagen ]\n\n# ═══════════════════════════════════════════════\n# FASE 1: Leer credenciales de Config_Plataformas\n# ═══════════════════════════════════════════════\nGo to Layout [ \"Config_Plataformas\" ]\nEnter Find Mode [ Pause: Off ]\nSet Field [ Config_Plataformas::Nombre_Plataforma ; \"Facebook\" ]\nSet Field [ Config_Plataformas::Activo ; \"1\" ]\nSet Error Capture [ On ]\nPerform Find []\n\nIf [ Get ( FoundCount ) = 0 ]\n    Go to Layout [ \"Publicaciones\" ]\n    Show Custom Dialog [ \"Sin configuración\" ; \"No existe configuración activa para Facebook en Config_Plataformas.\" ]\n    Exit Script [ Text Result: \"SIN_CONFIG\" ]\nEnd If\n\nSet Variable [ $$fb_token   ; Value: Config_Plataformas::Access_Token ]\nSet Variable [ $$fb_page_id ; Value: Config_Plataformas::ID_Cuenta_Meta ]\nSet Variable [ $$fb_version ; Value: Config_Plataformas::API_Version ]\n\nGo to Layout [ \"Publicaciones\" ]\n\n# ═══════════════════════════════════════════════\n# FASE 2: Construir mensaje y ejecutar POST (texto o imagen)\n# ═══════════════════════════════════════════════\nSet Variable [ $mensaje ; Value: $$mensaje_actual ]\nSet Variable [ $$respuesta_post ; Value: \"\" ]\n\nIf [ not IsEmpty ( $$url_imagen_actual ) ]\n    # --- CON IMAGEN: endpoint /photos ---\n    Set Variable [ $url_post ; Value:\n        \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $$fb_page_id & \"/photos?access_token=\" & $$fb_token ]\n    Insert from URL [\n        Select ; No dialog ; Target: $$respuesta_post ; URL: $url_post ;\n        cURL options:\n            \"--request POST\" &\n            \" --data-urlencode \" & Quote ( \"url=\" & $$url_imagen_actual ) &\n            \" --data-urlencode \" & Quote ( \"caption=\" & $mensaje )\n    ]\nElse\n    # --- SOLO TEXTO: endpoint /feed ---\n    Set Variable [ $url_post ; Value:\n        \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $$fb_page_id & \"/feed?access_token=\" & $$fb_token ]\n    Insert from URL [\n        Select ; No dialog ; Target: $$respuesta_post ; URL: $url_post ;\n        cURL options:\n            \"--request POST\" &\n            \" --data-urlencode \" & Quote ( \"message=\" & $mensaje )\n    ]\nEnd If\n\n# ═══════════════════════════════════════════════\n# FASE 3: Evaluar respuesta POST\n# ═══════════════════════════════════════════════\n# /photos devuelve post_id además de id; /feed solo id. Tomar post_id si existe.\nSet Variable [ $post_id ; Value:\n    If ( not IsEmpty ( JSONGetElement ( $$respuesta_post ; \"post_id\" ) ) ;\n        JSONGetElement ( $$respuesta_post ; \"post_id\" ) ;\n        JSONGetElement ( $$respuesta_post ; \"id\" )\n    )\n]\n\nIf [ IsEmpty ( $post_id ) or not IsEmpty ( JSONGetElement ( $$respuesta_post ; \"error\" ) ) ]\n    Set Variable [ $cod_err ; Value: JSONGetElement ( $$respuesta_post ; \"error.code\" ) ]\n    Set Variable [ $det_err ; Value: JSONGetElement ( $$respuesta_post ; \"error.message\" ) ]\n    Set Field [ Publicaciones::Estado             ; \"Error\" ]\n    Set Field [ Publicaciones::Respuesta_API_JSON ; $$respuesta_post ]\n    Set Field [ Publicaciones::Codigo_Error       ; $cod_err ]\n    Set Field [ Publicaciones::Detalle_Error      ; $det_err ]\n    Commit Records/Requests [ With dialog: Off ]\n    Perform Script [ \"50. Registrar intento en Log\" ;\n        Parameter: $$id_pub_actual & \"|Facebook|Fallido|\" & If ( IsEmpty($cod_err) ; \"0\" ; $cod_err ) & \"|\" & $det_err & \"|||\" ]\n    Exit Script [ Text Result: \"POST_FALLIDO\" ]\nEnd If\n\n# ═══════════════════════════════════════════════\n# FASE 4: GET para obtener permalink_url\n# ═══════════════════════════════════════════════\nSet Variable [ $url_get ; Value:\n    \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $post_id &\n    \"?fields=id,message,created_time,permalink_url&access_token=\" & $$fb_token ]\nSet Variable [ $$respuesta_get ; Value: \"\" ]\nInsert from URL [ Select ; No dialog ; Target: $$respuesta_get ; URL: $url_get ]\nSet Variable [ $$permalink_url ; Value: JSONGetElement ( $$respuesta_get ; \"permalink_url\" ) ]\n\n# ═══════════════════════════════════════════════\n# FASE 5: Guardar resultado exitoso\n# ═══════════════════════════════════════════════\nSet Field [ Publicaciones::Estado                ; \"Publicado\" ]\nSet Field [ Publicaciones::Post_ID_API           ; $post_id ]\nSet Field [ Publicaciones::Fecha_Publicacion_Real; Get ( CurrentHostTimestamp ) ]\nSet Field [ Publicaciones::Respuesta_API_JSON    ; $$respuesta_post ]\nSet Field [ Publicaciones::Permalink_URL         ; $$permalink_url ]\nSet Field [ Publicaciones::Codigo_Error          ; \"\" ]\nSet Field [ Publicaciones::Detalle_Error         ; \"\" ]\nCommit Records/Requests [ With dialog: Off ]\n\n# ═══════════════════════════════════════════════\n# FASE 6: Registrar en Log con permalink\n# ═══════════════════════════════════════════════\nPerform Script [ \"50. Registrar intento en Log\" ;\n    Parameter: $$id_pub_actual & \"|Facebook|Exitoso|200||\" & $post_id & \"|\" & $$respuesta_post & \"|\" & Left($$fb_token;6) & \"...\" & Right($$fb_token;6) & \"|\" & $$permalink_url ]\n\nRefresh Window []",
+      "result": "PROBADO en producción: publica texto solo vía /feed, y texto+imagen mediante flujo de dos fases (carga previa con published=false al endpoint /photos para obtener el media_fbid, y publicación de la historia en /feed adjuntándolo con attached_media). Detecta automáticamente la modalidad según URL_Imagen. Obtiene permalink, guarda Post_ID_API y registra el intento en el Log.",
+      "code": "# ═══════════════════════════════════════════════\n# CAPTURA INICIAL (antes de cualquier salto de layout)\n# ═══════════════════════════════════════════════\nSet Variable [ $id_pub ; Value: Publicaciones::ID_Publicacion ]\nSet Variable [ $$mensaje_actual ; Value:\n    Substitute (\n        Publicaciones::Contenido_Texto\n        & If ( not IsEmpty ( Publicaciones::Hashtags ) ; \"¶¶\" & Publicaciones::Hashtags ; \"\" ) ;\n        ¶ ; Char ( 10 )\n    )\n]\nSet Variable [ $$url_imagen_actual ; Value: Publicaciones::URL_Imagen ]\n\n# ═══════════════════════════════════════════════\n# FASE 1: Leer credenciales de Config_Plataformas\n# ═══════════════════════════════════════════════\nGo to Layout [ \"Config_Plataformas\" ]\nEnter Find Mode [ Pause: Off ]\nSet Field [ Config_Plataformas::Nombre_Plataforma ; \"Facebook\" ]\nSet Field [ Config_Plataformas::Activo ; \"1\" ]\nSet Error Capture [ On ]\nPerform Find []\n\nIf [ Get ( FoundCount ) = 0 ]\n    Go to Layout [ \"Publicaciones\" ]\n    Show Custom Dialog [ \"Sin configuración\" ; \"No existe configuración activa para Facebook en Config_Plataformas.\" ]\n    Exit Script [ Text Result: \"SIN_CONFIG\" ]\nEnd If\n\nSet Variable [ $$fb_token   ; Value: Config_Plataformas::Access_Token ]\nSet Variable [ $$fb_page_id ; Value: Config_Plataformas::ID_Cuenta_Meta ]\nSet Variable [ $$fb_version ; Value: Config_Plataformas::API_Version ]\n\nGo to Layout [ \"Publicaciones\" ]\n\n# ═══════════════════════════════════════════════\n# FASE 2: Publicar (dos fases si hay imagen)\n# ═══════════════════════════════════════════════\nSet Variable [ $mensaje ; Value: $$mensaje_actual ]\nSet Variable [ $$respuesta_post ; Value: \"\" ]\n\nIf [ not IsEmpty ( $$url_imagen_actual ) ]\n    # ─── FASE 2A: subir la foto SIN publicar (published=false) ───\n    Set Variable [ $url_foto ; Value:\n        \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $$fb_page_id & \"/photos\" ]\n    Set Variable [ $$respuesta_foto ; Value: \"\" ]\n    Insert from URL [\n        Select ; No dialog ; Target: $$respuesta_foto ; URL: $url_foto ;\n        cURL options:\n            \"--request POST\"\n            & \" --data-urlencode \" & Quote ( \"url=\" & $$url_imagen_actual )\n            & \" --data-urlencode \" & Quote ( \"published=false\" )\n            & \" --data-urlencode \" & Quote ( \"access_token=\" & $$fb_token )\n    ]\n    Set Variable [ $foto_id ; Value: JSONGetElement ( $$respuesta_foto ; \"id\" ) ]\n\n    # Si la subida falló, se propaga la respuesta para que la FASE 3 la evalúe\n    If [ IsEmpty ( $foto_id ) or not IsEmpty ( JSONGetElement ( $$respuesta_foto ; \"error\" ) ) ]\n        Set Variable [ $$respuesta_post ; Value: $$respuesta_foto ]\n    Else\n        # ─── FASE 2B: publicar la historia en el MURO con la foto adjunta ───\n        Set Variable [ $url_post ; Value:\n            \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $$fb_page_id & \"/feed\" ]\n        Set Variable [ $media ; Value:\n            JSONSetElement ( \"{}\" ; \"media_fbid\" ; $foto_id ; JSONString ) ]\n        Insert from URL [\n            Select ; No dialog ; Target: $$respuesta_post ; URL: $url_post ;\n            cURL options:\n                \"--request POST\"\n                & \" --data-urlencode \" & Quote ( \"message=\" & $mensaje )\n                & \" --data-urlencode \" & Quote ( \"attached_media[0]=\" & $media )\n                & \" --data-urlencode \" & Quote ( \"access_token=\" & $$fb_token )\n        ]\n    End If\nElse\n    # ─── SOLO TEXTO: endpoint /feed ───\n    Set Variable [ $url_post ; Value:\n        \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $$fb_page_id & \"/feed?access_token=\" & $$fb_token ]\n    Insert from URL [\n        Select ; No dialog ; Target: $$respuesta_post ; URL: $url_post ;\n        cURL options:\n            \"--request POST\"\n            & \" --data-urlencode \" & Quote ( \"message=\" & $mensaje )\n            & \" --data-urlencode \" & Quote ( \"access_token=\" & $$fb_token )\n    ]\nEnd If\n\n# ═══════════════════════════════════════════════\n# FASE 3: Evaluar respuesta\n# ═══════════════════════════════════════════════\nSet Variable [ $post_id ; Value:\n    If ( not IsEmpty ( JSONGetElement ( $$respuesta_post ; \"post_id\" ) ) ;\n         JSONGetElement ( $$respuesta_post ; \"post_id\" ) ;\n         JSONGetElement ( $$respuesta_post ; \"id\" ) ) ]\n\nIf [ IsEmpty ( $post_id ) or not IsEmpty ( JSONGetElement ( $$respuesta_post ; \"error\" ) ) ]\n    Set Variable [ $cod_err ; Value: JSONGetElement ( $$respuesta_post ; \"error.code\" ) ]\n    Set Variable [ $det_err ; Value: JSONGetElement ( $$respuesta_post ; \"error.message\" ) ]\n    Set Field [ Publicaciones::Estado ; \"Error\" ]\n    Set Field [ Publicaciones::Codigo_Error ; $cod_err ]\n    Set Field [ Publicaciones::Detalle_Error ; $det_err ]\n    Commit Records/Requests [ With dialog: Off ]\n    Perform Script [ \"50. Registrar intento en Log\" ;\n        Parameter: $id_pub & \"|Facebook|Fallido|\" & $cod_err & \"|\" & $det_err ]\n    Exit Script [ Text Result: \"POST_FALLIDO\" ]\nEnd If",
       "notes": [
-        "PROBADO en producción: publica texto solo (/feed) y texto+imagen (/photos). Respuesta con imagen: {\"id\":\"<PHOTO_ID>\",\"post_id\":\"<PAGE_ID>_<POST_ID>\"}.",
-        "CAPTURA INICIAL (crítico): leer $$id_pub_actual, $$mensaje_actual y $$url_imagen_actual al inicio, ANTES de cualquier Go to Layout. Los saltos a Config y de vuelta cambian el registro activo; leerlos después toma el registro equivocado.",
+        "PROBADO en producción: publica texto solo vía /feed, y texto+imagen mediante flujo de dos fases. Respuesta de la FASE 2A (carga de la foto): {\"id\":\"<PHOTO_ID>\"} — solo id, sin post_id, porque published=false no crea historia. Respuesta de la FASE 2B (/feed): {\"id\":\"<PAGE_ID>_<POST_ID>\"}, que es una historia del muro.",
+        "CAPTURA INICIAL (crítico): leer $id_pub, $$mensaje_actual y $$url_imagen_actual al inicio, ANTES de cualquier Go to Layout. Los saltos a Config y de vuelta cambian el registro activo. $id_pub es variable LOCAL a propósito: con una global ($$id_pub_actual) el valor sobrevive entre ejecuciones y puede arrastrar el ID de una publicación ya eliminada, lo que hace fallar la validación \"Existing value\" del Log.",
         "FASE 1: el Go to Layout [Config_Plataformas] debe ir ANTES del Enter Find Mode, o el Find busca en Publicaciones y devuelve 0. Set Error Capture [On] evita el diálogo nativo 'No records match'.",
-        "FASE 2 — BIFURCACIÓN imagen/texto: si URL_Imagen tiene valor, publica vía POST /photos con 'url' (la imagen) + 'caption' (el texto); si está vacío, vía POST /feed con 'message'. Meta NO acepta base64 ni el binario del contenedor de forma simple: la imagen debe estar en una URL pública HTTPS (ej. el dominio de DT).",
+        "FASE 2 — BIFURCACIÓN imagen/texto. Si URL_Imagen está vacío: POST directo a /feed con message. Si tiene valor, se requieren DOS peticiones: (2A) POST a /photos con url + published=false, que sube la foto sin publicarla y devuelve un media_fbid; (2B) POST a /feed con message + attached_media[0]={\"media_fbid\":\"...\"}, que crea la historia del muro con la foto adjunta. POR QUÉ: un POST directo a /photos crea un objeto foto, que Facebook indexa en el álbum de la página en lugar de publicarlo como historia en la biografía. La documentación oficial de Meta prescribe este flujo de dos fases. La foto subida con published=false vive ~24 h en estado temporal; si no se publica en ese lapso, Meta la elimina.",
         "FASE 2 — el access_token va en la URL (…?access_token=…), no en el cuerpo del cURL. CUIDADO con dos typos que rompen todo: escribir 'acces_token' (falta una s) u omitir el '=' deja la URL inválida.",
         "FASE 2 — ESPACIOS en cURL: cada flag necesita espacios alrededor: \" --data-urlencode \" (antes Y después). Pegado al valor, cURL no manda el dato (error 197 'post vacío'). Sin espacios entre flags, Meta devuelve HTML en vez de JSON.",
         "FASE 2 — NO dejar código POST duplicado después del If/Else. Un segundo Insert from URL a /feed sobrescribiría $$respuesta_post y publicaría dos veces (una sin imagen). El If/Else hace todo el POST; después va directo la FASE 3.",
-        "FASE 3 — el ID se toma con post_id si existe (caso /photos), si no con id (caso /feed). El éxito se decide por el contenido del JSON (¿hay id/post_id? ¿hay error?), no por el código HTTP.",
+        "FASE 3 — el ID se toma con post_id si existe, si no con id. Con el flujo de dos fases, /feed devuelve id con formato <PAGE_ID>_<POST_ID>, que identifica una historia del muro. El éxito se decide por el contenido del JSON (¿hay id/post_id? ¿hay error?), no por el código HTTP: cURL puede no fallar y aun así Meta rechazar la petición.",
         "FASE 4 — el $post_id debe ir entre la versión y '?fields' en la URL del GET; omitirlo deja el permalink vacío. El Target del Insert debe ser $$respuesta_get (global), no $respuesta_get (local).",
         "FASE 5 — usar Get(CurrentHostTimestamp). Guarda el permalink en Publicaciones::Permalink_URL (campo de la misma tabla del layout).",
         "FASE 6 — el ID y el permalink se pasan al script 50 por parámetro; el token va enmascarado (Left/Right 6). Usar $$permalink_url consistente (mismo nombre en FASE 4, 5 y 6).",
         "TOKEN: debe ser PAGE access token (no USER), con pages_manage_posts y pages_read_engagement, verificado en el Depurador como Tipo 'Page'. Hereda la duración del user token del que se deriva: para uno duradero, primero 'Ampliar token de acceso' sobre el USER token y CON ESE pedir GET /me/accounts.",
-        "IMÁGENES — alojamiento: la imagen debe vivir en una URL pública HTTPS. DT usa su propio dominio (https://dt-informatica.com.mx/Imagenes/...). Pendiente: automatizar la subida del contenedor de FileMaker al servidor (FTP o script PHP)."
+        "IMÁGENES — alojamiento: la imagen debe vivir en una URL pública HTTPS. DT usa su propio dominio (https://dt-informatica.com.mx/Imagenes/...). Pendiente: automatizar la subida del contenedor de FileMaker al servidor (FTP o script PHP).",
+        "SALTOS DE LÍNEA: FileMaker usa CR (¶) como separador interno, pero Meta espera LF. Sin convertir, los saltos llegan literales como ¶¶ dentro del texto publicado. Por eso la captura inicial envuelve el mensaje en Substitute ( ... ; ¶ ; Char ( 10 ) ). El separador \"¶¶\" antes de los hashtags los deja dos líneas abajo del cuerpo.",
+        "VISIBILIDAD (limitación de plataforma, no del módulo): mientras la app de Meta esté en modo desarrollo, las publicaciones se crean correctamente pero solo son visibles para los usuarios con rol asignado en la aplicación (administrador, desarrollador, tester). Pasar a producción exige verificación de negocio y App Review, trámites que requieren documentación legal de la empresa. El módulo genera el permalink correcto en ambos modos."
       ],
-      "instructions": "SCRIPT: 22. Publicar Facebook — IMPLEMENTADO Y PROBADO EN PRODUCCIÓN (página de prueba)\nConstrucción paso a paso en Script Workspace de FileMaker 18 Advanced.\nNota: el bloque de código es referencia visual; en FileMaker se agregan los Script Steps uno por uno.\n\n═══ CAPTURA INICIAL (CRÍTICO) ═══\n01. Set Variable $$id_pub_actual = Publicaciones::ID_Publicacion.\n02. Set Variable $$mensaje_actual = Contenido_Texto (+ Hashtags si no está vacío).\n    POR QUÉ: el script salta a Config_Plataformas y vuelve. Esos saltos de layout cambian el registro activo. Si se leen ID y mensaje DESPUÉS de los saltos, se toman del registro equivocado (a veces vacío) y Meta responde error 197 \"post vacío\". Capturar al inicio, estando aún en la publicación correcta, lo evita.\n\n═══ FASE 1 — Leer credenciales ═══\n03. Go to Layout [ Config_Plataformas ].\n    CRÍTICO: este Go to Layout debe ir ANTES del Enter Find Mode. El Find ocurre en el contexto del layout activo; sin cambiar a Config primero, el Find busca en Publicaciones y devuelve 0 → \"Sin configuración\". Este fue uno de los bugs detectados y corregidos.\n04. Enter Find Mode [ Pause: Off ].\n05. Set Field Config_Plataformas::Nombre_Plataforma = \"Facebook\".\n06. Set Field Config_Plataformas::Activo = \"1\".\n07. Set Error Capture [ On ]  ← evita que FileMaker muestre el diálogo nativo \"No records match\"; deja que el If FoundCount=0 maneje el caso.\n08. Perform Find.\n09. If Get(FoundCount)=0 → Go to Layout [ Publicaciones ], Show Custom Dialog \"Sin configuración\", Exit Script \"SIN_CONFIG\".\n10. Set Variable $$fb_token, $$fb_page_id, $$fb_version desde Config_Plataformas.\n11. Go to Layout [ Publicaciones ].\n\n═══ FASE 2 — POST publicar ═══\n12. Set Variable $mensaje = $$mensaje_actual (usar la variable capturada al inicio, NO releer el campo).\n13. Set Variable $url_post = \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $$fb_page_id & \"/feed?access_token=\" & $$fb_token.\n    CRÍTICO: el access_token va en la URL (query string), no en el cuerpo del cURL. Con el token en el body, Meta devolvía error #200 de permisos aunque el token fuera correcto. En la URL funciona.\n14. Insert from URL [ Select ; No dialog ; Target: $$respuesta_post ; URL: $url_post ; cURL options: \"--request POST\" & \" --data-urlencode \" & Quote(\"message=\" & $mensaje) ].\n    CRÍTICO — ESPACIOS EN cURL: cada flag necesita espacios alrededor. Debe ser \" --data-urlencode \" (espacio antes Y después). Si queda pegado al valor (--data-urlencode\"message=\"), cURL no manda el mensaje y Meta responde 197 \"post vacío\". También, sin espacios entre TODOS los flags, Meta devuelve HTML en vez de JSON. Ambos fueron bugs reales detectados.\n\n═══ FASE 3 — Evaluar POST ═══\n15. Set Variable $post_id = JSONGetElement($$respuesta_post; \"id\").\n16. If IsEmpty($post_id) o existe \"error\": guardar Estado=Error, Codigo_Error, Detalle_Error; Commit; Perform Script 50 con $$id_pub_actual & \"|Facebook|Fallido|<cod>|<msg>|||\"; Exit \"POST_FALLIDO\".\n    El éxito se decide por el CONTENIDO del JSON (¿hay id? ¿hay error?), no por el código HTTP, porque FileMaker no expone el HTTP limpio.\n\n═══ FASE 4 — GET permalink ═══\n17. Set Variable $url_get = \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $post_id & \"?fields=id,message,created_time,permalink_url&access_token=\" & $$fb_token.\n    CRÍTICO: el $post_id debe ir entre la versión y \"?fields\". Omitirlo apunta la URL a la nada y el permalink vuelve vacío. Fue un bug corregido (la \"línea 58\").\n18. Insert from URL [ Target: $$respuesta_get ; URL: $url_get ].\n19. Set Variable $$permalink = JSONGetElement($$respuesta_get; \"permalink_url\").\n\n═══ FASE 5 — Guardar éxito ═══\n20. Set Field Estado=\"Publicado\", Post_ID_API=$post_id, Fecha_Publicacion_Real=Get(CurrentHostTimestamp) (host, no local, para multiusuario), Respuesta_API_JSON; limpiar Codigo_Error y Detalle_Error. Commit.\n\n═══ FASE 6 — Log con permalink ═══\n21. Perform Script 50. Registrar intento en Log con parámetro:\n    $$id_pub_actual & \"|Facebook|Exitoso|200||\" & $post_id & \"|\" & $$respuesta_post & \"|\" & Left($$fb_token;6) & \"...\" & Right($$fb_token;6) & \"|\" & $$permalink.\n    El ID se pasa por parámetro (no se lee del contexto). El token se envía enmascarado. El permalink viaja en el parámetro 9.\n22. Refresh Window.\n\n═══ REQUISITOS DE TOKEN (lección clave) ═══\n- Debe ser PAGE access token, no USER token. Se obtiene con GET /me/accounts?fields=id,name,access_token (seleccionando el USUARIO en Graph Explorer), o seleccionando la PÁGINA directamente en el selector \"Usuario o página\".\n- Debe tener pages_manage_posts y pages_read_engagement.\n- Verificar con el Depurador de token de Meta: Tipo debe decir \"Page\".\n- El token de prueba dura ~1 hora. Para uso continuo, usar \"Ampliar token de acceso\" (larga duración, ~60 días).\n\nRESULTADO PROBADO: respuesta {\"id\":\"<PAGE_ID>_<POST_ID>\"}, publicación visible en la página, registro Exitoso en Publicaciones_Log con permalink."
+      "instructions": "SCRIPT: 22. Publicar Facebook — IMPLEMENTADO Y PROBADO EN PRODUCCIÓN (página de prueba)\nConstrucción paso a paso en Script Workspace de FileMaker 18 Advanced.\nNota: el bloque de código es referencia visual; en FileMaker se agregan los Script Steps uno por uno.\n\n═══ CAPTURA INICIAL (CRÍTICO) ═══\n01. Set Variable $id_pub = Publicaciones::ID_Publicacion.\n    POR QUÉ LOCAL Y NO GLOBAL: una variable global ($$id_pub_actual) sobrevive entre ejecuciones. Si la publicación que la cargó se elimina, la global conserva ese ID y el script 50 intenta registrarlo en el Log, donde ID_Publicacion valida como \"Existing value\" → FileMaker rechaza el commit y el usuario queda atrapado en el layout del Log. La local muere al terminar el script y siempre lee el registro actual. Fue un bug real detectado y corregido.\n02. Set Variable $$mensaje_actual = Substitute ( Contenido_Texto (+ \"¶¶\" & Hashtags si no está vacío) ; ¶ ; Char(10) ).\n    POR QUÉ EL SUBSTITUTE: FileMaker usa CR (¶) como separador de líneas, pero Meta espera LF. Sin convertir, los saltos llegan literales como ¶¶ dentro del texto publicado. Fue un bug real detectado y corregido.\n    POR QUÉ: el script salta a Config_Plataformas y vuelve. Esos saltos de layout cambian el registro activo. Si se leen ID y mensaje DESPUÉS de los saltos, se toman del registro equivocado (a veces vacío) y Meta responde error 197 \"post vacío\". Capturar al inicio, estando aún en la publicación correcta, lo evita.\n\n═══ FASE 1 — Leer credenciales ═══\n03. Go to Layout [ Config_Plataformas ].\n    CRÍTICO: este Go to Layout debe ir ANTES del Enter Find Mode. El Find ocurre en el contexto del layout activo; sin cambiar a Config primero, el Find busca en Publicaciones y devuelve 0 → \"Sin configuración\". Este fue uno de los bugs detectados y corregidos.\n04. Enter Find Mode [ Pause: Off ].\n05. Set Field Config_Plataformas::Nombre_Plataforma = \"Facebook\".\n06. Set Field Config_Plataformas::Activo = \"1\".\n07. Set Error Capture [ On ]  ← evita que FileMaker muestre el diálogo nativo \"No records match\"; deja que el If FoundCount=0 maneje el caso.\n08. Perform Find.\n09. If Get(FoundCount)=0 → Go to Layout [ Publicaciones ], Show Custom Dialog \"Sin configuración\", Exit Script \"SIN_CONFIG\".\n10. Set Variable $$fb_token, $$fb_page_id, $$fb_version desde Config_Plataformas.\n11. Go to Layout [ Publicaciones ].\n\n═══ FASE 2 — POST publicar (bifurca según haya imagen) ═══\n12. Set Variable $mensaje = $$mensaje_actual (usar la variable capturada al inicio, NO releer el campo).\n13. If [ not IsEmpty ( $$url_imagen_actual ) ] → rama CON IMAGEN (dos peticiones):\n\n    FASE 2A — subir la foto SIN publicarla:\n    13a. Set Variable $url_foto = \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $$fb_page_id & \"/photos\".\n    13b. Insert from URL [ Select ; No dialog ; Target: $$respuesta_foto ; URL: $url_foto ;\n         cURL: \"--request POST\" & \" --data-urlencode \" & Quote(\"url=\" & $$url_imagen_actual)\n               & \" --data-urlencode \" & Quote(\"published=false\")\n               & \" --data-urlencode \" & Quote(\"access_token=\" & $$fb_token) ].\n    13c. Set Variable $foto_id = JSONGetElement($$respuesta_foto; \"id\").\n         Devuelve solo {\"id\":\"<PHOTO_ID>\"} — sin post_id, porque published=false NO crea historia.\n    13d. If IsEmpty($foto_id) o hay \"error\" → Set Variable $$respuesta_post = $$respuesta_foto (se propaga el fallo para que la FASE 3 lo evalúe sin lógica extra).\n\n    FASE 2B — publicar la historia en el muro con la foto adjunta:\n    13e. Set Variable $url_post = \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $$fb_page_id & \"/feed\".\n    13f. Set Variable $media = JSONSetElement ( \"{}\" ; \"media_fbid\" ; $foto_id ; JSONString ).\n         Se arma con JSONSetElement en vez de concatenar texto: evita problemas de comillas y escapado.\n    13g. Insert from URL [ Select ; No dialog ; Target: $$respuesta_post ; URL: $url_post ;\n         cURL: \"--request POST\" & \" --data-urlencode \" & Quote(\"message=\" & $mensaje)\n               & \" --data-urlencode \" & Quote(\"attached_media[0]=\" & $media)\n               & \" --data-urlencode \" & Quote(\"access_token=\" & $$fb_token) ].\n\n    POR QUÉ DOS PETICIONES: un POST directo a /photos con url + caption crea un OBJETO FOTOGRAFÍA, que Facebook indexa en el álbum de la página en lugar de publicarlo como historia en la biografía. El síntoma es claro: la imagen aparece en la sección Fotos pero no hay publicación en el muro. La documentación oficial de Meta prescribe el flujo de dos fases. La foto subida con published=false permanece ~24 h en estado temporal; si no se publica en ese lapso, Meta la elimina.\n\n14. Else → rama SOLO TEXTO (una petición):\n    14a. Set Variable $url_post = \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $$fb_page_id & \"/feed?access_token=\" & $$fb_token.\n    14b. Insert from URL [ Select ; No dialog ; Target: $$respuesta_post ; URL: $url_post ;\n         cURL: \"--request POST\" & \" --data-urlencode \" & Quote(\"message=\" & $mensaje) ].\n\n    CRÍTICO — ESPACIOS EN cURL (aplica a TODAS las ramas): cada flag necesita espacios alrededor. Debe ser \" --data-urlencode \" (espacio antes Y después). Si queda pegado al valor (--data-urlencode\"message=\"), cURL no manda el mensaje y Meta responde 197 \"post vacío\". Sin espacios entre TODOS los flags, Meta devuelve HTML en vez de JSON. Ambos fueron bugs reales.\n    CRÍTICO — --request POST: la rama con imagen también lo necesita. Sin él, cURL manda GET y no publica nada. Fue un bug real detectado y corregido.\n\n═══ FASE 3 — Evaluar POST ═══\n15. Set Variable $post_id = If ( not IsEmpty(JSONGetElement($$respuesta_post;\"post_id\")) ; JSONGetElement($$respuesta_post;\"post_id\") ; JSONGetElement($$respuesta_post;\"id\") ).\n    En ambas ramas /feed devuelve id con formato <PAGE_ID>_<POST_ID>, que identifica una historia del muro.\n16. If IsEmpty($post_id) o existe \"error\": guardar Estado=Error, Codigo_Error, Detalle_Error; Commit; Perform Script 50 con $id_pub & \"|Facebook|Fallido|<cod>|<msg>|||\"; Exit \"POST_FALLIDO\".\n    El éxito se decide por el CONTENIDO del JSON (¿hay id? ¿hay error?), no por el código HTTP, porque FileMaker no expone el HTTP limpio.\n\n═══ FASE 4 — GET permalink ═══\n17. Set Variable $url_get = \"https://graph.facebook.com/\" & $$fb_version & \"/\" & $post_id & \"?fields=id,message,created_time,permalink_url&access_token=\" & $$fb_token.\n    CRÍTICO: el $post_id debe ir entre la versión y \"?fields\". Omitirlo apunta la URL a la nada y el permalink vuelve vacío. Fue un bug corregido (la \"línea 58\").\n18. Insert from URL [ Target: $$respuesta_get ; URL: $url_get ].\n19. Set Variable $$permalink = JSONGetElement($$respuesta_get; \"permalink_url\").\n\n═══ FASE 5 — Guardar éxito ═══\n20. Set Field Estado=\"Publicado\", Post_ID_API=$post_id, Fecha_Publicacion_Real=Get(CurrentHostTimestamp) (host, no local, para multiusuario), Respuesta_API_JSON; limpiar Codigo_Error y Detalle_Error. Commit.\n\n═══ FASE 6 — Log con permalink ═══\n21. Perform Script 50. Registrar intento en Log con parámetro:\n    $id_pub & \"|Facebook|Exitoso|200||\" & $post_id & \"|\" & $$respuesta_post & \"|\" & Left($$fb_token;6) & \"...\" & Right($$fb_token;6) & \"|\" & $$permalink.\n    El ID se pasa por parámetro (no se lee del contexto). El token se envía enmascarado. El permalink viaja en el parámetro 9.\n22. Refresh Window.\n\n═══ REQUISITOS DE TOKEN (lección clave) ═══\n- Debe ser PAGE access token, no USER token. Se obtiene con GET /me/accounts?fields=id,name,access_token (seleccionando el USUARIO en Graph Explorer), o seleccionando la PÁGINA directamente en el selector \"Usuario o página\".\n- Debe tener pages_manage_posts y pages_read_engagement.\n- Verificar con el Depurador de token de Meta: Tipo debe decir \"Page\".\n- El token de prueba dura ~1 hora. Para uso continuo, usar \"Ampliar token de acceso\" (larga duración, ~60 días).\n\nRESULTADO PROBADO: en la rama con imagen, la FASE 2A devuelve {\"id\":\"<PHOTO_ID>\"} y la 2B devuelve {\"id\":\"<PAGE_ID>_<POST_ID>\"}; en solo texto, un único {\"id\":\"<PAGE_ID>_<POST_ID>\"}. En ambos casos la publicación queda en el muro de la página y se registra Exitoso en Publicaciones_Log con su permalink.\n\n═══ VISIBILIDAD (limitación de plataforma) ═══\nMientras la app de Meta esté en modo desarrollo, las publicaciones se crean correctamente pero solo son visibles para los usuarios con rol asignado en la aplicación. Pasar a producción exige verificación de negocio y App Review, trámites que requieren documentación legal de la empresa y quedan fuera del alcance técnico del módulo."
     },
     {
       "id": "api-instagram",
       "number": "23",
       "name": "Publicar Instagram",
       "category": "API",
-      "status": "Implementar después",
+      "status": "Fuera de alcance — stub",
       "level": "API",
       "buttons": [
         "Publicar ahora"
@@ -768,8 +775,8 @@
         "Publicaciones_Log::Permalink_URL"
       ],
       "params": "No recibe parámetro. Usa configuración activa de Instagram.",
-      "does": "Publicará en Instagram creando primero contenedor media y luego media_publish.",
-      "why": "Instagram exige flujo distinto a Facebook.",
+      "does": "Actualmente es un stub: muestra un diálogo informativo y registra el intento en el Log. No ejecuta llamadas a la API. La implementación real requeriría dos POST (crear el contenedor con /media y publicarlo con /media_publish).",
+      "why": "Instagram quedó fuera del alcance del proyecto: DT Informática no cuenta con una cuenta de Instagram Business, requisito indispensable de la API. Sin cuenta no hay forma de obtener el Instagram User ID ni de probar la integración, así que el script se conserva como punto de extensión documentado en lugar de implementarse a ciegas.",
       "when": "Cuando destino sea Instagram o Ambas.",
       "prevents": [
         "Publicar Container local directo a Instagram",
@@ -781,14 +788,15 @@
         "URL pública",
         "Access Token válido"
       ],
-      "result": "Temporalmente registra intento pendiente.",
-      "code": "# ═══════════════════════════════════════════════\n# FASE 0: Capturar ID de la publicación (antes de cambiar de contexto)\n# ═══════════════════════════════════════════════\nSet Variable [ $$id_pub_actual ; Value: Publicaciones::ID_Publicacion ]\n\n# ═══════════════════════════════════════════════\n# FASE 1: Leer credenciales Instagram\n# ═══════════════════════════════════════════════\nEnter Find Mode [ Pause: Off ]\nSet Field [ Config_Plataformas::Nombre_Plataforma ; \"Instagram\" ]\nSet Field [ Config_Plataformas::Activo ; \"1\" ]\nPerform Find []\n\nIf [ Get ( FoundCount ) = 0 ]\n    Show Custom Dialog [\n        \"Sin configuración\" ;\n        \"No existe configuración activa para Instagram en Config_Plataformas.\"\n    ]\n    Exit Script [ Text Result: \"SIN_CONFIG\" ]\nEnd If\n\nSet Variable [ $$ig_token   ; Value: Config_Plataformas::Access_Token ]\nSet Variable [ $$ig_user_id ; Value: Config_Plataformas::ID_Cuenta_Meta ]\nSet Variable [ $$ig_version ; Value: Config_Plataformas::API_Version ]\n\nGo to Layout [ \"Publicaciones\" ]\n\n# ═══════════════════════════════════════════════\n# FASE 2: Validar URL_Imagen obligatoria para Instagram\n# ═══════════════════════════════════════════════\nIf [ IsEmpty ( Publicaciones::URL_Imagen ) ]\n    Show Custom Dialog [\n        \"Imagen requerida\" ;\n        \"Instagram requiere una URL de imagen pública. Completa el campo URL_Imagen antes de publicar.\"\n    ]\n    Exit Script [ Text Result: \"SIN_IMAGEN\" ]\nEnd If\n\n# ═══════════════════════════════════════════════\n# FASE 3: POST /me/media — crear container\n# ═══════════════════════════════════════════════\nSet Variable [ $caption ; Value:\n    Publicaciones::Contenido_Texto\n    & If ( not IsEmpty ( Publicaciones::Hashtags ) ; \" \" & Publicaciones::Hashtags ; \"\" )\n]\n\nSet Variable [ $url_media ; Value:\n    \"https://graph.facebook.com/\"\n    & $$ig_version\n    & \"/\" & $$ig_user_id\n    & \"/media\"\n]\n\nSet Variable [ $$respuesta_media ; Value: \"\" ]\n\nInsert from URL [\n    Select ; No dialog ;\n    Target: $$respuesta_media ;\n    URL: $url_media ;\n    cURL options:\n        \"--request POST\" &\n        \" --data-urlencode \" & Quote ( \"image_url=\" & Publicaciones::URL_Imagen ) &\n        \" --data-urlencode \" & Quote ( \"caption=\" & $caption ) &\n        \" --data-urlencode \" & Quote ( \"access_token=\" & $$ig_token )\n]\n\nSet Variable [ $container_id ; Value: JSONGetElement ( $$respuesta_media ; \"id\" ) ]\n\nIf [ IsEmpty ( $container_id ) ]\n    Set Variable [ $det_err ; Value: JSONGetElement ( $$respuesta_media ; \"error.message\" ) ]\n    Set Field [ Publicaciones::Estado             ; \"Error\" ]\n    Set Field [ Publicaciones::Respuesta_API_JSON ; $$respuesta_media ]\n    Set Field [ Publicaciones::Detalle_Error      ; $det_err ]\n    Commit Records/Requests [ With dialog: Off ]\n\n    Perform Script [\n        \"50. Registrar intento en Log\" ;\n        Parameter: $$id_pub_actual & \"|Instagram|Fallido|0|Error al crear container: \" & $det_err & \"|||\"\n    ]\n    Exit Script [ Text Result: \"CONTAINER_FALLIDO\" ]\nEnd If\n\n# ═══════════════════════════════════════════════\n# FASE 4: POST /me/media_publish — publicar container\n# ═══════════════════════════════════════════════\nSet Variable [ $url_publish ; Value:\n    \"https://graph.facebook.com/\"\n    & $$ig_version\n    & \"/\" & $$ig_user_id\n    & \"/media_publish\"\n]\n\nSet Variable [ $$respuesta_publish ; Value: \"\" ]\n\nInsert from URL [\n    Select ; No dialog ;\n    Target: $$respuesta_publish ;\n    URL: $url_publish ;\n    cURL options:\n        \"--request POST\" &\n        \" --data-urlencode \" & Quote ( \"creation_id=\" & $container_id ) &\n        \" --data-urlencode \" & Quote ( \"access_token=\" & $$ig_token )\n]\n\nSet Variable [ $ig_post_id ; Value: JSONGetElement ( $$respuesta_publish ; \"id\" ) ]\n\nIf [ IsEmpty ( $ig_post_id ) ]\n    Set Variable [ $det_err ; Value: JSONGetElement ( $$respuesta_publish ; \"error.message\" ) ]\n    Set Field [ Publicaciones::Estado             ; \"Error\" ]\n    Set Field [ Publicaciones::Respuesta_API_JSON ; $$respuesta_publish ]\n    Set Field [ Publicaciones::Detalle_Error      ; $det_err ]\n    Commit Records/Requests [ With dialog: Off ]\n\n    Perform Script [\n        \"50. Registrar intento en Log\" ;\n        Parameter: $$id_pub_actual & \"|Instagram|Fallido|0|Error al publicar: \" & $det_err & \"|||\"\n    ]\n    Exit Script [ Text Result: \"PUBLISH_FALLIDO\" ]\nEnd If\n\n# ═══════════════════════════════════════════════\n# FASE 5: GET para permalink_url\n# ═══════════════════════════════════════════════\nSet Variable [ $url_get ; Value:\n    \"https://graph.facebook.com/\"\n    & $$ig_version\n    & \"/\" & $ig_post_id\n    & \"?fields=id,permalink,timestamp\"\n    & \"&access_token=\" & $$ig_token\n]\n\nSet Variable [ $$respuesta_get_ig ; Value: \"\" ]\n\nInsert from URL [\n    Select ; No dialog ;\n    Target: $$respuesta_get_ig ;\n    URL: $url_get\n]\n\nSet Variable [ $$permalink ; Value: JSONGetElement ( $$respuesta_get_ig ; \"permalink\" ) ]\n\n# ═══════════════════════════════════════════════\n# FASE 6: Guardar resultado\n# ═══════════════════════════════════════════════\nSet Field [ Publicaciones::Estado                ; \"Publicado\" ]\nSet Field [ Publicaciones::Post_ID_API           ; $ig_post_id ]\nSet Field [ Publicaciones::Fecha_Publicacion_Real; Get ( CurrentTimestamp ) ]\nSet Field [ Publicaciones::Respuesta_API_JSON    ; $$respuesta_publish ]\nSet Field [ Publicaciones::Codigo_Error          ; \"\" ]\nSet Field [ Publicaciones::Detalle_Error         ; \"\" ]\nCommit Records/Requests [ With dialog: Off ]\n\nPerform Script [\n    \"50. Registrar intento en Log\" ;\n    Parameter: $$id_pub_actual & \"|Instagram|Exitoso|200||\" & $ig_post_id & \"|\" & $$respuesta_publish & \"|\" & Left($$ig_token;6) & \"...\" & Right($$ig_token;6) & \"|\" & $$permalink\n]\n\nRefresh Window []",
+      "result": "Muestra un diálogo indicando que la funcionalidad no está disponible y registra el intento en el Log.",
+      "code": "# ═══════════════════════════════════════════════\n# STUB — Instagram fuera de alcance\n# ═══════════════════════════════════════════════\n# DT Informática no dispone de cuenta de Instagram Business,\n# requisito obligatorio de la Instagram Graph API. El script se\n# conserva como punto de extensión documentado.\n\nShow Custom Dialog [\n    \"Instagram no disponible\" ;\n    \"La publicación en Instagram no está habilitada. Requiere una cuenta de Instagram Business vinculada a la página de Facebook.\"\n]\n\nPerform Script [ \"50. Registrar intento en Log\" ;\n    Parameter: $id_pub & \"|Instagram|Fallido|N/A|Script en desarrollo - API pendiente\" ]\n\nExit Script [ Text Result: \"IG_NO_DISPONIBLE\" ]\n\n# ───────────────────────────────────────────────\n# FLUJO REAL, si algún día se habilita:\n#\n#   FASE 1 — POST /{ig-user-id}/media\n#            params: image_url, caption, access_token\n#            devuelve: {\"id\":\"<CREATION_ID>\"}\n#\n#   FASE 2 — POST /{ig-user-id}/media_publish\n#            params: creation_id, access_token\n#            devuelve: {\"id\":\"<IG_MEDIA_ID>\"}\n#\n#   FASE 3 — GET /{ig-media-id}?fields=permalink\n#            (en Instagram el campo es \"permalink\", no \"permalink_url\")\n# ───────────────────────────────────────────────",
       "notes": [
-        "Instagram requiere dos POST: primero crear el container media, luego publicarlo.",
-        "El campo permalink en Instagram se obtiene como \"permalink\" (no permalink_url como en Facebook).",
-        "URL_Imagen es obligatoria para Instagram — el script valida esto antes de ejecutar la API.",
-        "El campo ID_Cuenta_Meta en Config_Plataformas debe contener el Instagram User ID, no el Page ID.",
-        "Instagram Business Account requerida. Debe estar vinculada a una página de Facebook."
+        "FUERA DE ALCANCE: DT Informática no tiene cuenta de Instagram Business. Sin ella no se puede obtener el Instagram User ID ni probar la integración, por lo que el script permanece como stub documentado y no como trabajo pendiente.",
+        "Instagram requiere dos POST: primero crear el contenedor con /media, luego publicarlo con /media_publish. No existe un endpoint de un solo paso como el /feed de Facebook.",
+        "El permalink en Instagram se obtiene con el campo \"permalink\", no \"permalink_url\" como en Facebook.",
+        "URL_Imagen sería obligatoria: Instagram no admite publicaciones de solo texto.",
+        "El campo ID_Cuenta_Meta de Config_Plataformas tendría que contener el Instagram User ID, no el Page ID de Facebook.",
+        "Requisito previo: cuenta de Instagram Business vinculada a la página de Facebook, más los permisos instagram_basic e instagram_content_publish aprobados en App Review."
       ],
       "instructions": "SCRIPT: 23. Publicar Instagram\nObjetivo: construirlo paso a paso dentro de Script Workspace de FileMaker 18 Advanced.\nImportante: el bloque 'Script' es referencia visual. En FileMaker NO se pega completo; se agregan Script Steps uno por uno.\n\n01. Crea el script 23. Publicar Instagram.\n02. Por ahora déjalo como placeholder funcional. Instagram requiere flujo de contenedor media y media_publish.\n03. Agrega Show Custom Dialog para confirmar que el flujo llegó a Instagram.\nVentana: Show Custom Dialog Options → pestaña General\n- Title: \"Publicar Instagram\"\n- Message: \"Aquí se ejecutará la publicación hacia Instagram mediante Meta Graph API.\"\n- Default Button: \"OK\"\n- Al terminar presiona OK.\n04. Agrega Perform Script. Selecciona 50. Registrar intento en Log.\n05. En Optional Script Parameter escribe exactamente: \"Instagram|Fallido|0|Script en desarrollo\".\n06. Cuando tengas integración real, valida IG_User_ID, URL_Imagen pública y Access_Token."
     },
@@ -797,7 +805,7 @@
       "number": "30",
       "name": "Ir a configuración de plataformas",
       "category": "NAV",
-      "status": "Implementar después",
+      "status": "Implementado",
       "level": "Navegación",
       "buttons": [
         "Config. plataformas"
@@ -837,7 +845,7 @@
       "number": "31",
       "name": "Ir a historial completo",
       "category": "NAV",
-      "status": "Implementar después",
+      "status": "Implementado",
       "level": "Navegación",
       "buttons": [
         "Historial completo"
@@ -876,7 +884,7 @@
       "number": "32",
       "name": "Ir a multimedia",
       "category": "NAV",
-      "status": "Implementar después",
+      "status": "Implementado",
       "level": "Navegación",
       "buttons": [
         "Multimedia"
@@ -986,7 +994,7 @@
       "number": "50",
       "name": "Registrar intento en Log",
       "category": "LOG",
-      "status": "Implementar ahora",
+      "status": "Implementado y probado",
       "level": "Log",
       "buttons": [
         "Automático desde API"
@@ -1020,13 +1028,16 @@
         "Campo FK correcto"
       ],
       "result": "Nuevo registro de log relacionado a la publicación actual.",
-      "code": "Set Variable [ $param ; Value: Get ( ScriptParameter ) ]\n\n# El ID de la publicación llega como PARÁMETRO 1 (no se lee del contexto)\nSet Variable [ $idPublicacion ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 1 ) ]\n\n# Parámetros base\nSet Variable [ $plataforma ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 2 ) ]\nSet Variable [ $resultado  ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 3 ) ]\nSet Variable [ $http       ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 4 ) ]\nSet Variable [ $detalle    ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 5 ) ]\n\n# Parámetros opcionales\nSet Variable [ $postId     ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 6 ) ]\nSet Variable [ $jsonResp   ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 7 ) ]\nSet Variable [ $tokenUsado ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 8 ) ]\nSet Variable [ $permalink  ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 9 ) ]\n\nGo to Layout [ \"Publicaciones_Log\" ]\nNew Record/Request\nSet Field [ Publicaciones_Log::ID_Publicacion   ; $idPublicacion ]\nSet Field [ Publicaciones_Log::Plataforma       ; $plataforma ]\nSet Field [ Publicaciones_Log::Resultado        ; $resultado ]\nSet Field [ Publicaciones_Log::HTTP_Status_Code ; $http ]\nSet Field [ Publicaciones_Log::Notas_Internas   ; $detalle ]\n\nIf [ not IsEmpty ( $postId ) ]\n    Set Field [ Publicaciones_Log::Post_ID_Retornado ; $postId ]\nEnd If\n\nIf [ not IsEmpty ( $jsonResp ) ]\n    Set Field [ Publicaciones_Log::JSON_Completo ; $jsonResp ]\nEnd If\n\nIf [ not IsEmpty ( $tokenUsado ) ]\n    Set Field [ Publicaciones_Log::Token_Usado ; Left ( $tokenUsado ; 6 ) & \"...\" & Right ( $tokenUsado ; 6 ) ]\nEnd If\n\nIf [ not IsEmpty ( $permalink ) ]\n    Set Field [ Publicaciones_Log::Permalink_URL ; $permalink ]\nEnd If\n\nCommit Records/Requests [ With dialog: Off ]\nGo to Layout [ \"Publicaciones\" ]\nRefresh Window []",
+      "code": "Set Variable [ $param ; Value: Get ( ScriptParameter ) ]\n\n# El ID de la publicación llega como PARÁMETRO 1 (no se lee del contexto)\nSet Variable [ $idPublicacion ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 1 ) ]\n\n# Parámetros base\nSet Variable [ $plataforma ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 2 ) ]\nSet Variable [ $resultado  ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 3 ) ]\nSet Variable [ $http       ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 4 ) ]\nSet Variable [ $detalle    ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 5 ) ]\n\n# Parámetros opcionales\nSet Variable [ $postId     ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 6 ) ]\nSet Variable [ $jsonResp   ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 7 ) ]\nSet Variable [ $tokenUsado ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 8 ) ]\nSet Variable [ $permalink  ; Value: GetValue ( Substitute ( $param ; \"|\" ; ¶ ) ; 9 ) ]\n\n# ─── GUARDA: el ID debe existir en Publicaciones ───\n# Publicaciones_Log::ID_Publicacion tiene validación \"Existing value\":\n# si se escribe un ID inexistente, FileMaker rechaza el commit y deja\n# al usuario atrapado en el layout del Log.\nSet Variable [ $existe ; Value:\n    ExecuteSQL ( \"SELECT COUNT(*) FROM Publicaciones WHERE ID_Publicacion = ?\" ; \"\" ; \"\" ; $idPublicacion ) ]\nIf [ $existe = 0 ]\n    Exit Script [ Text Result: \"ID_INVALIDO\" ]\nEnd If\n\nGo to Layout [ \"Publicaciones_Log\" ]\nNew Record/Request\nSet Field [ Publicaciones_Log::ID_Publicacion   ; $idPublicacion ]\nSet Field [ Publicaciones_Log::Plataforma       ; $plataforma ]\nSet Field [ Publicaciones_Log::Resultado        ; $resultado ]\nSet Field [ Publicaciones_Log::HTTP_Status_Code ; $http ]\nSet Field [ Publicaciones_Log::Notas_Internas   ; $detalle ]\n\nIf [ not IsEmpty ( $postId ) ]\n    Set Field [ Publicaciones_Log::Post_ID_Retornado ; $postId ]\nEnd If\n\nIf [ not IsEmpty ( $jsonResp ) ]\n    Set Field [ Publicaciones_Log::JSON_Completo ; $jsonResp ]\nEnd If\n\nIf [ not IsEmpty ( $tokenUsado ) ]\n    Set Field [ Publicaciones_Log::Token_Usado ; Left ( $tokenUsado ; 6 ) & \"...\" & Right ( $tokenUsado ; 6 ) ]\nEnd If\n\nIf [ not IsEmpty ( $permalink ) ]\n    Set Field [ Publicaciones_Log::Permalink_URL ; $permalink ]\nEnd If\n\nCommit Records/Requests [ With dialog: Off ]\nGo to Layout [ \"Publicaciones\" ]\nRefresh Window []",
       "notes": [
         "El ID de la publicación llega como PARÁMETRO 1, no se lee de Publicaciones::ID_Publicacion. Cuando el script 22 llama a este, ya hizo saltos de layout, así que el registro activo puede no ser el correcto. Leer del contexto deja la FK vacía y dispara 'ID_Publicacion is defined to require a value'.",
         "Orden de parámetros: ID_Publicacion | Plataforma | Resultado | HTTP | Detalle | PostID | JSON | Token | Permalink.",
         "NUNCA guardar el token completo: Token_Usado se almacena enmascarado con Left(…;6) & \"...\" & Right(…;6).",
         "Los campos opcionales (PostID, JSON, Token, Permalink) solo se escriben si el parámetro llega con valor (If not IsEmpty).",
-        "Usar exactamente Publicaciones_Log::ID_Publicacion sin acento, igual que en la relación."
+        "Usar exactamente Publicaciones_Log::ID_Publicacion sin acento, igual que en la relación.",
+        "GUARDA DE INTEGRIDAD: Publicaciones_Log::ID_Publicacion está validado como \"Existing value\", es decir, exige que el ID ya exista en la tabla Publicaciones. Si el parámetro trae un ID inexistente (por ejemplo, el de una publicación borrada), FileMaker rechaza el commit, muestra el diálogo \"ID_Publicacion is defined to contain existing values only\" y el script muere ahí, dejando al usuario atrapado en el layout del Log. La guarda con ExecuteSQL verifica la existencia ANTES de cambiar de layout y sale limpio con \"ID_INVALIDO\".",
+        "CUIDADO CON EL NOMBRE DE LA VARIABLE: la guarda debe usar $idPublicacion (con c). Un typo como $idPublicaion hace que ExecuteSQL reciba un valor vacío, $existe quede en 0 y el script salga SIEMPRE por ID_INVALIDO — el Log deja de registrar por completo y nunca se ejecuta el Go to Layout de regreso a Publicaciones.",
+        "RETORNO DE LAYOUT: el script termina con Go to Layout [Publicaciones] + Refresh Window. Si el script sale antes por la guarda, ese retorno no se ejecuta — por eso la guarda va ANTES del salto al layout del Log, no después."
       ],
       "instructions": "SCRIPT: 50. Registrar intento en Log\nConstrucción paso a paso en Script Workspace de FileMaker 18 Advanced.\n\n01. Set Variable $param = Get ( ScriptParameter ).\n02. Set Variable $idPublicacion = GetValue(Substitute($param;\"|\";¶); 1).\n    CRÍTICO: el ID llega como PARÁMETRO 1, no se lee de Publicaciones::ID_Publicacion. Razón: cuando el script 22 llama a este, ya hizo saltos de layout (Config y vuelta), por lo que el registro activo puede no ser la publicación correcta. Pasar el ID por parámetro garantiza el valor correcto. Si en cambio se lee del contexto, la FK ID_Publicacion del Log puede quedar vacía y disparar el error \"ID_Publicacion is defined to require a value\".\n03-06. $plataforma, $resultado, $http, $detalle = parámetros 2 a 5.\n07-10. $postId, $jsonResp, $tokenUsado, $permalink = parámetros 6 a 9 (opcionales).\n11. Go to Layout [ Publicaciones_Log ]. New Record/Request.\n12. Set Field ID_Publicacion (= parámetro 1), Plataforma, Resultado, HTTP_Status_Code, Notas_Internas.\n13. If not IsEmpty($postId): Set Field Post_ID_Retornado.\n14. If not IsEmpty($jsonResp): Set Field JSON_Completo.\n15. If not IsEmpty($tokenUsado): Set Field Token_Usado = Left(...;6) & \"...\" & Right(...;6). NUNCA guardar el token completo.\n16. If not IsEmpty($permalink): Set Field Permalink_URL.\n17. Commit. Go to Layout [ Publicaciones ]. Refresh Window.\n\nNota: usa exactamente Publicaciones_Log::ID_Publicacion sin acento, igual que en la relación. FileMaker no perdona diferencias de nombre."
     },
@@ -1071,6 +1082,150 @@
         "Usa Publicaciones::Permalink_URL (campo vigente de la publicación), no el del Log. Open URL abre el navegador real del sistema, donde sí hay sesión de Facebook, por lo que muestra el post aunque el Web Viewer embebido falle."
       ],
       "instructions": "01. Crea el script btn-abrir-publicacion.\n02. Agrega If [ IsEmpty(Publicaciones_Log::Permalink_URL) ].\n03. Dentro del If: Show Custom Dialog con mensaje de aviso.\n04. Fuera del If (Else): Open URL [ Publicaciones_Log::Permalink_URL ].\n05. En el layout Publicaciones, dentro del portal de Publicaciones_Log, crea un botón.\n06. Nombre del objeto: btn_abrir_publicacion.\n07. Asigna este script al botón."
+    },
+    {
+      "id": "nav-primer-registro",
+      "number": "60",
+      "name": "Primer registro",
+      "category": "UI",
+      "status": "Implementado",
+      "level": "Interfaz",
+      "buttons": [
+        "|◀"
+      ],
+      "objects": [
+        "btn_nav_primero"
+      ],
+      "layout": "Publicaciones",
+      "table": "Publicaciones",
+      "fields": [],
+      "params": "No recibe parámetro.",
+      "does": "Salta al primer registro del found set.",
+      "why": "El módulo oculta la Status Toolbar para presentar una interfaz limpia; sin ella se pierden las flechas de navegación nativas de FileMaker, así que el layout necesita las suyas.",
+      "when": "Sustituir la navegación de la Status Toolbar cuando ésta se oculta.",
+      "prevents": [
+        "Quedar sin forma de cambiar de registro al ocultar la Status Toolbar"
+      ],
+      "requires": [
+        "Layout Publicaciones"
+      ],
+      "result": "El registro activo cambia a la posición first dentro del found set actual.",
+      "code": "Go to Record/Request/Page [ First ]",
+      "notes": [
+        "UN SOLO PASO: el script se compone únicamente de Go to Record/Request/Page. El paso está en la categoría Navigation del panel de pasos.",
+        "'Exit after last' es una CASILLA, no texto: debe quedar DESMARCADA. Si se marca, el script termina al llegar al extremo en vez de quedarse en el último registro.",
+        "RECORRE EL FOUND SET, NO LA TABLA: estos scripts se mueven dentro de los registros encontrados. Si hay un filtro activo, las flechas se 'saltan' los registros excluidos — no es un fallo del botón, es el found set. Para ver todo, usar antes el script 05. Mostrar todas las publicaciones.",
+        "ORDEN DE IMPLANTACIÓN: crear los cuatro scripts y sus botones ANTES de ocultar la Status Toolbar en el script 00. De lo contrario el usuario queda sin navegación posible."
+      ],
+      "instructions": "SCRIPT: 60. Primer registro\nObjetivo: construirlo dentro del Script Workspace de FileMaker 18 Advanced.\n\nPASO 1 — Scripts ▸ Script Workspace ▸ New Script.\nPASO 2 — Nombrarlo exactamente: 60. Primer registro\nPASO 3 — En el panel de pasos, categoría Navigation, arrastrar 'Go to Record/Request/Page'.\nPASO 4 — Hacer clic en el desplegable del paso y elegir 'First'. NO abrir Specify Calculation: esa opción ('By Calculation') es solo para saltar a un número de registro calculado, y escribir ahí '{opt}' produce el error 'The specified table cannot be found'.\nPASO 6 — Guardar (Ctrl+S).\n\nBOTÓN: en modo Layout, dibujar el botón con la etiqueta '|◀', nombrarlo 'btn_nav_primero' en el panel de objetos, y asignarle este script (doble clic ▸ Perform Script ▸ 60. Primer registro)."
+    },
+    {
+      "id": "nav-registro-anterior",
+      "number": "61",
+      "name": "Registro anterior",
+      "category": "UI",
+      "status": "Implementado",
+      "level": "Interfaz",
+      "buttons": [
+        "◀"
+      ],
+      "objects": [
+        "btn_nav_anterior"
+      ],
+      "layout": "Publicaciones",
+      "table": "Publicaciones",
+      "fields": [],
+      "params": "No recibe parámetro.",
+      "does": "Retrocede un registro dentro del found set.",
+      "why": "El módulo oculta la Status Toolbar para presentar una interfaz limpia; sin ella se pierden las flechas de navegación nativas de FileMaker, así que el layout necesita las suyas.",
+      "when": "Recorrer publicaciones hacia atrás sin depender de la Status Toolbar.",
+      "prevents": [
+        "Quedar sin forma de cambiar de registro al ocultar la Status Toolbar"
+      ],
+      "requires": [
+        "Layout Publicaciones"
+      ],
+      "result": "El registro activo cambia a la posición previous dentro del found set actual.",
+      "code": "Go to Record/Request/Page [ Previous ; Exit after last: Off ]",
+      "notes": [
+        "UN SOLO PASO: el script se compone únicamente de Go to Record/Request/Page. El paso está en la categoría Navigation del panel de pasos.",
+        "'Exit after last' es una CASILLA, no texto: debe quedar DESMARCADA. Si se marca, el script termina al llegar al extremo en vez de quedarse en el último registro.",
+        "RECORRE EL FOUND SET, NO LA TABLA: estos scripts se mueven dentro de los registros encontrados. Si hay un filtro activo, las flechas se 'saltan' los registros excluidos — no es un fallo del botón, es el found set. Para ver todo, usar antes el script 05. Mostrar todas las publicaciones.",
+        "ORDEN DE IMPLANTACIÓN: crear los cuatro scripts y sus botones ANTES de ocultar la Status Toolbar en el script 00. De lo contrario el usuario queda sin navegación posible."
+      ],
+      "instructions": "SCRIPT: 61. Registro anterior\nObjetivo: construirlo dentro del Script Workspace de FileMaker 18 Advanced.\n\nPASO 1 — Scripts ▸ Script Workspace ▸ New Script.\nPASO 2 — Nombrarlo exactamente: 61. Registro anterior\nPASO 3 — En el panel de pasos, categoría Navigation, arrastrar 'Go to Record/Request/Page'.\nPASO 4 — Hacer clic en el desplegable del paso y elegir 'Previous'. NO abrir Specify Calculation: esa opción ('By Calculation') es solo para saltar a un número de registro calculado, y escribir ahí '{opt}' produce el error 'The specified table cannot be found'.\nPASO 5 — Dejar DESMARCADA la casilla 'Exit after last'.\nPASO 6 — Guardar (Ctrl+S).\n\nBOTÓN: en modo Layout, dibujar el botón con la etiqueta '◀', nombrarlo 'btn_nav_anterior' en el panel de objetos, y asignarle este script (doble clic ▸ Perform Script ▸ 61. Registro anterior)."
+    },
+    {
+      "id": "nav-registro-siguiente",
+      "number": "62",
+      "name": "Registro siguiente",
+      "category": "UI",
+      "status": "Implementado",
+      "level": "Interfaz",
+      "buttons": [
+        "▶"
+      ],
+      "objects": [
+        "btn_nav_siguiente"
+      ],
+      "layout": "Publicaciones",
+      "table": "Publicaciones",
+      "fields": [],
+      "params": "No recibe parámetro.",
+      "does": "Avanza un registro dentro del found set.",
+      "why": "El módulo oculta la Status Toolbar para presentar una interfaz limpia; sin ella se pierden las flechas de navegación nativas de FileMaker, así que el layout necesita las suyas.",
+      "when": "Recorrer publicaciones hacia adelante sin depender de la Status Toolbar.",
+      "prevents": [
+        "Quedar sin forma de cambiar de registro al ocultar la Status Toolbar"
+      ],
+      "requires": [
+        "Layout Publicaciones"
+      ],
+      "result": "El registro activo cambia a la posición next dentro del found set actual.",
+      "code": "Go to Record/Request/Page [ Next ; Exit after last: Off ]",
+      "notes": [
+        "UN SOLO PASO: el script se compone únicamente de Go to Record/Request/Page. El paso está en la categoría Navigation del panel de pasos.",
+        "'Exit after last' es una CASILLA, no texto: debe quedar DESMARCADA. Si se marca, el script termina al llegar al extremo en vez de quedarse en el último registro.",
+        "RECORRE EL FOUND SET, NO LA TABLA: estos scripts se mueven dentro de los registros encontrados. Si hay un filtro activo, las flechas se 'saltan' los registros excluidos — no es un fallo del botón, es el found set. Para ver todo, usar antes el script 05. Mostrar todas las publicaciones.",
+        "ORDEN DE IMPLANTACIÓN: crear los cuatro scripts y sus botones ANTES de ocultar la Status Toolbar en el script 00. De lo contrario el usuario queda sin navegación posible."
+      ],
+      "instructions": "SCRIPT: 62. Registro siguiente\nObjetivo: construirlo dentro del Script Workspace de FileMaker 18 Advanced.\n\nPASO 1 — Scripts ▸ Script Workspace ▸ New Script.\nPASO 2 — Nombrarlo exactamente: 62. Registro siguiente\nPASO 3 — En el panel de pasos, categoría Navigation, arrastrar 'Go to Record/Request/Page'.\nPASO 4 — Hacer clic en el desplegable del paso y elegir 'Next'. NO abrir Specify Calculation: esa opción ('By Calculation') es solo para saltar a un número de registro calculado, y escribir ahí '{opt}' produce el error 'The specified table cannot be found'.\nPASO 5 — Dejar DESMARCADA la casilla 'Exit after last'.\nPASO 6 — Guardar (Ctrl+S).\n\nBOTÓN: en modo Layout, dibujar el botón con la etiqueta '▶', nombrarlo 'btn_nav_siguiente' en el panel de objetos, y asignarle este script (doble clic ▸ Perform Script ▸ 62. Registro siguiente)."
+    },
+    {
+      "id": "nav-ultimo-registro",
+      "number": "63",
+      "name": "Último registro",
+      "category": "UI",
+      "status": "Implementado",
+      "level": "Interfaz",
+      "buttons": [
+        "▶|"
+      ],
+      "objects": [
+        "btn_nav_ultimo"
+      ],
+      "layout": "Publicaciones",
+      "table": "Publicaciones",
+      "fields": [],
+      "params": "No recibe parámetro.",
+      "does": "Salta al último registro del found set.",
+      "why": "El módulo oculta la Status Toolbar para presentar una interfaz limpia; sin ella se pierden las flechas de navegación nativas de FileMaker, así que el layout necesita las suyas.",
+      "when": "Ir al final de la lista, típicamente la publicación más reciente.",
+      "prevents": [
+        "Quedar sin forma de cambiar de registro al ocultar la Status Toolbar"
+      ],
+      "requires": [
+        "Layout Publicaciones"
+      ],
+      "result": "El registro activo cambia a la posición last dentro del found set actual.",
+      "code": "Go to Record/Request/Page [ Last ]",
+      "notes": [
+        "UN SOLO PASO: el script se compone únicamente de Go to Record/Request/Page. El paso está en la categoría Navigation del panel de pasos.",
+        "'Exit after last' es una CASILLA, no texto: debe quedar DESMARCADA. Si se marca, el script termina al llegar al extremo en vez de quedarse en el último registro.",
+        "RECORRE EL FOUND SET, NO LA TABLA: estos scripts se mueven dentro de los registros encontrados. Si hay un filtro activo, las flechas se 'saltan' los registros excluidos — no es un fallo del botón, es el found set. Para ver todo, usar antes el script 05. Mostrar todas las publicaciones.",
+        "ORDEN DE IMPLANTACIÓN: crear los cuatro scripts y sus botones ANTES de ocultar la Status Toolbar en el script 00. De lo contrario el usuario queda sin navegación posible."
+      ],
+      "instructions": "SCRIPT: 63. Último registro\nObjetivo: construirlo dentro del Script Workspace de FileMaker 18 Advanced.\n\nPASO 1 — Scripts ▸ Script Workspace ▸ New Script.\nPASO 2 — Nombrarlo exactamente: 63. Último registro\nPASO 3 — En el panel de pasos, categoría Navigation, arrastrar 'Go to Record/Request/Page'.\nPASO 4 — Hacer clic en el desplegable del paso y elegir 'Last'. NO abrir Specify Calculation: esa opción ('By Calculation') es solo para saltar a un número de registro calculado, y escribir ahí '{opt}' produce el error 'The specified table cannot be found'.\nPASO 6 — Guardar (Ctrl+S).\n\nBOTÓN: en modo Layout, dibujar el botón con la etiqueta '▶|', nombrarlo 'btn_nav_ultimo' en el panel de objetos, y asignarle este script (doble clic ▸ Perform Script ▸ 63. Último registro)."
     }
   ],
   "matrix": [
@@ -1298,6 +1453,42 @@
       "table": "Publicaciones_Log",
       "param": "No recibe parámetro. Lee Permalink_URL del registro actual del portal.",
       "result": "El navegador abre la publicación en Facebook o Instagram."
+    },
+    {
+      "button": "|◀ Primer registro",
+      "object": "btn_nav_primero",
+      "script": "60. Primer registro",
+      "field": "—",
+      "table": "Publicaciones",
+      "param": "No recibe parámetro.",
+      "result": "Salta al primer registro del found set actual."
+    },
+    {
+      "button": "◀ Registro anterior",
+      "object": "btn_nav_anterior",
+      "script": "61. Registro anterior",
+      "field": "—",
+      "table": "Publicaciones",
+      "param": "No recibe parámetro.",
+      "result": "Retrocede un registro dentro del found set. 'Exit after last' desmarcado."
+    },
+    {
+      "button": "▶ Registro siguiente",
+      "object": "btn_nav_siguiente",
+      "script": "62. Registro siguiente",
+      "field": "—",
+      "table": "Publicaciones",
+      "param": "No recibe parámetro.",
+      "result": "Avanza un registro dentro del found set. 'Exit after last' desmarcado."
+    },
+    {
+      "button": "▶| Último registro",
+      "object": "btn_nav_ultimo",
+      "script": "63. Último registro",
+      "field": "—",
+      "table": "Publicaciones",
+      "param": "No recibe parámetro.",
+      "result": "Salta al último registro del found set actual."
     }
   ],
   "flow": [

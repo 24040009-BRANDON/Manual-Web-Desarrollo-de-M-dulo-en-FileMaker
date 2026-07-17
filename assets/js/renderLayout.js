@@ -410,269 +410,126 @@ function createLayoutShell() {
           <div class="lm-mock">
             <section class="lm-main lm-clickable" data-el="layout-publicaciones">
               <div class="lm-topbar lm-clickable" data-el="topbar">
-                <strong>Gestión de publicaciones</strong>
+                <strong>Publicaciones</strong>
 
                 <div class="lm-topbar-actions">
                   <button class="lm-btn secondary lm-clickable" data-el="btn-buscar" type="button">Buscar</button>
                   <button class="lm-btn secondary lm-clickable" data-el="btn-filtrar" type="button">Filtrar</button>
-                  <button class="lm-btn primary lm-clickable" data-el="btn-nueva" type="button">Nueva</button>
+                  <button class="lm-btn secondary lm-clickable" data-el="btn-nueva" type="button">Nueva</button>
+                  <button class="lm-btn warn lm-clickable" data-el="btn-editar" type="button">Editar</button>
+                  <button class="lm-btn danger lm-clickable" data-el="btn-eliminar" type="button">Eliminar</button>
                 </div>
               </div>
 
               <div class="lm-content">
                 <div class="lm-stats">
-                  <div class="lm-stat lm-clickable" data-el="stat-total"><small>Total registros</small><b style="color:#1d4ed8">8</b></div>
-                  <div class="lm-stat lm-clickable" data-el="stat-programadas"><small>Programadas</small><b style="color:#b45309">3</b></div>
-                  <div class="lm-stat lm-clickable" data-el="stat-publicadas"><small>Publicadas</small><b style="color:#15803d">4</b></div>
-                  <div class="lm-stat lm-clickable" data-el="stat-error"><small>Con error</small><b style="color:#dc2626">1</b></div>
-                  <div class="lm-stat lm-clickable" data-el="stat-borradores"><small>Borradores</small><b style="color:#2563eb">0</b></div>
+                  <div class="lm-stat lm-clickable" data-el="stat-total"><small>Total</small><b style="color:#15803d">3</b></div>
+                  <div class="lm-stat lm-clickable" data-el="stat-programadas"><small>Programadas</small><b style="color:#b45309">0</b></div>
+                  <div class="lm-stat lm-clickable" data-el="stat-publicadas"><small>Publicadas</small><b style="color:#1d4ed8">2</b></div>
+                  <div class="lm-stat lm-clickable" data-el="stat-error"><small>Con error</small><b style="color:#dc2626">0</b></div>
+                  <div class="lm-stat lm-clickable" data-el="stat-borradores"><small>Borradores</small><b>0</b></div>
                 </div>
 
-                <div class="lm-twocol">
-                  <div class="lm-stack">
-                    <div class="lm-card">
-                      <div class="lm-card-h">
-                        <span>Datos de la publicación</span>
-                        <span>
-                          <button class="lm-btn warn lm-clickable" data-el="btn-editar" type="button">Editar</button>
-                          <button class="lm-btn danger lm-clickable" data-el="btn-eliminar" type="button">Eliminar</button>
-                        </span>
+                <div style="display:flex;gap:14px;justify-content:center;margin:14px 0 18px">
+                  <button class="lm-btn secondary lm-clickable" data-el="btn-nav-primero" type="button" style="min-width:64px;font-size:16px" title="Primer registro">&#10229;</button>
+                  <button class="lm-btn secondary lm-clickable" data-el="btn-nav-anterior" type="button" style="min-width:64px;font-size:16px" title="Registro anterior">&#10094;</button>
+                  <button class="lm-btn secondary lm-clickable" data-el="btn-nav-siguiente" type="button" style="min-width:64px;font-size:16px" title="Registro siguiente">&#10095;</button>
+                  <button class="lm-btn secondary lm-clickable" data-el="btn-nav-ultimo" type="button" style="min-width:64px;font-size:16px" title="Último registro">&#10230;</button>
+                </div>
+
+                <div class="lm-card">
+                  <div class="lm-card-b">
+                    <div class="lm-grid">
+                      <div class="lm-clickable" data-el="id-publicacion" style="max-width:70px">
+                        <div class="lm-label">ID</div>
+                        <div class="lm-input">3</div>
                       </div>
 
-                      <div class="lm-card-b">
-                        <div class="lm-grid">
-                          <div class="lm-clickable" data-el="titulo" style="grid-column:1 / span 2">
-                            <div class="lm-label">Título de la publicación *</div>
-                            <div class="lm-input">Promo mayo — descuento FileMaker 20%</div>
-                          </div>
+                      <div class="lm-clickable" data-el="titulo">
+                        <div class="lm-label">Título de la publicación</div>
+                        <div class="lm-input">prueba 87213687</div>
+                      </div>
 
-                          <div class="lm-clickable" data-el="plat-facebook">
-                            <div class="lm-label">Plataforma de destino *</div>
-                            <div class="lm-plat">
-                              <button class="lm-pbtn fb lm-clickable" data-el="plat-facebook" type="button">Facebook</button>
-                              <button class="lm-pbtn lm-clickable" data-el="plat-instagram" type="button">Instagram</button>
-                              <button class="lm-pbtn lm-clickable" data-el="plat-ambas" type="button">Ambas</button>
-                            </div>
-                          </div>
+                      <div class="lm-clickable" data-el="plat-facebook">
+                        <div class="lm-label">Plataforma de destino</div>
+                        <div class="lm-input" style="display:flex;justify-content:space-between;align-items:center">
+                          <span>Facebook</span><span style="opacity:.5">&#9662;</span>
+                        </div>
+                      </div>
 
-                          <div class="lm-full lm-clickable" data-el="contenido">
-                            <div class="lm-label">Contenido de la publicación *</div>
-                            <div class="lm-textarea">
-                              ¡Aprovecha nuestra promoción de mayo! 🎉<br>
-                              Capacitación en FileMaker con 20% de descuento este mes.<br>
-                              Llámanos al 844-191-6210 o escríbenos por WhatsApp.
-                            </div>
-                            <div class="lm-char">234 / 2200 caracteres (Instagram)</div>
-                          </div>
+                      <div class="lm-clickable" data-el="semaforo-estado" style="max-width:110px">
+                        <div class="lm-label">Estado</div>
+                        <button id="lm-semaforo" type="button"
+                                style="width:100%;border:none;border-radius:3px;padding:7px 10px;font-weight:600;font-size:12px;color:#fff;background:#15803d;cursor:pointer"
+                                title="Clic para recorrer los estados">Publicado</button>
+                      </div>
 
-                          <div class="lm-full lm-clickable" data-el="hashtags">
-                            <div class="lm-label">Hashtags</div>
-                            <div class="lm-input">#FileMaker #DTInformatica #Saltillo #Software #CapacitacionTI</div>
-                            <div class="lm-tags">
-                              <span class="lm-tag-fm">#FileMaker</span>
-                              <span class="lm-tag-fm">#DTInformatica</span>
-                              <span class="lm-tag-fm">#Saltillo</span>
-                            </div>
+                      <div class="lm-full lm-clickable" data-el="leyenda-eliminada" style="border:1px dashed #dc2626;border-radius:6px;padding:6px 10px;text-align:center;color:#dc2626;font-weight:700;letter-spacing:.5px;font-size:13px">
+                        PUBLICACIÓN ELIMINADA
+                        <span style="display:block;font-weight:400;font-size:10.5px;letter-spacing:0;opacity:.75">solo visible cuando Estado = "Eliminado"</span>
+                      </div>
+
+                      <div class="lm-full lm-clickable" data-el="contenido">
+                        <div class="lm-label">Contenido de la publicación</div>
+                        <div class="lm-textarea" style="min-height:96px">candia</div>
+                      </div>
+                    </div>
+
+                    <div class="lm-sep">Imagen y programación</div>
+
+                    <div class="lm-grid">
+                      <div class="lm-clickable" data-el="imagen">
+                        <div class="lm-label">Imagen</div>
+                        <div class="lm-thumb" style="width:96px;height:96px;display:flex;align-items:center;justify-content:center;border:1px solid var(--lm-line,#ccc);border-radius:4px">
+                          <span style="font-size:11px;opacity:.6">Imagen_Container</span>
+                        </div>
+                        <button class="lm-link-btn lm-clickable" data-el="btn-media-quitar" type="button" style="margin-top:6px">&#128465; Quitar</button>
+                      </div>
+
+                      <div class="lm-clickable" data-el="fecha">
+                        <div class="lm-label">Fecha programada</div>
+                        <div class="lm-input" style="display:flex;justify-content:space-between;align-items:center">
+                          <span style="opacity:.45">dd/mm/aaaa</span><span style="opacity:.5">&#128197;</span>
+                        </div>
+                      </div>
+
+                      <div class="lm-clickable" data-el="hora">
+                        <div class="lm-label">Hora programada</div>
+                        <div class="lm-input"><span style="opacity:.45">--:--</span></div>
+                      </div>
+
+                      <div class="lm-full lm-clickable" data-el="url">
+                        <div class="lm-label">URL Pública <span style="font-weight:400;opacity:.7">(arrastra la imagen al campo de texto)</span></div>
+                        <div class="lm-input lm-code-fm" style="word-break:break-all">https://dt-informatica.com.mx/Imagenes/pie.png</div>
+                      </div>
+                    </div>
+
+                    <div class="lm-full lm-clickable" data-el="web-viewer" style="margin-top:12px">
+                      <div style="border:1px solid var(--lm-line,#ccc);border-radius:4px;overflow:hidden">
+                        <div style="background:#111;color:#fff;padding:9px 12px;display:flex;justify-content:space-between;align-items:center">
+                          <strong style="font-size:14px">Subida de Archivos</strong>
+                          <span style="font-size:10px;opacity:.75">DT Informática</span>
+                        </div>
+                        <div style="padding:12px;background:#fff">
+                          <div style="color:#1d4ed8;font-weight:600;font-size:12px;margin-bottom:8px">SUBIR NUEVA IMAGEN</div>
+                          <div style="border:1px dashed #bbb;border-radius:4px;padding:22px;text-align:center;font-size:11px;opacity:.55">
+                            Arrastra una imagen aquí<br>o haz clic para seleccionar archivo
                           </div>
                         </div>
-
-                        <div class="lm-sep">Imágenes (hasta 4 · carrusel)</div>
-
-                        <div class="lm-clickable" data-el="imagen">
-                          <div class="lm-label">Previsualización (4 recuadros · Web Viewer con object-fit)</div>
-                          <div class="lm-img4">
-                            <div class="lm-img4box"><span>img 1</span></div>
-                            <div class="lm-img4box"><span>img 2</span></div>
-                            <div class="lm-img4box"><span>img 3</span></div>
-                            <div class="lm-img4box"><span>img 4</span></div>
-                          </div>
-                        </div>
-
-                        <div class="lm-clickable" data-el="url" style="margin-top:8px">
-                          <div class="lm-label">URL pública × 4</div>
-                          <div class="lm-url4">
-                            <div class="lm-input">https://dt-informatica.com.mx/Imagenes/1.jpg</div>
-                            <div class="lm-input">https://dt-informatica.com.mx/Imagenes/2.jpg</div>
-                            <div class="lm-input">https://dt-informatica.com.mx/Imagenes/3.jpg</div>
-                            <div class="lm-input">https://dt-informatica.com.mx/Imagenes/4.jpg</div>
-                          </div>
-                          <div class="lm-ok">✓ URLs públicas — accesibles por Meta API</div>
-                        </div>
-
-                        <div class="lm-clickable" data-el="navegador-dt" style="margin-top:8px">
-                          <div class="lm-label">Navegador del servidor de DT (arrastra el enlace a una URL)</div>
-                          <div class="lm-dtnav">
-                            <strong>Index of /Imagenes</strong> — dt-informatica.com.mx
-                            <div class="lm-dtnav-row">📁 Parent Directory</div>
-                            <div class="lm-dtnav-row">🖼 claris.png &nbsp;<small>30K</small></div>
-                            <div class="lm-dtnav-row">🖼 logoch.jpg &nbsp;<small>67K</small></div>
-                            <div class="lm-dtnav-row">🖼 stps.png</div>
-                          </div>
-                        </div>
-
-                        <div class="lm-sep">Estado y programación</div>
-
-                        <div class="lm-grid">
-                          <div class="lm-full lm-clickable" data-el="estado">
-                            <div class="lm-label">Estado * <span style="color:#BA7517;font-weight:400">(semáforo de colores — pendiente de implementar en FileMaker)</span></div>
-                            <div class="lm-status">
-                              <span class="lm-sbtn s-borrador">Borrador</span>
-                              <span class="lm-sbtn s-programado">Programado ✓</span>
-                              <span class="lm-sbtn s-publicado">Publicado</span>
-                              <span class="lm-sbtn s-error">Error</span>
-                              <span class="lm-sbtn s-cancelado">Cancelado</span>
-                            </div>
-                          </div>
-
-                          <div class="lm-clickable" data-el="fecha">
-                            <div class="lm-label">Fecha programada</div>
-                            <div class="lm-input">03/06/2026</div>
-                          </div>
-
-                          <div class="lm-clickable" data-el="hora">
-                            <div class="lm-label">Hora programada</div>
-                            <div class="lm-input">10:00 a. m.</div>
-                          </div>
-                        </div>
-
-                        <hr style="border:none;border-top:1px solid #f0f0f8;margin:12px 0">
-
-                        <div class="lm-clickable lm-actions" data-el="actions" style="text-align:center">
-                          <button class="lm-btn secondary lm-clickable" data-el="btn-cancelar" type="button">Cancelar</button>
-                          <button class="lm-btn secondary lm-clickable" data-el="btn-guardar-borrador" type="button">Guardar borrador</button>
-                          <button class="lm-btn green lm-clickable" data-el="btn-publicar-ahora" type="button">Publicar ahora</button>
+                        <div style="padding:6px 12px;font-size:10.5px;opacity:.6;border-top:1px solid #eee">
+                          Web Viewer &#8594; https://dt-informatica.com.mx/Imagenes/upload.php
                         </div>
                       </div>
                     </div>
 
-                  </div>
-
-                  <div class="lm-stack">
-                    <div class="lm-card lm-clickable" data-el="web-viewer">
-                      <div class="lm-card-h">Vista del post publicado (Web Viewer)</div>
-                      <div class="lm-side-card">
-                        <div class="lm-imgbox" style="height:150px;border-style:solid;border-color:#d8def0;color:#9aa3b8">
-                          <div>plugins/post.php?href=<br>Publicaciones::Permalink_URL</div>
-                        </div>
-                        <div class="lm-mini-label" style="margin-top:6px">Nota</div>
-                        <div class="lm-mini-val">Solo embebe posts públicos. Para verlo siempre, botón "Abrir publicación".</div>
-                      </div>
-                    </div>
-
-                    <div class="lm-card lm-clickable" data-el="metadatos">
-                      <div class="lm-card-h">Datos técnicos (solo lectura)</div>
-                      <div class="lm-side-card">
-                        <div class="lm-mini-label">Permalink_URL</div>
-                        <div class="lm-mini-val lm-code-fm">https://www.facebook.com/…/posts/…</div>
-
-                        <div class="lm-mini-label">Post_ID_API</div>
-                        <div class="lm-mini-val lm-code-fm">&lt;PAGE_ID&gt;_&lt;POST_ID&gt;</div>
-
-                        <div class="lm-mini-label">Fecha publicación real</div>
-                        <div class="lm-mini-val">11/06/2026 14:22</div>
-
-                        <div class="lm-mini-label">Respuesta API (JSON)</div>
-                        <div class="lm-mini-val lm-code-fm">{"id":"…","post_id":"…"}</div>
-
-                        <div class="lm-mini-label">Código / Detalle error</div>
-                        <div class="lm-mini-val">— / —</div>
-                      </div>
-                    </div>
-
-                    <div class="lm-card lm-clickable" data-el="config">
-                      <div class="lm-card-h">Config. plataformas (layout admin aparte)</div>
-                      <div class="lm-side-card">
-                        <div class="lm-mini-val">Los campos de Config_Plataformas (token, ID cuenta, versión) NO están en este layout: se gestionan en un layout administrativo aparte. El script los lee en runtime.</div>
-                      </div>
+                    <div class="lm-clickable lm-actions" data-el="actions" style="text-align:center;margin-top:14px">
+                      <button class="lm-btn danger lm-clickable" data-el="btn-cancelar" type="button">Cancelar</button>
+                      <button class="lm-btn secondary lm-clickable" data-el="btn-guardar-borrador" type="button">Guardar borrador</button>
+                      <button class="lm-btn green lm-clickable" data-el="btn-publicar-ahora" type="button">Publicar ahora</button>
+                      <button class="lm-btn secondary lm-clickable" data-el="btn-abrir-publicacion" type="button">Abrir publicación</button>
                     </div>
                   </div>
                 </div>
-                    <div class="lm-card lm-clickable lm-portal-full" data-el="portal-log">
-                      <div class="lm-card-h">
-                        <span>Historial de intentos (Publicaciones_Log)</span>
-                        <small>3 registros relacionados</small>
-                      </div>
-
-                      <div class="lm-portal-head">
-                        <span>Fecha intento</span>
-                        <span>Plataforma</span>
-                        <span>Resultado</span>
-                        <span>HTTP</span>
-                        <span>Detalle</span>
-                        <span>Abrir</span>
-                      </div>
-
-                      <div class="lm-portal-row">
-                        <span>03/06/2026 10:01</span>
-                        <span class="lm-badge-fm fb">Facebook</span>
-                        <span>Exitoso</span>
-                        <span class="lm-http">200</span>
-                        <span>id: 1234_5678</span>
-                        <span>
-                          <button
-                            class="lm-link-btn lm-clickable"
-                            data-el="btn-abrir-publicacion"
-                            type="button"
-                            title="Abrir publicación generada por Meta"
-                          >
-                            Abrir publicación
-                          </button>
-                        </span>
-                      </div>
-
-                      <div class="lm-portal-row">
-                        <span>03/06/2026 10:02</span>
-                        <span class="lm-badge-fm ig">Instagram</span>
-                        <span>Fallido</span>
-                        <span class="lm-http" style="background:#fff0f0;color:#c0392b">401</span>
-                        <span>Token expirado (190)</span>
-                        <span class="lm-no-link">Sin URL</span>
-                      </div>
-                    </div>
-
-                    <div class="lm-card lm-clickable lm-portal-full" data-el="portal-multimedia">
-                      <div class="lm-card-h">
-                        <span>Archivos multimedia (carrusel)</span>
-                        <small>3 / 10 archivos</small>
-                      </div>
-
-                      <div class="lm-portal-head lm-mm-head">
-                        <span>Orden</span>
-                        <span>Archivo</span>
-                        <span>Tipo</span>
-                        <span>Estado</span>
-                        <span>Quitar</span>
-                      </div>
-
-                      <div class="lm-portal-row lm-mm-row">
-                        <span>1</span>
-                        <span>promo-mayo-1.jpg</span>
-                        <span class="lm-badge-fm fb">Imagen</span>
-                        <span>Listo</span>
-                        <span><button class="lm-link-btn lm-clickable" data-el="btn-media-quitar" type="button">Quitar</button></span>
-                      </div>
-
-                      <div class="lm-portal-row lm-mm-row">
-                        <span>2</span>
-                        <span>promo-mayo-2.jpg</span>
-                        <span class="lm-badge-fm fb">Imagen</span>
-                        <span>Listo</span>
-                        <span><button class="lm-link-btn lm-clickable" data-el="btn-media-quitar" type="button">Quitar</button></span>
-                      </div>
-
-                      <div class="lm-portal-row lm-mm-row">
-                        <span>3</span>
-                        <span>promo-mayo-3.jpg</span>
-                        <span class="lm-badge-fm fb">Imagen</span>
-                        <span class="lm-no-link">Pendiente</span>
-                        <span><button class="lm-link-btn lm-clickable" data-el="btn-media-quitar" type="button">Quitar</button></span>
-                      </div>
-
-                      <div class="lm-mm-foot">
-                        <button class="lm-btn green lm-clickable" data-el="btn-media-agregar" type="button">+ Agregar archivo</button>
-                        <small>Máximo 10 archivos por publicación (carrusel de Facebook)</small>
-                      </div>
-                    </div>
               </div>
             </section>
           </div>
@@ -732,6 +589,38 @@ function wireLayoutInteractions(root, data) {
     },
     true
   );
+
+  const semaforo = root.querySelector("#lm-semaforo");
+
+  if (semaforo) {
+    const estados = [
+      { nombre: "Publicado", color: "#15803d" },
+      { nombre: "Borrador", color: "#6c757d" },
+      { nombre: "Programado", color: "#1b75bb" },
+      { nombre: "Error", color: "#dc3545" },
+      { nombre: "Eliminado", color: "#212529" },
+    ];
+    let i = 0;
+
+    semaforo.addEventListener("click", (event) => {
+      event.stopPropagation();
+      i = (i + 1) % estados.length;
+      semaforo.textContent = estados[i].nombre;
+      semaforo.style.background = estados[i].color;
+
+      const leyenda = root.querySelector('[data-el="leyenda-eliminada"]');
+
+      if (leyenda) {
+        leyenda.style.display = estados[i].nombre === "Eliminado" ? "" : "none";
+      }
+    });
+
+    const leyendaInicial = root.querySelector('[data-el="leyenda-eliminada"]');
+
+    if (leyendaInicial) {
+      leyendaInicial.style.display = "none";
+    }
+  }
 
   const defaultElement = root.querySelector('[data-el="titulo"]');
 
