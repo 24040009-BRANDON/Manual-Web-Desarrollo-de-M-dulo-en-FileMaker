@@ -483,7 +483,7 @@ function createLayoutShell() {
                         <div class="lm-thumb" style="width:96px;height:96px;display:flex;align-items:center;justify-content:center;border:1px solid var(--lm-line,#ccc);border-radius:4px">
                           <span style="font-size:11px;opacity:.6">Imagen_Container</span>
                         </div>
-                        <button class="lm-link-btn lm-clickable" data-el="btn-media-quitar" type="button" style="margin-top:6px">&#128465; Quitar</button>
+                        <button class="lm-link-btn lm-clickable" data-el="btn-limpiar-url" type="button" style="margin-top:6px">&#128465; Quitar</button>
                       </div>
 
                       <div class="lm-clickable" data-el="fecha">
@@ -564,6 +564,36 @@ function createLayoutShell() {
   `;
 }
 
+const ESTADOS_SEMAFORO = [
+  { nombre: "Publicado", color: "#15803d" },
+  { nombre: "Borrador", color: "#6c757d" },
+  { nombre: "Programado", color: "#1b75bb" },
+  { nombre: "Error", color: "#dc3545" },
+  { nombre: "Eliminado", color: "#212529" },
+];
+
+function cicloSemaforo(root) {
+  const boton = root.querySelector("#lm-semaforo");
+
+  if (!boton) {
+    return;
+  }
+
+  const actual = Number(boton.dataset.estadoIdx || 0);
+  const siguiente = (actual + 1) % ESTADOS_SEMAFORO.length;
+  const estado = ESTADOS_SEMAFORO[siguiente];
+
+  boton.dataset.estadoIdx = String(siguiente);
+  boton.textContent = estado.nombre;
+  boton.style.background = estado.color;
+
+  const leyenda = root.querySelector('[data-el="leyenda-eliminada"]');
+
+  if (leyenda) {
+    leyenda.style.display = estado.nombre === "Eliminado" ? "" : "none";
+  }
+}
+
 function wireLayoutInteractions(root, data) {
   root.addEventListener(
     "click",
@@ -573,6 +603,10 @@ function wireLayoutInteractions(root, data) {
       while (target && target !== root) {
         if (target.dataset && target.dataset.el) {
           event.stopPropagation();
+
+          if (target.dataset.el === "semaforo-estado") {
+            cicloSemaforo(root);
+          }
 
           root.querySelectorAll("[data-el]").forEach((element) => {
             element.classList.remove("selected");
@@ -590,36 +624,10 @@ function wireLayoutInteractions(root, data) {
     true
   );
 
-  const semaforo = root.querySelector("#lm-semaforo");
+  const leyendaInicial = root.querySelector('[data-el="leyenda-eliminada"]');
 
-  if (semaforo) {
-    const estados = [
-      { nombre: "Publicado", color: "#15803d" },
-      { nombre: "Borrador", color: "#6c757d" },
-      { nombre: "Programado", color: "#1b75bb" },
-      { nombre: "Error", color: "#dc3545" },
-      { nombre: "Eliminado", color: "#212529" },
-    ];
-    let i = 0;
-
-    semaforo.addEventListener("click", (event) => {
-      event.stopPropagation();
-      i = (i + 1) % estados.length;
-      semaforo.textContent = estados[i].nombre;
-      semaforo.style.background = estados[i].color;
-
-      const leyenda = root.querySelector('[data-el="leyenda-eliminada"]');
-
-      if (leyenda) {
-        leyenda.style.display = estados[i].nombre === "Eliminado" ? "" : "none";
-      }
-    });
-
-    const leyendaInicial = root.querySelector('[data-el="leyenda-eliminada"]');
-
-    if (leyendaInicial) {
-      leyendaInicial.style.display = "none";
-    }
+  if (leyendaInicial) {
+    leyendaInicial.style.display = "none";
   }
 
   const defaultElement = root.querySelector('[data-el="titulo"]');
